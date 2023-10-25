@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mundongo.demondongo.respository.UserRepository;
+import com.mundongo.demondongo.respository.UsersRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,37 +22,37 @@ import java.util.Optional;
 import com.mundongo.demondongo.domain.*;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/users")
+public class UsersController {
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<List<User>> read() {
-        List<User> query = userRepository.findAll();
-        return new ResponseEntity<List<User>>(query, HttpStatus.OK);
+    public ResponseEntity<List<Users>> read() {
+        List<Users> query = userRepository.findAll();
+        return new ResponseEntity<List<Users>>(query, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> readId(@PathVariable Long id) {
-        Optional<User> query = userRepository.findById(id);
+    public ResponseEntity<Users> readId(@PathVariable Long id) {
+        Optional<Users> query = userRepository.findById(id);
         if (query.isPresent()) {
-            return new ResponseEntity<User>(query.get(), HttpStatus.OK);
+            return new ResponseEntity<Users>(query.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody User user) {
+    public ResponseEntity<String> create(@RequestBody Users user) {
         userRepository.save(user);
         return new ResponseEntity<>("User created :)))", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@RequestBody User user, @PathVariable Long id) {
-        Optional<User> query = userRepository.findById(id);
+    public ResponseEntity<String> update(@RequestBody Users user, @PathVariable Long id) {
+        Optional<Users> query = userRepository.findById(id);
         if (query.isPresent()) {
-            User temp = query.get();
+            Users temp = query.get();
             temp.setEmail(user.getEmail());
             temp.setName(user.getName());
             temp.setLastName(user.getLastName());
@@ -66,7 +66,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        Optional<User> query = userRepository.findById(id);
+        Optional<Users> query = userRepository.findById(id);
         if (query.isPresent()) {
             userRepository.deleteById(id);
             return new ResponseEntity<>("User deleted", HttpStatus.OK);

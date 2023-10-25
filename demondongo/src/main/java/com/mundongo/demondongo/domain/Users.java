@@ -3,8 +3,8 @@ package com.mundongo.demondongo.domain;
 
 import jakarta.persistence.*;
 
-@Entity(name = "user")
-public class User {
+@Entity(name = "users")
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,10 +44,10 @@ public class User {
         this.lastName = lastName;
     }
 
-    public User() {
+    public Users() {
     }
 
-    public User(String email, String name, String lastName) {
+    public Users(String email, String name, String lastName) {
         this.email = email;
         this.name = name;
         this.lastName = lastName;
