@@ -61,7 +61,7 @@ public class UserController {
         } else {
             return new ResponseEntity<>("User not found :((", HttpStatus.NOT_FOUND);
         }
-    }    
+    }
 
 
     @DeleteMapping("/{id}")
