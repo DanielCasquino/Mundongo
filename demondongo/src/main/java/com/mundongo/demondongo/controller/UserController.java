@@ -1,3 +1,5 @@
+//UserController.java
+
 package com.mundongo.demondongo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +53,16 @@ public class UserController {
         Optional<User> query = userRepository.findById(id);
         if (query.isPresent()) {
             User temp = query.get();
-            temp = user;
+            temp.setEmail(user.getEmail());
+            temp.setName(user.getName());
+            temp.setLastName(user.getLastName());
             userRepository.save(temp);
             return new ResponseEntity<>("User updated :D", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("User not found :((", HttpStatus.NOT_FOUND);
         }
-    }
+    }    
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {

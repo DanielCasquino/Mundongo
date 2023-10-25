@@ -1,3 +1,4 @@
+//User.java
 package com.mundongo.demondongo.domain;
 
 import jakarta.persistence.*;
