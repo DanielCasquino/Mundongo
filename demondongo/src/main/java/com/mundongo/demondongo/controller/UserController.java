@@ -20,7 +20,7 @@ import java.util.Optional;
 import com.mundongo.demondongo.domain.*;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
