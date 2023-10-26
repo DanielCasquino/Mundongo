@@ -7,7 +7,7 @@
   --login-box-width: 50vmin;
   --login-box-height: 40vmin;
   --login-box-radius: 4vmin;
-  --login-box-background: rgba(255, 255, 255, 1);
+  --login-box-background: rgb(255, 255, 255);
   --login-box-padding: 2vmin 6vmin 2vmin 6vmin;
   --login-box-field-background: rgba(200, 200, 200, 1);
   --login-box-field-radius: 2vmin;
@@ -118,7 +118,8 @@ button {
   border-radius: 50%;
   background: var(--planet-background);
   position: relative;
-  box-shadow: 0px 0px var(--planet-glow-radius) 0vmin var(--planet-glow);
+  box-shadow: 0px 0px var(--planet-glow-radius) 0vmin var(--planet-glow),
+    0px 0px 6vmin 1vmin rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,10 +129,11 @@ button {
 .planetShadow {
   position: absolute;
   border-radius: 50%;
-  box-shadow: 0px 0px 10vmin 8vmin var(--space) inset;
+  /* box-shadow: 0px 0px 10vmin 8vmin var(--space) inset; */
+  box-shadow: 0px 0px 7vmin 0vmin rgba(255, 248, 167, 0.1) inset;
+  background: radial-gradient(var(--space) 40%, transparent 200%);
   height: 100%;
   width: 100%;
-  opacity: 0.6;
 }
 
 @keyframes orbit {
@@ -144,13 +146,13 @@ button {
   }
 
   100% {
-    transform: translateY(-45%) translateX(100%);
+    transform: translateY(-45%) translateX(0%);
   }
 }
 
 .earth {
   min-width: 150vmin;
-  animation: orbit 240s infinite linear;
+  animation: orbit 360s infinite linear;
 }
 
 .title {
