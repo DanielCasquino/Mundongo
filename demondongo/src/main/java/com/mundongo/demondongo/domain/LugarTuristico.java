@@ -1,10 +1,9 @@
-package com.mundongo.demondongo;
+package com.mundongo.demondongo.domain;
 
 import jakarta.persistence.*;
 
 @Entity
 public class LugarTuristico {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

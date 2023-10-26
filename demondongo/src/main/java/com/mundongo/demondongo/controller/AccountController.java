@@ -1,4 +1,4 @@
-package com.mundongo.demondongo;
+package com.mundongo.demondongo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,59 +12,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mundongo.demondongo.domain.Account;
+import com.mundongo.demondongo.repository.AccountRepository;
+
 import java.util.List;
 import java.util.Optional;;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/account")
+public class AccountController {
     @Autowired
-    private UserRepository userRepository;
+    private AccountRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<List<User>> read() {
-        List<User> query = userRepository.findAll();
-        return new ResponseEntity<List<User>>(query, HttpStatus.OK);
+    public ResponseEntity<List<Account>> read() {
+        List<Account> query = userRepository.findAll();
+        return new ResponseEntity<List<Account>>(query, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> readId(@PathVariable Long id) {
-        Optional<User> query = userRepository.findById(id);
+    public ResponseEntity<Account> readId(@PathVariable Long id) {
+        Optional<Account> query = userRepository.findById(id);
         if (query.isPresent()) {
-            return new ResponseEntity<User>(query.get(), HttpStatus.OK);
+            return new ResponseEntity<Account>(query.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody User user) {
+    public ResponseEntity<String> create(@RequestBody Account user) {
         userRepository.save(user);
-        return new ResponseEntity<>("User created :)))", HttpStatus.CREATED);
+        return new ResponseEntity<>("Account created :)))", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@RequestBody User user, @PathVariable Long id) {
-        Optional<User> query = userRepository.findById(id);
+    public ResponseEntity<String> update(@RequestBody Account user, @PathVariable Long id) {
+        Optional<Account> query = userRepository.findById(id);
         if (query.isPresent()) {
-            User temp = query.get();
+            Account temp = query.get();
             temp.setEmail(user.getEmail());
             temp.setName(user.getName());
             temp.setLastName(user.getLastName());
             userRepository.save(temp);
-            return new ResponseEntity<>("User updated :D", HttpStatus.OK);
+            return new ResponseEntity<>("Account updated :D", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("User not found :((", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Account not found :((", HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        Optional<User> query = userRepository.findById(id);
+        Optional<Account> query = userRepository.findById(id);
         if (query.isPresent()) {
             userRepository.deleteById(id);
-            return new ResponseEntity<>("User deleted", HttpStatus.OK);
+            return new ResponseEntity<>("Account deleted", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("User not found :((", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Account not found :((", HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.mundongo.demondongo;
+package com.mundongo.demondongo.domain;
 
 import java.util.Set;
 
@@ -11,8 +11,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "account")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -24,10 +24,10 @@ public class User {
     @OneToMany
     private Set<Comment> comments;
 
-    public User() {
+    public Account() {
     }
 
-    public User(String email, String name, String lastName) {
+    public Account(String email, String name, String lastName) {
         this.email = email;
         this.name = name;
         this.lastName = lastName;

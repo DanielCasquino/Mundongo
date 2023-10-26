@@ -1,9 +1,12 @@
-package com.mundongo.demondongo;
+package com.mundongo.demondongo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.mundongo.demondongo.domain.LugarTuristico;
+import com.mundongo.demondongo.repository.LugarTuristicoRepository;
 
 import java.util.List;
 import java.util.Optional;

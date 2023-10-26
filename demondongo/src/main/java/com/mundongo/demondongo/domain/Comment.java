@@ -1,4 +1,4 @@
-package com.mundongo.demondongo;
+package com.mundongo.demondongo.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ public class Comment {
     private String content;
 
     @OneToOne
-    private User author;
+    private Account author;
 
     @OneToMany
     @JoinTable(name = "comment_replies", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "replies_id"))
@@ -33,7 +33,7 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Long id, String content, User author) {
+    public Comment(Long id, String content, Account author) {
         this.id = id;
         this.content = content;
         this.author = author;
@@ -55,11 +55,11 @@ public class Comment {
         this.content = content;
     }
 
-    public User getAuthor() {
+    public Account getAuthor() {
         return this.author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(Account author) {
         this.author = author;
     }
 }
