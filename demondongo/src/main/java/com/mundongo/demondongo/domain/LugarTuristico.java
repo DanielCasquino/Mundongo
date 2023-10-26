@@ -1,13 +1,16 @@
 package com.mundongo.demondongo.domain;
 import jakarta.persistence.*;
 
-
 @Entity
 public class LugarTuristico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private double latitud;
+    private double longitud;
+    private String urlImagen;
+
 
     @Column(nullable = false)
     private String nombre;
@@ -16,8 +19,7 @@ public class LugarTuristico {
     private String descripcion;
 
     @Column(nullable = false)
-    private String ubicacion;
-
+    private String direccion;
 
 
 
@@ -33,10 +35,21 @@ public class LugarTuristico {
         return this.descripcion;
     }
 
-    public String getUbicacion() {
-        return this.ubicacion;
+    public String getDireccion() {
+        return this.direccion;
     }
 
+    public double getLatitud() {
+        return this.latitud;
+    }
+
+    public double getLongitud() {
+        return this.longitud;
+    }
+    
+    public String getUrlImagen() {
+        return this.urlImagen;
+    }
     
 
 
@@ -52,20 +65,36 @@ public class LugarTuristico {
         this.descripcion = descripcion;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
     }
 
 
 
-    
+
+
     public LugarTuristico() {
     }
 
-    public LugarTuristico(String nombre, String descripcion, String ubicacion) {
+    public LugarTuristico(String nombre, String descripcion, String direccion, double latitud, double longitud, String urlImagen) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
+        this.direccion = direccion;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.urlImagen = urlImagen;
     }
 
 
