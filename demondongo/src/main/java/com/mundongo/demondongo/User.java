@@ -1,15 +1,37 @@
-package com.mundongo.demondongo.domain;
+package com.mundongo.demondongo;
 
-import jakarta.persistence.*;
+import java.util.Set;
 
-@Entity(name = "user")
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
     private String email;
     private String name;
     private String lastName;
+
+    @OneToMany
+    private Set<Comment> comments;
+
+    public User() {
+    }
+
+    public User(String email, String name, String lastName) {
+        this.email = email;
+        this.name = name;
+        this.lastName = lastName;
+    }
 
     public Long getId() {
         return this.id;
@@ -40,15 +62,6 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public User() {
-    }
-
-    public User(String email, String name, String lastName) {
-        this.email = email;
-        this.name = name;
         this.lastName = lastName;
     }
 }

@@ -1,8 +1,6 @@
-package com.mundongo.demondongo.respository;
+package com.mundongo.demondongo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.mundongo.demondongo.domain.*;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-
 }

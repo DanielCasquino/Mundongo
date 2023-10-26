@@ -1,4 +1,4 @@
-package com.mundongo.demondongo.controller;
+package com.mundongo.demondongo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mundongo.demondongo.respository.UserRepository;
-
 import java.util.List;
-import java.util.Optional;
-
-import com.mundongo.demondongo.domain.*;
+import java.util.Optional;;
 
 @RestController
 @RequestMapping("/user")
