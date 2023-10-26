@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest&display=swap');
+
+:root {
+  --primary: rgb(255, 255, 255);
+  --support: rgb(180, 180, 180);
+  --space: rgb(10, 5, 35);
+  --login-box-width: 50vmin;
+  --login-box-height: 40vmin;
+  --login-box-radius: 4vmin;
+  --login-box-background: rgba(255, 255, 255, 0.9);
+  --login-box-padding: 5vmin;
+  --login-box-field-background: rgba(200, 200, 200, 0.9);
+  --login-box-field-radius: 2vmin;
+  --login-box-field-padding: 2vmin;
+
+  --planet-dimensions: 150vmin;
+  --planet-background: rgb(7, 117, 235);
+  --planet-glow-radius: 250vmin;
+  --planet-glow: rgba(30, 161, 255, 0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.body {
+  width: 100vw;
+  height: 100vw;
+  max-width: 100%;
+  max-height: 100%;
+  font-family: 'Onest', sans-serif;
+}
+
+.appWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
+
+.loginBox {
+  width: var(--login-box-width);
+  height: var(--login-box-height);
+  border-radius: var(--login-box-radius) var(--login-box-radius)
+    var(--login-box-radius) var(--login-box-radius);
+  background: var(--login-box-background);
+  padding: var(--login-box-padding);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.inputField {
+  border-radius: var(--login-box-field-radius);
+  background: var(--login-box-field-background);
+  border-radius: var(--login-box-field-radius) var(--login-box-field-radius)
+    var(--login-box-field-radius) var(--login-box-field-radius);
+  padding: var(--login-box-field-padding);
+}
+
+.loginBackground {
+  width: 100%;
+  height: 100%;
+  background: var(--space);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.planet {
+  aspect-ratio: 1/1;
+  width: var(--planet-dimensions);
+  border-radius: 50%;
+  background: var(--planet-background);
+  box-shadow: 0px 0px var(--planet-glow-radius) 0vmin var(--planet-glow);
+}
