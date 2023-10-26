@@ -2,6 +2,5 @@ package com.mundongo.demondongo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-
+public interface LugarTuristicoRepository extends JpaRepository<LugarTuristico, Long> {
 }

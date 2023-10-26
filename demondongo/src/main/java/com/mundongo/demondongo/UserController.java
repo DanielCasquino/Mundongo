@@ -47,7 +47,9 @@ public class UserController {
         Optional<User> query = userRepository.findById(id);
         if (query.isPresent()) {
             User temp = query.get();
-            temp = user;
+            temp.setEmail(user.getEmail());
+            temp.setName(user.getName());
+            temp.setLastName(user.getLastName());
             userRepository.save(temp);
             return new ResponseEntity<>("User updated :D", HttpStatus.OK);
         } else {
