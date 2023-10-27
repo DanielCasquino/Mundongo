@@ -10,7 +10,7 @@
   --login-box-radius: 3vmin;
   --login-box-background: rgb(255, 255, 255);
   --login-box-padding: 2vmin 2vmin 2vmin 2vmin;
-  --login-box-field-background: rgba(200, 200, 200, 1);
+  --login-box-field-background: rgba(230, 230, 230, 1);
   --login-box-field-radius: 2vmin;
   --login-box-field-padding: 2vmin 2vmin 2vmin 2vmin;
   --login-button-background: rgb(4, 111, 251);
@@ -85,7 +85,7 @@ button {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  transition: transform 0.4s linear, opacity 0.4s linear;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
   position: absolute;
 }
 
@@ -142,6 +142,16 @@ button {
   justify-content: center;
   align-items: center;
   transform: translateY(55%);
+}
+
+.planetClouds{
+  position: absolute;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  animation: clouds 720s infinite linear;
+  scale: 110%;
+  opacity: 0.9;
 }
 
 .planetShadow {
@@ -203,9 +213,18 @@ button {
   }
 }
 
+@keyframes clouds{
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
 .earth {
   min-width: 150vmin;
-  animation: orbit 360s infinite linear;
+  animation: orbit 500s infinite linear;
 }
 
 .title {

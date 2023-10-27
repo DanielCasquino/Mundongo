@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import earth from './world.svg';
+import clouds from './clouds.png';
 
 function AccessButton({ text, color }) {
   const buttonStyle = {
@@ -46,7 +47,7 @@ function AccessBox({ type, behaviour, isLogin}) {
     buttonText = 'Log in';
     color = '--login-button-background';
     boxStyle = isLogin
-    ? { transform: "rotateY(0deg)", transitionDelay:"0.4s"}
+    ? { transform: "rotateY(0deg)", transitionDelay:"0.2s"}
     : { transform: "rotateY(90deg)", opacity:"0", transitionDelay:"0s", pointerEvents:"none"};
   } else if (type === 'signup') {
     text = 'Alreay have an account? ';
@@ -54,7 +55,7 @@ function AccessBox({ type, behaviour, isLogin}) {
     buttonText = 'Sign up';
     color = '--signup-button-background';
     boxStyle = !isLogin
-    ? { transform: "rotateY(-0deg)", transitionDelay:"0.4s" }
+    ? { transform: "rotateY(-0deg)", transitionDelay:"0.2s" }
     : { transform: "rotateY(-90deg)", opacity:"0", transitionDelay:"0s", pointerEvents:"none"};
   }
   return (
@@ -82,6 +83,7 @@ export default function body() {
             <div className="planet">
               <img className="earth" src={earth}></img>
               <img className="earth" src={earth}></img>
+              <img className='planetClouds' src={clouds}></img>
               <div className="planetShadow"></div>
             </div>
           </div>
