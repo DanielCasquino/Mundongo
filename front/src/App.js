@@ -13,24 +13,29 @@ function AccessButton({ text, color }) {
   );
 }
 
-function GoTo({ text, prompt, color }) {
+function GoTo({ text, prompt, color, behaviour }) {
   return (
     <div>
       <span style={{ fontSize: '2vmin' }}>{text}</span>
-      <a
+      <button
         style={{
           color: `var(${color})`,
           fontWeight: 'bolder',
           fontSize: '2vmin',
+          background:"none"
         }}
+        onClick={behaviour}
       >
         {prompt}
-      </a>
+      </button>
     </div>
   );
 }
 
-function AccessBox({ type }) {
+function AccessBox({ type, behaviour, isLogin}) {
+
+  let boxStyle;
+
   let text;
   let prompt;
   let buttonText;
@@ -40,23 +45,34 @@ function AccessBox({ type }) {
     prompt = 'Sign up';
     buttonText = 'Log in';
     color = '--login-button-background';
+    boxStyle = isLogin
+    ? { transform: "rotateY(0deg)", transitionDelay:"0.4s"}
+    : { transform: "rotateY(90deg)", opacity:"0", transitionDelay:"0s", pointerEvents:"none"};
   } else if (type === 'signup') {
     text = 'Alreay have an account? ';
     prompt = 'Log in';
     buttonText = 'Sign up';
     color = '--signup-button-background';
+    boxStyle = !isLogin
+    ? { transform: "rotateY(-0deg)", transitionDelay:"0.4s" }
+    : { transform: "rotateY(-90deg)", opacity:"0", transitionDelay:"0s", pointerEvents:"none"};
   }
   return (
-    <div className="accessBox">
+    <div className="accessBox" style={boxStyle}>
       <div className="inputField">Email</div>
       <div className="inputField">Password</div>
       <AccessButton text={buttonText} color={color} />
-      <GoTo text={text} prompt={prompt} color={color} />
+      <GoTo text={text} prompt={prompt} color={color} behaviour={behaviour}/>
     </div>
   );
 }
 
 export default function body() {
+  const [isLogin, setIsLogin] = useState(true);
+  function setRotate(){
+    setIsLogin(!isLogin);
+    console.log("Set value to " + (isLogin ? "signup" : "login"));
+  }
   return (
     <div className="body">
       <div className="appWrapper">
@@ -72,8 +88,8 @@ export default function body() {
         </div>
         <div className="accessWrapper">
           <div className="title">MUNDONGO</div>
-          <AccessBox type={'signup'} />
-          <AccessBox type={'login'} />
+          <AccessBox type={'signup'} behaviour={setRotate} isLogin={isLogin}/>
+          <AccessBox type={'login'} behaviour={setRotate} isLogin={isLogin}/>
         </div>
       </div>
     </div>
