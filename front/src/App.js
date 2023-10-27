@@ -1,16 +1,57 @@
 import { useState, useEffect } from 'react';
 import earth from './world.svg';
 
-function LoginButton() {
-  return <button className="loginButton">Log In</button>;
+function AccessButton({ text, color }) {
+  const buttonStyle = {
+    '--buttonBackground': `var(${color})`,
+  };
+
+  return (
+    <button className="accessButton" style={buttonStyle}>
+      {text}
+    </button>
+  );
 }
 
-function LoginBox() {
+function GoTo({ text, prompt, color }) {
   return (
-    <div className="loginBox">
+    <div>
+      <span style={{ fontSize: '2vmin' }}>{text}</span>
+      <a
+        style={{
+          color: `var(${color})`,
+          fontWeight: 'bolder',
+          fontSize: '2vmin',
+        }}
+      >
+        {prompt}
+      </a>
+    </div>
+  );
+}
+
+function AccessBox({ type }) {
+  let text;
+  let prompt;
+  let buttonText;
+  let color;
+  if (type === 'login') {
+    text = 'Dont have an account? ';
+    prompt = 'Sign up';
+    buttonText = 'Log in';
+    color = '--login-button-background';
+  } else if (type === 'signup') {
+    text = 'Alreay have an account? ';
+    prompt = 'Log in';
+    buttonText = 'Sign up';
+    color = '--signup-button-background';
+  }
+  return (
+    <div className="accessBox">
       <div className="inputField">Email</div>
       <div className="inputField">Password</div>
-      <LoginButton />
+      <AccessButton text={buttonText} color={color} />
+      <GoTo text={text} prompt={prompt} color={color} />
     </div>
   );
 }
@@ -19,7 +60,7 @@ export default function body() {
   return (
     <div className="body">
       <div className="appWrapper">
-        <div className="loginBackground">
+        <div className="background">
           <Stars />
           <div className="planetWrapper">
             <div className="planet">
@@ -29,9 +70,10 @@ export default function body() {
             </div>
           </div>
         </div>
-        <div className="loginWrapper">
+        <div className="accessWrapper">
           <div className="title">MUNDONGO</div>
-          <LoginBox />
+          <AccessBox type={'signup'} />
+          <AccessBox type={'login'} />
         </div>
       </div>
     </div>
