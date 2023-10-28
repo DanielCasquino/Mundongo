@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import earth from './world.svg';
-import clouds from './clouds.png';
+import earth from './earth.svg';
+import clouds from './clouds.svg';
 
 function AccessButton({ text, color }) {
   const buttonStyle = {
@@ -68,6 +68,19 @@ function AccessBox({ type, behaviour, isLogin}) {
   );
 }
 
+function Planet(){
+  return(
+    <div className="planetWrapper">
+      <div className="planet">
+        <img className="earth" src={earth}></img>
+        <img className='clouds' src={clouds}></img>
+        <div className="planetShadow"></div>
+        <div className='planetBorder'></div>
+      </div>
+    </div>
+  );
+}
+
 export default function body() {
   const [isLogin, setIsLogin] = useState(true);
   function setRotate(){
@@ -79,22 +92,17 @@ export default function body() {
       <div className="appWrapper">
         <div className="background">
           <Stars />
-          <div className="planetWrapper">
-            <div className="planet">
-              <img className="earth" src={earth}></img>
-              <img className="earth" src={earth}></img>
-              <img className='planetClouds' src={clouds}></img>
-              <div className="planetShadow"></div>
-            </div>
-          </div>
+          <Planet />
         </div>
         <div className="accessWrapper">
-          <div className="title">MUNDONGO</div>
+          <div className='accessBoxWrapper'>
+            <div className='title'>MUNDONGO</div>
           <AccessBox type={'signup'} behaviour={setRotate} isLogin={isLogin}/>
           <AccessBox type={'login'} behaviour={setRotate} isLogin={isLogin}/>
+          </div>
+          </div>
         </div>
       </div>
-    </div>
   );
 }
 
