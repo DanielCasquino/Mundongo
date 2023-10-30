@@ -5,45 +5,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.mundongo.demondongo.domain.LugarTuristico;
-import com.mundongo.demondongo.repository.LugarTuristicoRepository;
+import com.mundongo.demondongo.model.Place;
+import com.mundongo.demondongo.repository.PlaceRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/lugares-turisticos")
-public class LugarTuristicoController {
+@RequestMapping("/place")
+public class PlaceController {
 
     @Autowired
-    private LugarTuristicoRepository lugarTuristicoRepository;
+    private PlaceRepository lugarTuristicoRepository;
 
     @GetMapping
-    public ResponseEntity<List<LugarTuristico>> read() {
-        List<LugarTuristico> query = lugarTuristicoRepository.findAll();
-        return new ResponseEntity<List<LugarTuristico>>(query, HttpStatus.OK);
+    public ResponseEntity<List<Place>> read() {
+        List<Place> query = lugarTuristicoRepository.findAll();
+        return new ResponseEntity<List<Place>>(query, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LugarTuristico> readId(@PathVariable Long id) {
-        Optional<LugarTuristico> query = lugarTuristicoRepository.findById(id);
+    public ResponseEntity<Place> readId(@PathVariable Long id) {
+        Optional<Place> query = lugarTuristicoRepository.findById(id);
         if (query.isPresent()) {
-            return new ResponseEntity<LugarTuristico>(query.get(), HttpStatus.OK);
+            return new ResponseEntity<Place>(query.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody LugarTuristico lugarTuristico) {
+    public ResponseEntity<String> create(@RequestBody Place lugarTuristico) {
         lugarTuristicoRepository.save(lugarTuristico);
         return new ResponseEntity<>("Lugar Turistico created :)))", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@RequestBody LugarTuristico lugarTuristicoDetails, @PathVariable Long id) {
-        Optional<LugarTuristico> query = lugarTuristicoRepository.findById(id);
+    public ResponseEntity<String> update(@RequestBody Place lugarTuristicoDetails, @PathVariable Long id) {
+        Optional<Place> query = lugarTuristicoRepository.findById(id);
         if (query.isPresent()) {
-            LugarTuristico lugar = query.get();
+            Place lugar = query.get();
             lugar.setNombre(lugarTuristicoDetails.getNombre());
             lugar.setDescripcion(lugarTuristicoDetails.getDescripcion());
             lugar.setDireccion(lugarTuristicoDetails.getDireccion());
@@ -59,7 +59,7 @@ public class LugarTuristicoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        Optional<LugarTuristico> query = lugarTuristicoRepository.findById(id);
+        Optional<Place> query = lugarTuristicoRepository.findById(id);
         if (query.isPresent()) {
             lugarTuristicoRepository.deleteById(id);
             return new ResponseEntity<>("Lugar Turistico deleted", HttpStatus.OK);
