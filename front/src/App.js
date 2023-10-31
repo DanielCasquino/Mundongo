@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import earth from './earth.svg';
-import clouds from './clouds.svg';
+import { useState, useEffect } from "react";
+import earth from "./earth.svg";
+import clouds from "./clouds.svg";
 
 function AccessButton({ text, color }) {
   const buttonStyle = {
-    '--buttonBackground': `var(${color})`,
+    "--buttonBackground": `var(${color})`,
   };
 
   return (
@@ -17,17 +17,17 @@ function AccessButton({ text, color }) {
 function GoTo({ text, prompt, color, behaviour }) {
   return (
     <div>
-      <span style={{ fontSize: '2vmin' }}>{text}</span>
+      <span style={{ fontSize: "2vmin" }}>{text}</span>
       <button
         style={{
           color: `var(${color})`,
-          fontWeight: 'bolder',
-          fontSize: '2vmin',
+          fontWeight: "bolder",
+          fontSize: "var(--regular)",
           background:"none"
         }}
         onClick={behaviour}
       >
-        {prompt}
+        {prompt}.
       </button>
     </div>
   );
@@ -36,32 +36,34 @@ function GoTo({ text, prompt, color, behaviour }) {
 function AccessBox({ type, behaviour, isLogin}) {
 
   let boxStyle;
-
   let text;
   let prompt;
   let buttonText;
   let color;
-  if (type === 'login') {
-    text = 'Dont have an account? ';
-    prompt = 'Sign up';
-    buttonText = 'Log in';
-    color = '--login-button-background';
+  let fieldFocusColor;
+  if (type === "login") {
+    text = "Don't have an account? ";
+    prompt = "Sign up";
+    buttonText = "Log in";
+    color = "--login-button-background";
+    fieldFocusColor = "--login-box-field-background-focused";
     boxStyle = isLogin
     ? { transform: "rotateY(0deg)", transitionDelay:"0.2s"}
     : { transform: "rotateY(90deg)", opacity:"0", transitionDelay:"0s", pointerEvents:"none"};
-  } else if (type === 'signup') {
-    text = 'Alreay have an account? ';
-    prompt = 'Log in';
-    buttonText = 'Sign up';
-    color = '--signup-button-background';
+  } else if (type === "signup") {
+    text = "Already have an account? ";
+    prompt = "Log in";
+    buttonText = "Sign up";
+    color = "--signup-button-background";
+    fieldFocusColor = "--signup-box-field-background-focused";
     boxStyle = !isLogin
     ? { transform: "rotateY(-0deg)", transitionDelay:"0.2s" }
     : { transform: "rotateY(-90deg)", opacity:"0", transitionDelay:"0s", pointerEvents:"none"};
   }
   return (
     <div className="accessBox" style={boxStyle}>
-      <div className="inputField">Email</div>
-      <div className="inputField">Password</div>
+      <input className="inputField" placeholder="Email" style={{"--focusColor": `var(${fieldFocusColor})`}}></input>
+      <input className="inputField" placeholder="Password" style={{"--focusColor": `var(${fieldFocusColor})`}}></input>
       <AccessButton text={buttonText} color={color} />
       <GoTo text={text} prompt={prompt} color={color} behaviour={behaviour}/>
     </div>
@@ -73,9 +75,9 @@ function Planet(){
     <div className="planetWrapper">
       <div className="planet">
         <img className="earth" src={earth}></img>
-        <img className='clouds' src={clouds}></img>
+        <img className="clouds" src={clouds}></img>
         <div className="planetShadow"></div>
-        <div className='planetBorder'></div>
+        <div className="planetBorder"></div>
       </div>
     </div>
   );
@@ -95,10 +97,10 @@ export default function body() {
           <Planet />
         </div>
         <div className="accessWrapper">
-          <div className='accessBoxWrapper'>
-            <div className='title'>MUNDONGO</div>
-          <AccessBox type={'signup'} behaviour={setRotate} isLogin={isLogin}/>
-          <AccessBox type={'login'} behaviour={setRotate} isLogin={isLogin}/>
+          <div className="accessBoxWrapper">
+            <div className="title">MUNDONGO</div>
+          <AccessBox type={"signup"} behaviour={setRotate} isLogin={isLogin}/>
+          <AccessBox type={"login"} behaviour={setRotate} isLogin={isLogin}/>
           </div>
           </div>
         </div>
@@ -112,11 +114,11 @@ function Stars() {
   }, []);
 
   const createRandomStars = () => {
-    const container = document.querySelector('.starWrapper');
+    const container = document.querySelector(".starWrapper");
     const starNumber = 100;
     for (let i = 0; i < starNumber; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
+      const star = document.createElement("div");
+      star.classList.add("star");
       const xOffset = Math.random() * 100;
       const yOffset = Math.random() * 100;
       const animDelay = Math.random() * 5 * (Math.random() / 2);
@@ -124,7 +126,7 @@ function Stars() {
       star.style.left = `${xOffset}%`;
       star.style.top = `${yOffset}%`;
       star.style.animationDelay = `${animDelay}s`;
-      star.style.setProperty('--duration', `${duration}s`);
+      star.style.setProperty("--duration", `${duration}s`);
       container.appendChild(star);
     }
   };

@@ -11,10 +11,12 @@
   --login-box-background: rgb(255, 255, 255);
   --login-box-padding: 2vmin 2vmin 2vmin 2vmin;
   --login-box-field-background: rgba(230, 230, 230, 1);
+  --login-box-field-background-focused: rgb(175, 200, 235);
+  --signup-box-field-background-focused: rgb(235, 211, 175);
   --login-box-field-radius: 2vmin;
   --login-box-field-padding: 2vmin 2vmin 2vmin 2vmin;
-  --login-button-background: rgb(4, 111, 251);
-  --signup-button-background: rgb(251, 132, 4);
+  --login-button-background: rgba(4, 111, 251, 1);
+  --signup-button-background: rgba(251, 132, 4, 1);
 
   --planet-dimensions: 150vmin;
   --planet-background: #38c7ff;
@@ -49,7 +51,7 @@ button {
 
 .body {
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   max-width: 100%;
   max-height: 100%;
   font-family: 'Rubik', sans-serif;
@@ -66,13 +68,19 @@ button {
 }
 
 .accessWrapper {
-  width: 100%;
+  width: 50%;
   height: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   position: absolute;
-  padding-left: 12.5%;
+  transition: width 0.5s;
+}
+
+@media(max-width:1280px){
+  .accessWrapper{
+    width: 100%;
+  }
 }
 
 .accessBox {
@@ -99,6 +107,13 @@ button {
   width: 100%;
   font-size: var(--regular);
   color: black;
+  outline: none;
+  border: none;
+  transition: background 0.3s;
+}
+
+.inputField:focus{
+  background: var(--focusColor);
 }
 
 .accessButton {
@@ -212,7 +227,7 @@ button {
 
 .earth {
   min-width: 150vmin;
-  animation: orbit 720s infinite linear;
+  animation: orbit 640s infinite linear;
   scale: 280%;
   transform: translateX(35%);
 }
@@ -222,7 +237,7 @@ button {
   border-radius: 50%;
   height: 100%;
   width: 100%;
-  animation: clouds 720s infinite linear;
+  animation: clouds 600s infinite linear;
   opacity: 0.5;
   filter: drop-shadow(0px -1vmin 2vmin var(--space));
 }
