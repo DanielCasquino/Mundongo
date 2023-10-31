@@ -1,4 +1,4 @@
-package com.mundongo.demondongo.domain;
+package com.mundongo.demondongo.model;
 
 import java.util.Set;
 
@@ -63,5 +63,9 @@ public class Account {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }

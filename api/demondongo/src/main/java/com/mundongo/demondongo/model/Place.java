@@ -1,4 +1,4 @@
-package com.mundongo.demondongo.domain;
+package com.mundongo.demondongo.model;
 
 import jakarta.persistence.*;
 

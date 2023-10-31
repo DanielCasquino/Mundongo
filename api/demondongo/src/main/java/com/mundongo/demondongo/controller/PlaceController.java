@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.mundongo.demondongo.domain.Place;
+import com.mundongo.demondongo.model.Place;
 import com.mundongo.demondongo.repository.PlaceRepository;
 
 import java.util.List;

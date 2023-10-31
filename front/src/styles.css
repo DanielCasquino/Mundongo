@@ -36,7 +36,7 @@
   overflow: hidden;
   font-family: inherit;
   font-size: inherit;
-  color: var(--primary)
+  color: var(--primary);
 }
 
 a {
@@ -216,7 +216,7 @@ button {
   }
 } /* Percentage fixed to wrap around */
 
-@keyframes clouds{
+@keyframes clouds {
   0% {
     transform: rotate(0deg);
   }
@@ -232,7 +232,7 @@ button {
   transform: translateX(35%);
 }
 
-.clouds{
+.clouds {
   position: absolute;
   border-radius: 50%;
   height: 100%;
@@ -273,7 +273,7 @@ button {
   }
 }
 
-.accessBoxWrapper{
+.accessBoxWrapper {
   width: var(--login-box-width);
   height: var(--login-box-height);
   display: flex;
@@ -282,7 +282,7 @@ button {
   overflow: visible;
 }
 
-.planetBorder{
+.planetBorder {
   height: 100%;
   width: 100%;
   position: absolute;
