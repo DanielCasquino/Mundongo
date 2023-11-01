@@ -68,6 +68,14 @@ public class Account implements UserDetails{
         this.lastName = lastName;
     }
 
+    public Role getRole(){
+        return this.role;
+    }
+
+    public void setRole(Role role){
+        this.role = role;
+    }
+
     public void addComment(Comment comment) {
         this.comments.add(comment);
     }

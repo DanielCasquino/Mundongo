@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.mundongo.demondongo.model.Account;
 import com.mundongo.demondongo.model.Comment;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.mundongo.demondongo.repository.AccountRepository;
 
@@ -67,5 +68,14 @@ public class AccountService {
         } else {
             return new ResponseEntity<>("Account not found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    public UserDetailsService userDetailsService(){
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException{
+                return accRep.findByEmail(username);
+            }
+        };
     }
 }
