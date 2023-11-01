@@ -18,7 +18,7 @@ function AccessButton({ text, color }) {
 function GoTo({ text, prompt, color, behaviour }) {
   return (
     <div>
-      <span style={{ fontSize: '2vmin' }}>{text}</span>
+      <span style={{ fontSize: '2vmin', color:'white' }}>{text}</span>
       <button
         style={{
           color: `var(${color})`,
@@ -73,12 +73,12 @@ function AccessBox({ type, behaviour, isLogin }) {
   return (
     <div className="accessBox" style={boxStyle}>
       <input
-        className="inputField"
+        className="accessField"
         placeholder="Email"
         style={{ '--focusColor': `var(${fieldFocusColor})` }}
       ></input>
       <input
-        className="inputField"
+        className="accessField"
         placeholder="Password"
         style={{ '--focusColor': `var(${fieldFocusColor})` }}
       ></input>
@@ -108,15 +108,15 @@ export default function body() {
     console.log('Set value to ' + (isLogin ? 'signup' : 'login'));
   }
   return (
-    <div className="container">
+    <div className="body access">
       <div className="appWrapper">
-        <div className="background">
+        <div className="spaceWrapper">
           <Stars />
           <Planet />
         </div>
         <div className="accessWrapper">
           <div className="accessBoxWrapper">
-            <div className="title">MUNDONGO</div>
+            <div className="mundongo">MUNDONGO</div>
             <AccessBox
               type={'signup'}
               behaviour={setRotate}

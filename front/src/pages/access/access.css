@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
-:root {
+.access {
   --primary: rgb(255, 255, 255);
-  --support: rgb(180, 180, 180);
   --space: rgb(1, 2, 40);
 
   --login-box-width: 50vmin;
@@ -28,183 +27,207 @@
 
   --regular: 2vmin;
   --large: 4vmin;
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: inherit;
-  font-size: inherit;
-  color: var(--primary);
-}
-
-a {
-  cursor: pointer;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-}
-
-.container {
-  width: 100vw;
-  height: 100vh;
-  max-width: 100%;
-  max-height: 100%;
-  font-family: 'Rubik', sans-serif;
-  position: absolute;
-  font-size: var(--regular);
-  color: white;
-}
-
-.appWrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-}
-
-.accessWrapper {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  transition: width 0.5s;
-}
-
-@media (max-width: 1280px) {
   .accessWrapper {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transition: width 0.5s;
+  }
+  
+  .accessBox {
+    width: var(--login-box-width);
+    height: var(--login-box-height);
+    border-radius: var(--login-box-radius);
+    padding: var(--login-box-padding);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    position: absolute;
+  }
+  
+  .accessField {
+    border-radius: var(--login-box-field-radius);
+    background: var(--login-box-field-background);
+    border-radius: var(--login-box-field-radius);
+    padding: var(--login-box-field-padding);
+    box-sizing: border-box;
+    cursor: text;
     width: 100%;
+    font-size: var(--regular);
+    color: black;
+    outline: none;
+    border: none;
+    transition: background 0.3s;
+  }
+  
+  .accessField:focus {
+    background: var(--focusColor);
+  }
+  
+  .accessButton {
+    color: var(--primary);
+    width: 100%;
+    background: var(--buttonBackground);
+    height: 30%;
+    width: 100%;
+    border-radius: var(--login-box-field-radius);
+    box-sizing: border-box;
+    font-weight: bolder;
+    letter-spacing: 0.05em;
+    font-size: var(--regular);
+  }
+  
+  .spaceWrapper {
+    width: 100%;
+    height: 100%;
+    background: var(--space);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+  }
+  
+  .planetWrapper {
+    transform-origin: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    transform: translateX(50%);
+  }
+  
+  .planet {
+    aspect-ratio: 1/1;
+    width: var(--planet-dimensions);
+    border-radius: 50%;
+    background: var(--planet-background);
+    position: relative;
+    box-shadow: 0px 0px var(--planet-glow-radius) 5vmin var(--planet-glow),
+      0px 0px 8vmin 5vmin rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .planetShadow {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5vmin 1vmin rgba(206, 241, 255, 0.7) inset;
+    background: -webkit-radial-gradient(var(--space) 35%, transparent 200%);
+    height: 100%;
+    width: 100%;
+    opacity: 96%;
+  }
+  
+  .planetShadow::before {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent 0%,
+      transparent 1%,
+      #000 1%,
+      #000 2%
+    );
+    background-size: var(--ditherSize);
+    opacity: var(--ditherOpacity);
+    background-blend-mode: multiply;
+  }
+  
+  .planetShadow::after {
+    background-blend-mode: multiply;
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent 0%,
+      transparent 1%,
+      #000 1%,
+      #000 2%
+    );
+    background-size: var(--ditherSize);
+    opacity: var(--ditherOpacity);
+  }
+  
+  .earth {
+    min-width: 150vmin;
+    animation: orbit 640s infinite linear;
+    scale: 280%;
+    transform: translateX(35%);
+  }
+  
+  .clouds {
+    position: absolute;
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    animation: clouds 600s infinite linear;
+    opacity: 0.5;
+    filter: drop-shadow(0px -1vmin 2vmin var(--space));
+  }
+  
+  .mundongo {
+    color: white;
+    letter-spacing: 0.4em;
+    font-size: 4vmin;
+    font-weight: bolder;
+    transform: translateY(-60%);
+  }
+  
+  .starWrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    width: 0.15vmin;
+    height: 0.15vmin;
+    animation: twinkle var(--duration) infinite;
+  }
+  
+  .accessBoxWrapper {
+    width: var(--login-box-width);
+    height: var(--login-box-height);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
+  }
+  
+  .planetBorder {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    border-radius: 50%;
+    outline: 20vmin solid var(--planet-glow);
+    scale: 95%;
+    filter: blur(10vmin);
   }
 }
 
-.accessBox {
-  width: var(--login-box-width);
-  height: var(--login-box-height);
-  border-radius: var(--login-box-radius);
-  padding: var(--login-box-padding);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-  position: absolute;
-}
-
-.inputField {
-  border-radius: var(--login-box-field-radius);
-  background: var(--login-box-field-background);
-  border-radius: var(--login-box-field-radius);
-  padding: var(--login-box-field-padding);
-  box-sizing: border-box;
-  cursor: text;
-  width: 100%;
-  font-size: var(--regular);
-  color: black;
-  outline: none;
-  border: none;
-  transition: background 0.3s;
-}
-
-.inputField:focus {
-  background: var(--focusColor);
-}
-
-.accessButton {
-  color: var(--primary);
-  width: 100%;
-  background: var(--buttonBackground);
-  height: 30%;
-  width: 100%;
-  border-radius: var(--login-box-field-radius);
-  box-sizing: border-box;
-  font-weight: bolder;
-  letter-spacing: 0.05em;
-}
-
-.background {
-  width: 100%;
-  height: 100%;
-  background: var(--space);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: visible;
-}
-
-.planetWrapper {
-  transform-origin: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: visible;
-  transform: translateX(50%);
-}
-
-.planet {
-  aspect-ratio: 1/1;
-  width: var(--planet-dimensions);
-  border-radius: 50%;
-  background: var(--planet-background);
-  position: relative;
-  box-shadow: 0px 0px var(--planet-glow-radius) 5vmin var(--planet-glow),
-    0px 0px 8vmin 5vmin rgba(255, 255, 255, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.planetShadow {
-  position: absolute;
-  border-radius: 50%;
-  box-shadow: 0px 0px 5vmin 1vmin rgba(206, 241, 255, 0.7) inset;
-  background: -webkit-radial-gradient(var(--space) 35%, transparent 200%);
-  height: 100%;
-  width: 100%;
-  opacity: 96%;
-}
-
-.planetShadow::before {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent 0%,
-    transparent 1%,
-    #000 1%,
-    #000 2%
-  );
-  background-size: var(--ditherSize);
-  opacity: var(--ditherOpacity);
-  background-blend-mode: multiply;
-}
-
-.planetShadow::after {
-  background-blend-mode: multiply;
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent 0%,
-    transparent 1%,
-    #000 1%,
-    #000 2%
-  );
-  background-size: var(--ditherSize);
-  opacity: var(--ditherOpacity);
+@keyframes twinkle {
+  0% {
+    width: 0.1vmin;
+    height: 0.1vmin;
+    opacity: 0.9;
+  }
 }
 
 @keyframes orbit {
@@ -226,69 +249,8 @@ button {
   }
 }
 
-.earth {
-  min-width: 150vmin;
-  animation: orbit 640s infinite linear;
-  scale: 280%;
-  transform: translateX(35%);
-}
-
-.clouds {
-  position: absolute;
-  border-radius: 50%;
-  height: 100%;
-  width: 100%;
-  animation: clouds 600s infinite linear;
-  opacity: 0.5;
-  filter: drop-shadow(0px -1vmin 2vmin var(--space));
-}
-
-.title {
-  color: white;
-  letter-spacing: 0.4em;
-  font-size: 4vmin;
-  font-weight: bolder;
-  transform: translateY(-60%);
-}
-
-.starWrapper {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  width: 0.15vmin;
-  height: 0.15vmin;
-  animation: twinkle var(--duration) infinite;
-}
-
-@keyframes twinkle {
-  0% {
-    width: 0.1vmin;
-    height: 0.1vmin;
-    opacity: 0.9;
+@media (max-width: 1280px) {
+  .accessWrapper {
+    width: 100%;
   }
-}
-
-.accessBoxWrapper {
-  width: var(--login-box-width);
-  height: var(--login-box-height);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: visible;
-}
-
-.planetBorder {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  border-radius: 50%;
-  outline: 20vmin solid var(--planet-glow);
-  scale: 95%;
-  filter: blur(10vmin);
 }
