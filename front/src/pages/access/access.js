@@ -18,7 +18,7 @@ function AccessButton({ text, color }) {
 function GoTo({ text, prompt, color, behaviour }) {
   return (
     <div>
-      <span style={{ fontSize: '2vmin', color:'white' }}>{text}</span>
+      <span style={{ fontSize: '2vmin', color: 'white' }}>{text}</span>
       <button
         style={{
           color: `var(${color})`,
@@ -80,6 +80,7 @@ function AccessBox({ type, behaviour, isLogin }) {
       <input
         className="accessField"
         placeholder="Password"
+        type="password"
         style={{ '--focusColor': `var(${fieldFocusColor})` }}
       ></input>
       <AccessButton text={buttonText} color={color} />
