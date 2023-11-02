@@ -32,6 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-api/demondongo/src/main/resources/application.properties
+
 
 front/node_modules
