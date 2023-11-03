@@ -111,7 +111,7 @@ export default function body() {
   return (
     <div className="body access">
       <div className="appWrapper">
-        <div className="spaceWrapper">
+        <div className="background">
           <Stars />
           <Planet />
         </div>
