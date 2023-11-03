@@ -1,36 +1,48 @@
 import { useState, useEffect } from 'react';
 import './discover.css';
+import arrow from './chevron_right_FILL0_wght400_GRAD0_opsz24.svg';
+import dawg from './F1-ZVoKXsAIW8EU.jpg';
 
-// function Card({ n }) {
-//   // Se hace un fetch para la info, gatitos placeholders
 
-//   let name = `A really cool place with an index of ${n}`;
-//   let description =
-//     n === 8 ? 'Lorem ipsum I guess' : `(A really cool description)`;
-//   return (
-//     <div className="card">
-//       <img className="placePhoto" src="https://cataas.com/cat"></img>
-//       <div className="placeDetails">
-//         <div className="placeName">{name}</div>
-//         <div className="placeDescription">{description}</div>
-//       </div>
-//     </div>
-//   );
-// }
+function SearchBar(){
+  return(
+    <input className='searchBar' placeholder='Start typing to search for a cool place!'></input>
+  );
+}
+
+function CollapseButton({ onClick, status}) {
+  return (
+    <button className='collapseButton' onClick={onClick}>
+      <img className={status ? "collapseImage" : "collapseImage rotated"} src={arrow} alt="Arrow" />
+    </button>
+  );
+}
 
 export default function body() {
-  // const cards = [];
-  // for (let i = 0; i < 20; ++i) {
-  //   cards.push(<Card key={i} n={i} />);
-  // }
+  const [collapsedBar, setCollapse] = useState(true);
+
+  function showBar(){
+    setCollapse(!collapsedBar);
+    console.log("set status to " + !collapsedBar);
+  }
+
+  let leftClass = collapsedBar ? "left" : "left closed";
+
   return (
     <div className="body discover">
       <div className="appWrapper">
         <div className="background"></div>
         <div className="discoverWrapper">
           <div className="contentWrapper">
-            <div className="left"></div>
-            <div className="right"></div>
+            <div className={leftClass}>
+              <img src={dawg} style={{objectFit: "contain"}}/>
+            </div>
+            <div className="right">
+              <div className='top'>
+              <CollapseButton onClick={() => showBar()} status={collapsedBar}/>
+              <SearchBar/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
