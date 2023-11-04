@@ -26,9 +26,9 @@ function RandomTags(){
     let color = "";
     let text = "Tag " + i;
     switch(rand){
-      case 1: color = "var(--tag-fuchsia)"; break;
-      case 2: color = "var(--tag-grass)"; break;
-      case 3: color = "var(--tag-lime)"; break;
+      case 1: color = "var(--fuchsia)"; break;
+      case 2: color = "var(--grass)"; break;
+      case 3: color = "var(--mandarina)"; break;
     }
     const tagStyle = {
       '--data': `${color}`,
@@ -88,7 +88,7 @@ export default function body() {
         <div className="discoverWrapper">
           <div className="contentWrapper">
             <div className={leftClass}>
-              <img src={dawg} style={{objectFit: "contain"}}/>
+              <button className='logoutButton'>Log Out</button>
             </div>
             <div className="right">
               <div className='top'>

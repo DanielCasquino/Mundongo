@@ -1,20 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 .discover {
-  --left: rgb(40, 40, 60);
-  --right: rgb(30, 30, 50);
-  --background: rgb(20, 20, 40);
-
   --left: rgb(220, 220, 230);
   --right: rgb(230, 230, 240);
   --background: rgb(200, 200, 210);
 
   --primaryText: rgb(20, 20, 30);
   --secondaryText: rgb(150, 150, 160);
+  --terciaryText: rgb(255, 255, 255);
   
-  --tag-fuchsia: rgb(255, 38, 103);
-  --tag-grass: rgb(29, 194, 158);
-  --tag-lime: rgb(240, 154, 26);
+  --fuchsia: rgb(255, 38, 103);
+  --grass: rgb(29, 194, 158);
+  --mandarina: rgb(240, 154, 26);
+
+  --logout-button-background: rgba(4, 111, 251, 1);
 
   .background {
     position: absolute;
@@ -51,12 +50,25 @@
     width: 14%;
     transition: width 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
     display: flex;
-    padding: 2vmin;
+    justify-content: center;
     box-sizing: border-box;
+    .logoutButton{
+      background: var(--logout-button-background);
+      width: 28vmin;
+      height: 6vmin;
+      display: flex;
+      max-width: 100%;
+      justify-content: center;
+      align-items: center;
+      color: var(--terciaryText);
+      align-self: flex-end;
+      border-radius: 2vmin;
+      margin: 0 2vmin 2vmin 2vmin;
+      text-wrap: nowrap;
+    }
   }
   .closed{
     width: 0%;
-    padding: 0;
   }
 
   .right {
@@ -115,24 +127,27 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    box-sizing: border-box;
     padding: 2vmin;
     overflow-y: auto;
+    box-sizing: border-box;
   }
 
   .cardRow{
+    position: relative;
     flex-direction: row;
     display: flex;
     flex-shrink: 0;
     height: fit-content;
-    box-sizing: content-box;
+    box-sizing: border-box;
     height: calc(50% - 1vmin);
   }
 
   .card{
+    position: relative;
     cursor: pointer;
     height: 100%;
-    flex: 1;
+    flex: 0 1 100%;
+    max-width: 50%;
     background: var(--left);
     color: var(--primaryText);
     padding: 2vmin;
@@ -181,7 +196,7 @@
         max-height: 100%;
         width: fit-content;
         min-width: 8vmin;
-        color: var(--right);
+        color: var(--terciaryText);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -209,4 +224,13 @@
   .tag + .tag{
     margin-left: 1vmin;
   }
+}
+
+.dark{
+  --left: rgb(45, 45, 55);
+  --right: rgb(55, 55, 65);
+  --background: rgb(35, 35, 45);
+
+  --primaryText: rgb(235, 235, 235);
+  --secondaryText: rgb(150, 150, 160);
 }
