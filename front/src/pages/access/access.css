@@ -9,7 +9,7 @@
   --login-box-radius: 3vmin;
   --login-box-background: rgb(255, 255, 255);
   --login-box-padding: 2vmin 2vmin 2vmin 2vmin;
-  --login-box-field-background: rgba(230, 230, 230, 1);
+  --login-box-field-background: rgba(230, 230, 240, 1);
   --login-box-field-background-focused: rgb(175, 200, 235);
   --signup-box-field-background-focused: rgb(235, 211, 175);
   --login-box-field-radius: 2vmin;
