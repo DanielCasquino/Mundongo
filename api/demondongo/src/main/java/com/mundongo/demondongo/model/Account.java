@@ -8,15 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "account")
-public class Account implements UserDetails{
+public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
-    private String name;
-    private String lastName;
+    private String displayName;
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -27,10 +26,9 @@ public class Account implements UserDetails{
     public Account() {
     }
 
-    public Account(String email, String name, String lastName, String password, Role role) {
+    public Account(String email, String displayName, String password, Role role) {
         this.email = email;
-        this.name = name;
-        this.lastName = lastName;
+        this.displayName = displayName;
         this.password = password;
         this.role = role;
     }
@@ -52,27 +50,19 @@ public class Account implements UserDetails{
         this.email = email;
     }
 
-    public String getName() {
-        return this.name;
+    public String getDisplayName() {
+        return this.displayName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Role getRole(){
+    public Role getRole() {
         return this.role;
     }
 
-    public void setRole(Role role){
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -81,36 +71,36 @@ public class Account implements UserDetails{
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities(){
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return this.password;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
     @Override
-    public boolean isAccountNonExpired(){
+    public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isAccountNonLocked(){
+    public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
-    public boolean isCredentialsNonExpired(){
+    public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isEnabled(){
+    public boolean isEnabled() {
         return true;
     }
 }

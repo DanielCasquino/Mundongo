@@ -4,27 +4,27 @@ public class SignInRequest {
     private String email;
     private String password;
 
-    public SignInRequest(){
+    public SignInRequest() {
     }
 
-    public SignInRequest(String email, String password){
+    public SignInRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return this.email;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return this.password;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 }

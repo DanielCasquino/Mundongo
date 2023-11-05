@@ -21,7 +21,8 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthenticationService(AccountRepository accountRepository, PasswordEncoder passwordEncoder,
+            JwtService jwtService, AuthenticationManager authenticationManager) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -30,8 +31,7 @@ public class AuthenticationService {
 
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         var user = new Account();
-        user.setName(request.getName());
-        user.setLastName(request.getLastName());
+        user.setDisplayName(request.getDisplayName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
@@ -50,7 +50,8 @@ public class AuthenticationService {
     }
 
     public JwtAuthenticationResponse signin(SignInRequest request) throws IllegalArgumentException {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = accountRepository.findByEmail(request.getEmail());
         var jwt = jwtService.generateToken(user);
 
