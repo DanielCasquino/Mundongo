@@ -5,7 +5,7 @@ public class SignUpRequest {
     private String password;
     private String displayName;
 
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
 
     public SignUpRequest() {
     }
