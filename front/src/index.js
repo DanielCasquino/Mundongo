@@ -1,11 +1,14 @@
-import React, { StrictMode } from 'react';
+import React, { useEffect, StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
 import Access from './pages/access/access';
 import Discover from './pages/discover/discover';
-import Profile from './pages/profile/profile';
-import Post from './pages/post/post';
 
 import './index.css';
 
@@ -22,18 +25,23 @@ const router = createBrowserRouter([
     path: 'discover',
     element: <Discover />,
   },
-  {
-    path: 'profile',
-    element: <Profile />,
-  },
-  {
-    path: 'post',
-    element: <Post />,
-  },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
-);
+const App = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      router.navigate('/discover');
+    } else {
+      router.navigate('/access');
+    }
+  }, []);
+
+  return (
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
