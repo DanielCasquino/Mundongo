@@ -23,7 +23,7 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log('Submitted login');
     e.preventDefault();
 
-    const apiUrl = 'react.railway.internal/api/auth/login';
+    const apiUrl = 'https://mundongo-back.up.railway.app/api/auth/login';
 
     axios
       .post(apiUrl, formData)
@@ -104,7 +104,7 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log('Submitted signup');
     e.preventDefault();
 
-    const apiUrl = 'react.railway.internal/api/auth/signup';
+    const apiUrl = 'https://mundongo-back.up.railway.app/api/auth/signup';
     axios
       .post(apiUrl, formData)
       .then((response) => {
