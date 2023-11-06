@@ -1,113 +1,180 @@
-import { useState, useEffect } from 'react';
-import earth from './earth.svg';
-import clouds from './clouds.svg';
-import './access.css';
+import { useState, useEffect } from "react";
+import axios from "axios"; // Import Axios
 
-function AccessButton({ text, color }) {
-  const buttonStyle = {
-    '--buttonBackground': `var(${color})`,
+import earth from "./earth.svg";
+import clouds from "./clouds.svg";
+import "./access.css";
+
+function LoginBox({ isLogin, switchAccess }) {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    console.log("Submitted login");
+    e.preventDefault();
+
+    const apiUrl = "http://localhost:8080/login";
+
+    axios
+      .post(apiUrl, formData)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
-    <button className="accessButton" style={buttonStyle}>
-      {text}
-    </button>
-  );
-}
+    <div
+      className="loginBox"
+      style={{
+        opacity: isLogin ? "1" : "0",
+        pointerEvents: isLogin ? "auto" : "none",
+      }}
+    >
+      <div className="title">MUNDONGO</div>
 
-function GoTo({ text, prompt, color, behaviour }) {
-  return (
-    <div>
-      <span style={{ fontSize: '2vmin', color: 'white' }}>{text}</span>
-      <button
-        style={{
-          color: `var(${color})`,
-          fontWeight: 'bolder',
-          fontSize: 'var(--regular)',
-          background: 'none',
-        }}
-        onClick={behaviour}
-      >
-        {prompt}.
-      </button>
-    </div>
-  );
-}
+      <form onSubmit={handleSubmit}>
+        <input
+          className="inputField"
+          placeholder="Email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
 
-function AccessBox({ type, behaviour, isLogin }) {
-  let boxStyle;
-  let text;
-  let prompt;
-  let buttonText;
-  let color;
-  let fieldFocusColor;
-  if (type === 'login') {
-    text = "Don't have an account? ";
-    prompt = 'Sign up';
-    buttonText = 'Log in';
-    color = '--login-button-background';
-    fieldFocusColor = '--login-box-field-background-focused';
-    boxStyle = isLogin
-      ? { transform: 'rotateY(0deg)', transitionDelay: '0.2s' }
-      : {
-          transform: 'rotateY(90deg)',
-          opacity: '0',
-          transitionDelay: '0s',
-          pointerEvents: 'none',
-        };
-  } else if (type === 'signup') {
-    text = 'Already have an account? ';
-    prompt = 'Log in';
-    buttonText = 'Sign up';
-    color = '--signup-button-background';
-    fieldFocusColor = '--signup-box-field-background-focused';
-    boxStyle = !isLogin
-      ? { transform: 'rotateY(-0deg)', transitionDelay: '0.2s' }
-      : {
-          transform: 'rotateY(-90deg)',
-          opacity: '0',
-          transitionDelay: '0s',
-          pointerEvents: 'none',
-        };
-  }
-  return (
-    <div className="accessBox" style={boxStyle}>
-      <input
-        className="accessField"
-        placeholder="Email"
-        style={{ '--focusColor': `var(${fieldFocusColor})` }}
-      ></input>
-      <input
-        className="accessField"
-        placeholder="Password"
-        type="password"
-        style={{ '--focusColor': `var(${fieldFocusColor})` }}
-      ></input>
-      <AccessButton text={buttonText} color={color} />
-      <GoTo text={text} prompt={prompt} color={color} behaviour={behaviour} />
-    </div>
-  );
-}
+        <input
+          className="inputField"
+          placeholder="Password"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
 
-function Planet() {
-  return (
-    <div className="planetWrapper">
-      <div className="planet">
-        <img className="earth" src={earth}></img>
-        <img className="clouds" src={clouds}></img>
-        <div className="planetShadow"></div>
-        <div className="planetBorder"></div>
+        <button className="accessButton loginButton" type="submit">
+          Log In
+        </button>
+      </form>
+
+      <div className="promptWrapper">
+        <span className="prompt">Don't have an account yet?</span>
+        <a
+          className="prompt"
+          onClick={switchAccess}
+          style={{ color: "var(--promptColor)", fontWeight: "bold" }}
+        >
+          &nbsp;Sign up.
+        </a>
       </div>
     </div>
   );
 }
 
-export default function body() {
+function SignUpBox({ isLogin, switchAccess }) {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    console.log("Submitted signup");
+    e.preventDefault();
+
+    const apiUrl = "http://localhost:8080/signup";
+    axios
+      .post(apiUrl, formData)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  return (
+    <div
+      className="signUpBox"
+      style={{
+        opacity: isLogin ? "0" : "1",
+        pointerEvents: isLogin ? "none" : "auto",
+      }}
+    >
+      <div className="title">MUNDONGO</div>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          className="inputField"
+          placeholder="Username"
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+        />
+
+        <input
+          className="inputField"
+          placeholder="Email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <input
+          className="inputField"
+          placeholder="Password"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+
+        <button className="accessButton signUpButton" type="submit">
+          Sign Up
+        </button>
+      </form>
+
+      <div className="promptWrapper">
+        <span className="prompt">Already have an account?</span>
+        <a
+          className="prompt"
+          onClick={switchAccess}
+          style={{ color: "var(--promptColor)", fontWeight: "bold" }}
+        >
+          &nbsp;Log in.
+        </a>
+      </div>
+    </div>
+  );
+}
+
+export default function Body() {
   const [isLogin, setIsLogin] = useState(true);
-  function setRotate() {
+  function switchAccess() {
     setIsLogin(!isLogin);
-    console.log('Set value to ' + (isLogin ? 'signup' : 'login'));
+    console.log("Set value to " + (isLogin ? "signup" : "login"));
   }
+
   return (
     <div className="body access">
       <div className="appWrapper">
@@ -116,16 +183,22 @@ export default function body() {
           <Planet />
         </div>
         <div className="accessWrapper">
-          <div className="accessBoxWrapper">
-            <div className="mundongo">MUNDONGO</div>
-            <AccessBox
-              type={'signup'}
-              behaviour={setRotate}
-              isLogin={isLogin}
-            />
-            <AccessBox type={'login'} behaviour={setRotate} isLogin={isLogin} />
-          </div>
+          <LoginBox isLogin={isLogin} switchAccess={switchAccess} />
+          <SignUpBox isLogin={isLogin} switchAccess={switchAccess} />
         </div>
+      </div>
+    </div>
+  );
+}
+
+function Planet() {
+  return (
+    <div className="planetWrapper">
+      <div className="planet">
+        <img className="earth" src={earth} alt="Earth" />
+        <img className="clouds" src={clouds} alt="Clouds" />
+        <div className="planetShadow" />
+        <div className="planetBorder" />
       </div>
     </div>
   );
@@ -137,11 +210,11 @@ function Stars() {
   }, []);
 
   const createRandomStars = () => {
-    const container = document.querySelector('.starWrapper');
+    const container = document.querySelector(".starWrapper");
     const starNumber = 100;
     for (let i = 0; i < starNumber; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
+      const star = document.createElement("div");
+      star.classList.add("star");
       const xOffset = Math.random() * 100;
       const yOffset = Math.random() * 100;
       const animDelay = Math.random() * 5 * (Math.random() / 2);
@@ -149,10 +222,10 @@ function Stars() {
       star.style.left = `${xOffset}%`;
       star.style.top = `${yOffset}%`;
       star.style.animationDelay = `${animDelay}s`;
-      star.style.setProperty('--duration', `${duration}s`);
+      star.style.setProperty("--duration", `${duration}s`);
       container.appendChild(star);
     }
   };
 
-  return <div className="starWrapper"></div>;
+  return <div className="starWrapper" />;
 }

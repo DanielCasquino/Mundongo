@@ -5,15 +5,13 @@
   --space: rgb(1, 2, 40);
 
   --login-box-width: 50vmin;
-  --login-box-height: 35vmin;
-  --login-box-radius: 3vmin;
   --login-box-background: rgb(255, 255, 255);
-  --login-box-padding: 2vmin 2vmin 2vmin 2vmin;
+  --login-box-padding: 2vmin;
   --login-box-field-background: rgba(230, 230, 240, 1);
-  --login-box-field-background-focused: rgb(175, 200, 235);
-  --signup-box-field-background-focused: rgb(235, 211, 175);
+  --login-box-field-background-focused: rgb(188, 216, 255);
+  --signup-box-field-background-focused: rgb(255, 228, 188);
   --login-box-field-radius: 2vmin;
-  --login-box-field-padding: 2vmin 2vmin 2vmin 2vmin;
+  --login-box-field-padding: 2vmin;
   --login-button-background: rgba(4, 111, 251, 1);
   --signup-button-background: rgba(251, 132, 4, 1);
 
@@ -28,59 +26,96 @@
   --regular: 2vmin;
   --large: 4vmin;
 
-  .accessWrapper {
+  .accessWrapper{
     width: 50%;
     height: 100%;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: width 0.5s;
+    user-select: none;
   }
 
-  .accessBox {
-    width: var(--login-box-width);
-    height: var(--login-box-height);
-    border-radius: var(--login-box-radius);
-    padding: var(--login-box-padding);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  .loginBox{
     position: absolute;
-  }
-
-  .accessField {
-    border-radius: var(--login-box-field-radius);
-    background: var(--login-box-field-background);
-    border-radius: var(--login-box-field-radius);
-    padding: var(--login-box-field-padding);
+    width: var(--login-box-width);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    transition: all 0.2s;
     box-sizing: border-box;
-    cursor: text;
-    width: 100%;
-    font-size: var(--regular);
-    color: black;
-    outline: none;
-    border: none;
-    transition: background 0.3s;
+    --focusedColor: var(--login-box-field-background-focused);
+    .accessButton{
+      background: var(--login-button-background);
+    }
+    .prompt{
+      --promptColor: var(--login-button-background);
+    }
   }
 
-  .accessField:focus {
-    background: var(--focusColor);
-  }
-
-  .accessButton {
-    color: var(--primary);
-    width: 100%;
-    background: var(--buttonBackground);
-    height: 30%;
-    width: 100%;
-    border-radius: var(--login-box-field-radius);
+  .signUpBox{
+    position: absolute;
+    width: var(--login-box-width);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    transition: all 0.2s;
     box-sizing: border-box;
-    font-weight: bolder;
-    letter-spacing: 0.05em;
+    --focusedColor: var(--signup-box-field-background-focused);
+    .accessButton{
+      background: var(--signup-button-background);
+    }
+    .prompt{
+      --promptColor: var(--signup-button-background);
+    }
+  }
+
+  .promptWrapper{
+    margin-top: 2vmin;
+    display: flex;
+    justify-content: center;
+  }
+
+  .prompt{
+    text-align: center;
     font-size: var(--regular);
+    color: white;
+  }
+
+  .accessButton{
+    letter-spacing: 0.08em;
+    font-weight: bold;
+    font-size: var(--regular);
+    color: white;
+    border-radius: 2vmin;
+    height: 8vmin;
+    width: 100%;
+  }
+
+  .inputField{
+    margin-bottom: 2vmin;
+    height: 6vmin;
+    width: 100%;
+    border-radius: 2vmin;
+    box-sizing: border-box;
+    padding: 2vmin;
+    font-size: var(--regular);
+    transition: all 0.5s;
+  }
+
+  .inputField:focus{
+    background: var(--focusedColor);
+  }
+
+  .title {
+    font-size: var(--large);
+    color: white;
+    text-align: center;
+    letter-spacing: 0.4em;
+    margin-bottom: 2vmin;
   }
 
   .background {
@@ -180,14 +215,6 @@
     filter: drop-shadow(0px -1vmin 2vmin var(--space));
   }
 
-  .mundongo {
-    color: white;
-    letter-spacing: 0.4em;
-    font-size: 4vmin;
-    font-weight: bolder;
-    transform: translateY(-60%);
-  }
-
   .starWrapper {
     position: absolute;
     width: 100%;
@@ -201,15 +228,6 @@
     width: 0.15vmin;
     height: 0.15vmin;
     animation: twinkle var(--duration) infinite;
-  }
-
-  .accessBoxWrapper {
-    width: var(--login-box-width);
-    height: var(--login-box-height);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: visible;
   }
 
   .planetBorder {

@@ -67,7 +67,7 @@ function CardRow({rowIndex}){
 }
 
 export default function body() {
-  const [collapsedBar, setCollapse] = useState(true);
+  const [collapsedBar, setCollapse] = useState(false);
 
   function showBar(){
     setCollapse(!collapsedBar);
