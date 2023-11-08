@@ -3,6 +3,7 @@ package com.mundongo.demondongo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import com.mundongo.demondongo.model.Event;
@@ -12,18 +13,21 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("api/events")
 public class EventController {
 
     @Autowired
     private EventRepository eventRepository;
 
+    @Secured({ "ADMIN", "USER" })
     @GetMapping
     public ResponseEntity<List<Event>> read() {
         List<Event> query = eventRepository.findAll();
         return new ResponseEntity<List<Event>>(query, HttpStatus.OK);
     }
 
+    @Secured({ "ADMIN", "USER" })
     @GetMapping("/{id}")
     public ResponseEntity<Event> readId(@PathVariable Long id) {
         Optional<Event> query = eventRepository.findById(id);

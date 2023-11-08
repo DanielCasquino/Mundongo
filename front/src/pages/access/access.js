@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
 import earth from './earth.svg';
 import clouds from './clouds.svg';

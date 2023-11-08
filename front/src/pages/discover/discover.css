@@ -8,13 +8,12 @@
   --primaryText: rgb(20, 20, 30);
   --secondaryText: rgb(150, 150, 160);
   --terciaryText: rgb(255, 255, 255);
-  
+
   --fuchsia: rgb(255, 38, 103);
   --grass: rgb(29, 194, 158);
   --mandarina: rgb(240, 154, 26);
 
   --logout-button-background: rgba(4, 111, 251, 1);
-
   .background {
     position: absolute;
     width: 100%;
@@ -22,8 +21,27 @@
     background: var(--background);
   }
 
-  ::placeholder{
+  .appWrapper {
+    background: var(--background);
+  }
+
+  ::placeholder {
     color: var(--secondaryText);
+  }
+
+  ::-webkit-scrollbar {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    margin: 2vmin;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--background);
+    border-radius: 2vmin;
+    border: 0.5vmin solid transparent;
+    background-clip: content-box;
   }
 
   .discoverWrapper {
@@ -33,6 +51,7 @@
     padding: 4vmin;
     overflow: visible;
     box-sizing: border-box;
+    user-select: none;
   }
 
   .contentWrapper {
@@ -52,7 +71,7 @@
     display: flex;
     justify-content: center;
     box-sizing: border-box;
-    .logoutButton{
+    .logoutButton {
       background: var(--logout-button-background);
       width: 28vmin;
       height: 6vmin;
@@ -67,7 +86,7 @@
       text-wrap: nowrap;
     }
   }
-  .closed{
+  .closed {
     width: 0%;
   }
 
@@ -78,7 +97,7 @@
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
-    .top{
+    .top {
       position: relative;
       width: 100%;
       height: 8vmin;
@@ -86,7 +105,7 @@
       align-items: center;
       box-sizing: border-box;
       padding: 0 2vmin;
-      .searchBar{
+      .searchBar {
         flex: 1;
         height: 5vmin;
         background: var(--left);
@@ -102,7 +121,7 @@
     }
   }
 
-  .collapseButton{
+  .collapseButton {
     background: var(--left);
     width: 5vmin;
     height: 5vmin;
@@ -110,18 +129,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .collapseImage{
+    .collapseImage {
       width: 50%;
       height: 50%;
       transition: transform 0.5s;
       transform: rotateY(180deg) translateX(6%);
     }
-    .rotated{
+    .rotated {
       transform: rotateY(0deg) translateX(6%);
     }
   }
 
-  .cardContainer{
+  .cardContainer {
     position: relative;
     width: 100%;
     display: flex;
@@ -132,7 +151,7 @@
     box-sizing: border-box;
   }
 
-  .cardRow{
+  .cardRow {
     position: relative;
     flex-direction: row;
     display: flex;
@@ -142,12 +161,11 @@
     height: calc(50% - 1vmin);
   }
 
-  .card{
+  .card {
     position: relative;
     cursor: pointer;
     height: 100%;
     flex: 0 1 100%;
-    max-width: 50%;
     background: var(--left);
     color: var(--primaryText);
     padding: 2vmin;
@@ -155,33 +173,35 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    .text{
+    .text {
       height: 20%;
       width: 100%;
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
-      .name{
+      .name {
         font-size: 3vmin;
       }
-      .location{
+      .location {
         font-size: 2vmin;
         color: var(--secondaryText);
       }
     }
-    .thumbnail{
+    .thumbnail {
       background: var(--background);
       border-radius: 1vmin;
       display: flex;
       justify-content: center;
+      align-items: center;
       flex-grow: 1;
-      .image{
+      .image {
+        position: relative;
         width: 100%;
         object-fit: cover;
         transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
       }
     }
-    .tags{
+    .tags {
       flex-shrink: 0;
       height: 10%;
       width: 100%;
@@ -190,7 +210,7 @@
       align-items: center;
       box-sizing: border-box;
       padding-top: 1vmin;
-      .tag{
+      .tag {
         background: var(--data);
         height: 3vmin;
         max-height: 100%;
@@ -206,27 +226,27 @@
     }
   }
 
-  .card:hover{
-    .thumbnail{
-      .image{
+  .card:hover {
+    .thumbnail {
+      .image {
         transform: scale(105%);
         opacity: 0.7;
       }
     }
   }
 
-  .card + .card{
+  .card + .card {
     margin-left: 2vmin;
   }
-  .cardRow + .cardRow{
+  .cardRow + .cardRow {
     margin-top: 2vmin;
   }
-  .tag + .tag{
+  .tag + .tag {
     margin-left: 1vmin;
   }
 }
 
-.dark{
+.dark {
   --left: rgb(45, 45, 55);
   --right: rgb(55, 55, 65);
   --background: rgb(35, 35, 45);

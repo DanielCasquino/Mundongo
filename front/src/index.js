@@ -9,6 +9,7 @@ import {
 
 import Access from './pages/access/access';
 import Discover from './pages/discover/discover';
+import Post from './pages/post/post';
 
 import './index.css';
 
@@ -25,23 +26,26 @@ const router = createBrowserRouter([
     path: 'discover',
     element: <Discover />,
   },
+  {
+    path: 'post/:id',
+    element: <Post />,
+  },
 ]);
 
-const App = () => {
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      router.navigate('/discover');
-    } else {
-      router.navigate('/access');
-    }
-  }, []);
+function checkSession() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    router.navigate('/access');
+  }
+}
 
+function App() {
+  checkSession();
   return (
     <StrictMode>
       <RouterProvider router={router} />
     </StrictMode>
   );
-};
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
