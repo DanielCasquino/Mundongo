@@ -7,21 +7,6 @@
   --secondaryText: rgb(150, 150, 160);
   --terciaryText: rgb(255, 255, 255);
 
-  ::-webkit-scrollbar {
-    background-color: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--background);
-    border-radius: 2vmin;
-    border: 0.5vmin solid transparent;
-    background-clip: content-box;
-  }
-
-  ::-webkit-scrollbar-button {
-    background: var(--background);
-  }
-
   .appWrapper {
     height: 100%;
     width: 100%;
@@ -42,6 +27,8 @@
   .content {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
   }
 
@@ -50,6 +37,17 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  .postComments {
+    padding: 2vmin;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background: white;
+    flex-shrink: 0;
   }
 
   .top {
@@ -90,13 +88,5 @@
     height: 20%;
     width: 100%;
     background: var(--left);
-  }
-
-  .postComments {
-    padding: 2vmin;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    background: white;
   }
 }

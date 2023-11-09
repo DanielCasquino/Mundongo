@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 .discover {
   --left: rgb(220, 220, 230);
@@ -14,50 +14,34 @@
   --mandarina: rgb(240, 154, 26);
 
   --logout-button-background: rgba(4, 111, 251, 1);
-  .background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: var(--background);
-  }
-
-  background: var(--background);
 
   ::placeholder {
     color: var(--secondaryText);
   }
 
-  ::-webkit-scrollbar {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-track {
-    margin: 2vmin;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--background);
-    border-radius: 2vmin;
-    border: 0.5vmin solid transparent;
-    background-clip: content-box;
-  }
-
-  .discoverWrapper {
-    position: relative;
-    width: 100%;
+  .appWrapper {
     height: 100%;
+    width: 100%;
+    overflow: hidden;
     padding: 4vmin;
-    overflow: visible;
     box-sizing: border-box;
-    user-select: none;
+    background: var(--background);
   }
 
   .contentWrapper {
     border-radius: 3vmin;
     height: 100%;
     width: 100%;
-    display: flex;
     box-shadow: 0px 0px 4vmin rgb(0, 0, 0, 0.6);
+    background: var(--right);
+  }
+
+  .content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
   }
 
   .left {
@@ -143,9 +127,10 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    padding: 2vmin;
     overflow-y: auto;
     box-sizing: border-box;
+    padding-left: 2vmin;
+    padding-right: 2vmin;
   }
 
   .cardRow {
