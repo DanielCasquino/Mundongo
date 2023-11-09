@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
 
 .discover {
   --left: rgb(220, 220, 230);
@@ -21,9 +21,7 @@
     background: var(--background);
   }
 
-  .appWrapper {
-    background: var(--background);
-  }
+  background: var(--background);
 
   ::placeholder {
     color: var(--secondaryText);
@@ -58,7 +56,6 @@
     border-radius: 3vmin;
     height: 100%;
     width: 100%;
-    background: var(--background);
     display: flex;
     box-shadow: 0px 0px 4vmin rgb(0, 0, 0, 0.6);
   }
@@ -132,7 +129,7 @@
     .collapseImage {
       width: 50%;
       height: 50%;
-      transition: transform 0.5s;
+      transition: transform 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
       transform: rotateY(180deg) translateX(6%);
     }
     .rotated {

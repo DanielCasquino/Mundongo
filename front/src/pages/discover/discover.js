@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-import './discover.css';
-import arrow from './chevron_right_FILL0_wght400_GRAD0_opsz24.svg';
-import dawg from './F1-ZVoKXsAIW8EU.jpg';
+import "./discover.css";
+import arrow from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import dawg from "./F1-ZVoKXsAIW8EU.jpg";
 
 function SearchBar() {
   return (
@@ -18,7 +18,7 @@ function CollapseButton({ onClick, status }) {
   return (
     <button className="collapseButton" onClick={onClick}>
       <img
-        className={status ? 'collapseImage' : 'collapseImage rotated'}
+        className={status ? "collapseImage" : "collapseImage rotated"}
         src={arrow}
         alt="Arrow"
       />
@@ -31,21 +31,21 @@ function RandomTags() {
   const tagNumber = Math.floor(Math.random() * 3) + 1;
   for (let i = 0; i < tagNumber; ++i) {
     const rand = Math.floor(Math.random() * 3) + 1;
-    let color = '';
-    let text = 'Tag ' + i;
+    let color = "";
+    let text = "Tag " + i;
     switch (rand) {
       case 1:
-        color = 'var(--fuchsia)';
+        color = "var(--fuchsia)";
         break;
       case 2:
-        color = 'var(--grass)';
+        color = "var(--grass)";
         break;
       case 3:
-        color = 'var(--mandarina)';
+        color = "var(--mandarina)";
         break;
     }
     const tagStyle = {
-      '--data': `${color}`,
+      "--data": `${color}`,
     };
     randomTags.push(
       <div key={i} className="tag" style={tagStyle}>
@@ -61,7 +61,7 @@ function CardRow({ rowIndex }) {
   for (let i = 0; i < 3; ++i) {
     let cardIndex = 3 * rowIndex + i;
     cards.push(
-      <Card key={i} title={'Event ' + cardIndex} location={'City, Country'} />
+      <Card key={i} title={"Event " + cardIndex} location={"City, Country"} />
     );
   }
   return <div className="cardRow">{cards}</div>;
@@ -85,9 +85,9 @@ function Card({ data }) {
 }
 
 function CardCreator() {
-  const apiUrl = 'http://localhost:8080/api/events';
+  const apiUrl = "http://192.168.0.22:8080/api/events";
   const [items, setItems] = useState([]);
-  const jwtToken = localStorage.getItem('token');
+  const jwtToken = localStorage.getItem("token");
 
   useEffect(() => {
     const headers = {
@@ -99,7 +99,7 @@ function CardCreator() {
         setItems(response.data);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   }, [jwtToken]);
 
@@ -126,10 +126,10 @@ export default function Discover() {
 
   function showBar() {
     setCollapse(!collapsedBar);
-    console.log('set status to ' + !collapsedBar);
+    console.log("set status to " + !collapsedBar);
   }
 
-  let leftClass = collapsedBar ? 'left' : 'left closed';
+  let leftClass = collapsedBar ? "left" : "left closed";
 
   // const cardRows = [];
   // for (let i = 0; i < 3; ++i) {
@@ -137,32 +137,27 @@ export default function Discover() {
   // }
 
   function deleteToken() {
-    console.log('Token deleted');
-    localStorage.removeItem('token');
-    window.location.href = '/access';
+    console.log("Token deleted");
+    localStorage.removeItem("token");
+    window.location.href = "/access";
   }
 
   return (
     <div className="body discover">
-      <div className="appWrapper">
-        <div className="discoverWrapper">
-          <div className="contentWrapper">
-            <div className={leftClass}>
-              <button className="logoutButton" onClick={deleteToken}>
-                Log Out
-              </button>
+      <div className="discoverWrapper">
+        <div className="contentWrapper">
+          <div className={leftClass}>
+            <button className="logoutButton" onClick={deleteToken}>
+              Log Out
+            </button>
+          </div>
+          <div className="right">
+            <div className="top">
+              <CollapseButton onClick={() => showBar()} status={collapsedBar} />
+              <SearchBar />
             </div>
-            <div className="right">
-              <div className="top">
-                <CollapseButton
-                  onClick={() => showBar()}
-                  status={collapsedBar}
-                />
-                <SearchBar />
-              </div>
-              <div className="cardContainer">
-                <CardCreator />
-              </div>
+            <div className="cardContainer">
+              <CardCreator />
             </div>
           </div>
         </div>
