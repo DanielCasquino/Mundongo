@@ -19,6 +19,21 @@
     color: var(--secondaryText);
   }
 
+  ::-webkit-scrollbar {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--background);
+    border-radius: 2vmin;
+    border: 0.5vmin solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-track {
+    margin-bottom: 2vmin;
+  }
+
   .appWrapper {
     height: 100%;
     width: 100%;
@@ -67,7 +82,7 @@
       text-wrap: nowrap;
     }
   }
-  .closed {
+  .leftClosed {
     width: 0%;
   }
 
@@ -85,13 +100,13 @@
       display: flex;
       align-items: center;
       box-sizing: border-box;
-      padding: 0 2vmin;
+      padding: 0 2vmin 0 2vmin;
       .searchBar {
         flex: 1;
         height: 5vmin;
         background: var(--left);
-        border-radius: 4vmin 4vmin;
-        margin: 0 0 0 2vmin;
+        border-radius: 4vmin;
+        margin: 0 2vmin 0 2vmin;
         color: black;
         border: none;
         box-sizing: border-box;
@@ -131,6 +146,7 @@
     box-sizing: border-box;
     padding-left: 2vmin;
     padding-right: 2vmin;
+    padding-bottom: 2vmin;
   }
 
   .cardRow {
@@ -163,10 +179,14 @@
       flex-shrink: 0;
       .name {
         font-size: 3vmin;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
       }
       .location {
         font-size: 2vmin;
         color: var(--secondaryText);
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
       }
     }
     .thumbnail {
@@ -176,9 +196,10 @@
       justify-content: center;
       align-items: center;
       flex-grow: 1;
+      flex-direction: column;
       .image {
         position: relative;
-        width: 100%;
+        min-width: 100%;
         object-fit: cover;
         transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
       }
@@ -208,15 +229,55 @@
     }
   }
 
+  .userBar {
+    background: var(--left);
+    width: 5vmin;
+    height: 5vmin;
+    border-radius: 4vmin;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
+    .userButton {
+      aspect-ratio: 1/1;
+      height: 100%;
+      border-radius: 50%;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .userOptions {
+      height: 100%;
+      flex: 1;
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      .userLink {
+        text-overflow: clip;
+        text-wrap: nowrap;
+        width: fit-content;
+        font-size: 2vmin;
+        background: var(--right);
+        border-radius: 2vmin;
+        box-sizing: border-box;
+        padding: 0.4vmin 2vmin;
+      }
+    }
+  }
+  .userBarCollapsed {
+    width: 40vmin;
+  }
+
   .card:hover {
     .thumbnail {
       .image {
         transform: scale(105%);
-        opacity: 0.7;
+        opacity: 0.75;
       }
     }
   }
-
   .card + .card {
     margin-left: 2vmin;
   }

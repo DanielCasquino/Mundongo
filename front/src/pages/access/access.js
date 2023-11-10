@@ -25,7 +25,7 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log('Submitted login');
     e.preventDefault();
 
-    const apiUrl = 'http://localhost:8080/api/auth/login';
+    const apiUrl = 'http://192.168.0.22:8080/api/auth/login';
 
     axios
       .post(apiUrl, formData)
@@ -41,6 +41,7 @@ function LoginBox({ isLogin, switchAccess }) {
       })
       .catch((error) => {
         console.error('Error:', error);
+        window.alert('Invalid login :(');
       });
   };
 
@@ -112,7 +113,7 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log('Submitted login');
     e.preventDefault();
 
-    const apiUrl = 'http://localhost:8080/api/auth/signup';
+    const apiUrl = 'http://192.168.0.22:8080/api/auth/signup';
 
     axios
       .post(apiUrl, formData)
@@ -128,6 +129,7 @@ function SignUpBox({ isLogin, switchAccess }) {
       })
       .catch((error) => {
         console.error('Error:', error);
+        window.alert('Invalid signup :(');
       });
   };
   return (
