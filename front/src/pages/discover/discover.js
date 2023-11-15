@@ -9,6 +9,8 @@ import dawg from './dawg.png';
 import Cookies from 'js-cookie';
 import vineBoom from './vineBoom.mp3';
 
+const ip = '10.100.224.71';
+
 function SearchBar() {
   return (
     <input
@@ -120,7 +122,7 @@ function Card({ data, imageSrc }) {
 }
 
 function CardCreator() {
-  const apiUrl = 'http://192.168.0.22:8080/api/events/nocomments';
+  const apiUrl = `http://${ip}:8080/api/events/nocomments`;
   const [items, setItems] = useState([]);
 
   const fetcher = axios.create({

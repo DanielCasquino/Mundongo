@@ -7,6 +7,8 @@ import earth from './earth.svg';
 import clouds from './clouds.svg';
 import './access.css';
 
+const ip = '10.100.224.71';
+
 function LoginBox({ isLogin, switchAccess }) {
   const [formData, setFormData] = useState({
     email: '',
@@ -25,7 +27,7 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log('Submitted login');
     e.preventDefault();
 
-    const apiUrl = 'http://192.168.0.22:8080/api/auth/login';
+    const apiUrl = `http://${ip}:8080/api/auth/login`;
 
     axios
       .post(apiUrl, formData)
@@ -113,7 +115,7 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log('Submitted login');
     e.preventDefault();
 
-    const apiUrl = 'http://192.168.0.22:8080/api/auth/signup';
+    const apiUrl = `http://${ip}:8080/api/auth/signup`;
 
     axios
       .post(apiUrl, formData)
