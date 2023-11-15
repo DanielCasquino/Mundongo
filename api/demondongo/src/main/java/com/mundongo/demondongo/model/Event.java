@@ -23,6 +23,9 @@ public class Event {
     @ManyToMany
     private Set<Comment> comments;
 
+    @ManyToMany
+    private Set<Tag> tags;
+
     public void addComment(Comment comment) {
         comments.add(comment);
     }
