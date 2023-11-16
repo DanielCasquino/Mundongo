@@ -9,7 +9,7 @@ import dawg from './dawg.png';
 import Cookies from 'js-cookie';
 import vineBoom from './vineBoom.mp3';
 
-const ip = '10.100.224.71';
+const ip = 'localhost';
 
 function SearchBar() {
   return (
@@ -32,7 +32,7 @@ function CollapseButton({ onClick, status }) {
   );
 }
 
-function UserBar() {
+function UserBar({ isDarkTheme, setDarkTheme }) {
   const [collapsed, setCollapsed] = useState(false);
 
   function collapse() {
@@ -48,6 +48,10 @@ function UserBar() {
     window.location.href = 'https://www.youtube.com/watch?v=_OMFqXy3j1g';
   }
 
+  function switchTheme() {
+    setDarkTheme(!isDarkTheme);
+  }
+
   const barClass = collapsed ? 'userBar userBarCollapsed' : 'userBar';
   return (
     <div className={barClass}>
@@ -55,15 +59,15 @@ function UserBar() {
         <button className="userLink" onClick={hehe}>
           Profile
         </button>
+        <button className="userLink" onClick={switchTheme}>
+          Theme
+        </button>
         <button className="userLink" onClick={logOut}>
           Log Out
         </button>
       </div>
       <button className="userButton" onClick={collapse}>
-        <img
-          style={{ width: '80%', height: '80%', borderRadius: '50%' }}
-          src={dawg}
-        ></img>
+        <img className="userAvatar" src={dawg}></img>
       </button>
     </div>
   );
@@ -151,7 +155,7 @@ function CardCreator() {
             <Card
               key={item.id}
               data={item}
-              imageSrc={`https://cataas.com/cat?${item.id}`}
+              // imageSrc={`https://cataas.com/cat?${item.id}`}
             />
           ))}
         </div>
@@ -166,7 +170,7 @@ function CardCreator() {
 
 export default function Discover() {
   const [collapsedBar, setCollapse] = useState(false);
-
+  const [isDarkTheme, setDarkTheme] = useState(false);
   function showBar() {
     setCollapse(!collapsedBar);
     console.log('set status to ' + !collapsedBar);
@@ -180,7 +184,7 @@ export default function Discover() {
   let leftClass = collapsedBar ? 'left' : 'left leftClosed';
 
   return (
-    <div className="body discover">
+    <div className={isDarkTheme ? 'body discover dark' : 'body discover'}>
       <div className="appWrapper">
         <div className="contentWrapper">
           <div className="content">
@@ -194,7 +198,10 @@ export default function Discover() {
                   status={collapsedBar}
                 />
                 <SearchBar />
-                <UserBar />
+                <UserBar
+                  isDarkTheme={isDarkTheme}
+                  setDarkTheme={setDarkTheme}
+                />
               </div>
               <div className="cardContainer">
                 <CardCreator />

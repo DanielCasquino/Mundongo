@@ -7,7 +7,7 @@ import earth from './earth.svg';
 import clouds from './clouds.svg';
 import './access.css';
 
-const ip = '10.100.224.71';
+const ip = 'localhost';
 
 function LoginBox({ isLogin, switchAccess }) {
   const [formData, setFormData] = useState({

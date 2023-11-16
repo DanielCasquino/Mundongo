@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
+* {
+  transition: all 0.2s linear;
+}
+
 .discover {
   --left: rgb(220, 220, 230);
   --right: rgb(230, 230, 240);
@@ -113,6 +117,7 @@
         padding: 0 2vmin;
         outline: none;
         font-size: 2vmin;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -238,6 +243,7 @@
     justify-content: flex-end;
     align-items: center;
     transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
+    box-sizing: border-box;
     .userButton {
       aspect-ratio: 1/1;
       height: 100%;
@@ -246,6 +252,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+    }
+    .userButton:hover {
+      .userAvatar {
+        min-width: 120%;
+      }
+    }
+    .userAvatar {
+      min-width: 100%;
+      height: auto;
+      border-radius: 50%;
+      transition: all 0.2s cubic-bezier(0.19, 0.76, 0.33, 0.98);
     }
     .userOptions {
       height: 100%;
@@ -254,7 +272,9 @@
       display: flex;
       align-items: center;
       justify-content: space-evenly;
+      transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
       .userLink {
+        color: var(--primaryText);
         text-overflow: clip;
         text-wrap: nowrap;
         width: fit-content;
@@ -267,7 +287,7 @@
     }
   }
   .userBarCollapsed {
-    width: 40vmin;
+    width: 50vmin;
   }
 
   .card:hover {
