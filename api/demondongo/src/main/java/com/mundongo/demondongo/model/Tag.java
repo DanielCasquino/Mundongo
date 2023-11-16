@@ -1,7 +1,9 @@
 package com.mundongo.demondongo.model;
 
 import jakarta.persistence.*;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tag")
@@ -11,25 +13,38 @@ public class Tag {
     private Long id;
 
     @Column(nullable = false)
-    private String tag;
+    private String name;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String color;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags")
+    private Set<Event> assignedEvents;
+
+    public Set<Event> getAssignedEvents() {
+        return this.assignedEvents;
+    }
+
+    public void setAssignedEvents(Set<Event> assignedEvents) {
+        this.assignedEvents = assignedEvents;
+    }
 
     public Tag() {
     }
 
-    public Tag(String tag, String color) {
-        this.tag = tag;
+    public Tag(String name, String color, Set<Event> assignedEvents) {
+        this.name = name;
         this.color = color;
+        this.assignedEvents = assignedEvents;
     }
 
     public Long getId() {
         return this.id;
     }
 
-    public String getTag() {
-        return this.tag;
+    public String getName() {
+        return this.name;
     }
 
     public String getColor() {
@@ -40,8 +55,8 @@ public class Tag {
         this.id = id;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setColor(String color) {

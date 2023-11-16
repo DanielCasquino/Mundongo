@@ -32,7 +32,7 @@ function CollapseButton({ onClick, status }) {
   );
 }
 
-function UserBar({ isDarkTheme, setDarkTheme }) {
+function UserBar({ isDarkMode, setDarkMode }) {
   const [collapsed, setCollapsed] = useState(false);
 
   function collapse() {
@@ -49,7 +49,8 @@ function UserBar({ isDarkTheme, setDarkTheme }) {
   }
 
   function switchTheme() {
-    setDarkTheme(!isDarkTheme);
+    setDarkMode(!isDarkMode);
+    localStorage.setItem('isDarkMode', !isDarkMode);
   }
 
   const barClass = collapsed ? 'userBar userBarCollapsed' : 'userBar';
@@ -73,42 +74,24 @@ function UserBar({ isDarkTheme, setDarkTheme }) {
   );
 }
 
-function useRandomTags() {
-  const randomTags = useMemo(() => {
-    const tags = [];
-    const tagNumber = Math.floor(Math.random() * 3) + 1;
-    for (let i = 0; i < tagNumber; ++i) {
-      const rand = Math.floor(Math.random() * 3) + 1;
-      let color = '';
-      let text = 'Tag ' + i;
-      switch (rand) {
-        case 1:
-          color = 'var(--fuchsia)';
-          break;
-        case 2:
-          color = 'var(--grass)';
-          break;
-        case 3:
-          color = 'var(--mandarina)';
-          break;
-      }
-      const tagStyle = {
-        '--data': `${color}`,
-      };
-      tags.push(
-        <div key={i} className="tag" style={tagStyle}>
-          {text}
-        </div>
-      );
-    }
-    return tags;
-  }, []);
-
-  return randomTags;
+function TagCreator({ tagData }) {
+  const tags = [];
+  for (let i = 0; i < tagData.length; ++i) {
+    var currentTag = tagData[i];
+    tags.push(
+      <div
+        key={i}
+        className="tag"
+        style={{ background: `${currentTag.color}` }}
+      >
+        {currentTag.name}
+      </div>
+    );
+  }
+  return <>{tags}</>;
 }
 
 function Card({ data, imageSrc }) {
-  const randomTags = useRandomTags();
   return (
     <div className="card">
       <div className="text">
@@ -120,7 +103,9 @@ function Card({ data, imageSrc }) {
       <div className="thumbnail">
         <img className="image" src={imageSrc}></img>
       </div>
-      <div className="tags">{randomTags}</div>
+      <div className="tags">
+        <TagCreator tagData={data.tags} />
+      </div>
     </div>
   );
 }
@@ -155,7 +140,7 @@ function CardCreator() {
             <Card
               key={item.id}
               data={item}
-              // imageSrc={`https://cataas.com/cat?${item.id}`}
+              imageSrc={`https://cataas.com/cat?${item.id}`}
             />
           ))}
         </div>
@@ -170,7 +155,8 @@ function CardCreator() {
 
 export default function Discover() {
   const [collapsedBar, setCollapse] = useState(false);
-  const [isDarkTheme, setDarkTheme] = useState(false);
+  const [isDarkMode, setDarkMode] = useState(false);
+
   function showBar() {
     setCollapse(!collapsedBar);
     console.log('set status to ' + !collapsedBar);
@@ -178,13 +164,13 @@ export default function Discover() {
       const audio = new Audio(vineBoom);
       audio.play();
     };
-    playSound();
+    // playSound();
   }
 
   let leftClass = collapsedBar ? 'left' : 'left leftClosed';
 
   return (
-    <div className={isDarkTheme ? 'body discover dark' : 'body discover'}>
+    <div className={isDarkMode ? 'body discover dark' : 'body discover'}>
       <div className="appWrapper">
         <div className="contentWrapper">
           <div className="content">
@@ -198,10 +184,7 @@ export default function Discover() {
                   status={collapsedBar}
                 />
                 <SearchBar />
-                <UserBar
-                  isDarkTheme={isDarkTheme}
-                  setDarkTheme={setDarkTheme}
-                />
+                <UserBar isDarkMode={isDarkMode} setDarkMode={setDarkMode} />
               </div>
               <div className="cardContainer">
                 <CardCreator />

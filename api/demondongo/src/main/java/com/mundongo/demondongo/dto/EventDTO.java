@@ -1,6 +1,9 @@
 package com.mundongo.demondongo.dto;
 
+import java.util.Set;
+
 import com.mundongo.demondongo.model.Event;
+import com.mundongo.demondongo.model.Tag;
 
 public class EventDTO {
   private Long id;
@@ -10,6 +13,8 @@ public class EventDTO {
   private String city;
 
   private String country;
+
+  private Set<Tag> tags;
 
   public Long getId() {
     return this.id;
@@ -43,6 +48,14 @@ public class EventDTO {
     this.country = country;
   }
 
+  public Set<Tag> getTags() {
+    return this.tags;
+  }
+
+  public void setTags(Set<Tag> tags) {
+    this.tags = tags;
+  }
+
   public EventDTO() {
   }
 
@@ -51,5 +64,6 @@ public class EventDTO {
     this.name = data.getName();
     this.city = data.getCity();
     this.country = data.getCountry();
+    this.tags = data.getTags();
   }
 }
