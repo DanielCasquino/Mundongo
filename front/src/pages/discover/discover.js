@@ -15,7 +15,7 @@ function SearchBar() {
   return (
     <input
       className="searchBar"
-      placeholder="Start typing to search for cool stuff!"
+      placeholder="I look cool but I don't work :)"
       name="searchBar"
     ></input>
   );
@@ -79,26 +79,27 @@ function TagCreator({ tagData }) {
   for (let i = 0; i < tagData.length; ++i) {
     var currentTag = tagData[i];
     tags.push(
-      <div
+      <span
         key={i}
         className="tag"
         style={{ background: `${currentTag.color}` }}
       >
         {currentTag.name}
-      </div>
+      </span>
     );
   }
   return <>{tags}</>;
 }
 
 function Card({ data, imageSrc }) {
+  console.log(imageSrc);
   return (
     <div className="card">
       <div className="text">
-        <div className="name">{data.name}</div>
-        <div className="location">
+        <span className="name">{data.name}</span>
+        <span className="location">
           {data.city}, {data.country}
-        </div>
+        </span>
       </div>
       <div className="thumbnail">
         <img className="image" src={imageSrc}></img>
@@ -153,6 +154,53 @@ function CardCreator() {
   return <>{createRows()}</>;
 }
 
+function Filter() {
+  const apiUrl = `http://${ip}:8080/api/tags`;
+  const [tags, setTags] = useState([]);
+
+  const fetcher = axios.create({
+    baseURL: apiUrl,
+    withCredentials: false,
+  });
+  useEffect(() => {
+    fetcher
+      .get()
+      .then((response) => {
+        setTags(response.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
+  console.log(tags);
+  const tagCheckboxes = tags.map((tag) => (
+    <label key={tag.id} className="tagFilter">
+      <input type="checkbox" value={tag.id} className="checkbox" />
+      {tag.name}
+    </label>
+  ));
+  return (
+    <div className="filterWrapper">
+      <span className="title">Tags</span>
+      <div className="tagContainer">{tagCheckboxes}</div>
+      <img
+        src={bocchi}
+        style={{
+          objectFit: 'contain',
+          marginTop: '8vmin',
+        }}
+      ></img>
+      <img
+        src={bocchi}
+        style={{
+          objectFit: 'contain',
+          marginTop: '8vmin',
+        }}
+      ></img>
+    </div>
+  );
+}
+
 export default function Discover() {
   const [collapsedBar, setCollapse] = useState(false);
   const [isDarkMode, setDarkMode] = useState(false);
@@ -164,7 +212,7 @@ export default function Discover() {
       const audio = new Audio(vineBoom);
       audio.play();
     };
-    // playSound();
+    playSound();
   }
 
   let leftClass = collapsedBar ? 'left' : 'left leftClosed';
@@ -175,7 +223,7 @@ export default function Discover() {
         <div className="contentWrapper">
           <div className="content">
             <div className={leftClass}>
-              <img src={bocchi} style={{ objectFit: 'contain' }}></img>
+              <Filter />
             </div>
             <div className="right">
               <div className="top">

@@ -16,7 +16,7 @@
   --fuchsia: rgb(255, 36, 101);
   --grass: rgb(29, 194, 158);
   --mandarina: rgb(240, 154, 26);
-
+  --ultra: rgb(82, 4, 251);
   --logout-button-background: rgba(4, 111, 251, 1);
 
   user-select: none;
@@ -212,7 +212,7 @@
       }
     }
     .tags {
-      flex: 0 0 fit-content;
+      flex: 0 0 4vmin;
       width: 100%;
       display: flex;
       justify-content: flex-start;
@@ -293,6 +293,38 @@
   }
   .userBarCollapsed {
     width: 50vmin;
+  }
+
+  .filterWrapper {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 2vmin 4vmin;
+    display: flex;
+    flex-direction: column;
+    text-wrap: nowrap;
+    color: var(--primaryText);
+    .title {
+      font-size: 3vmin;
+      height: fit-content;
+    }
+    .tagContainer {
+      display: flex;
+      flex-direction: column;
+      margin-top: 2vmin;
+      .tagFilter {
+        font-size: 2vmin;
+        display: flex;
+        align-items: center;
+        height: 5vmin;
+      }
+      .tagFilter input {
+        min-width: 2vmin;
+        min-height: 2vmin;
+        display: block;
+        margin-right: 2vmin;
+      }
+    }
   }
 
   .card:hover {
