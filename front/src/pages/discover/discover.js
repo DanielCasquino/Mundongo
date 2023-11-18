@@ -1,15 +1,17 @@
-import { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useMemo } from "react";
+import axios from "axios";
 
-import './discover.css';
-import arrow from './chevron_right_FILL0_wght400_GRAD0_opsz24.svg';
-import profile from './person_FILL0_wght400_GRAD0_opsz24.svg';
-import bocchi from './therock.jpg';
-import dawg from './dawg.png';
-import Cookies from 'js-cookie';
-import vineBoom from './vineBoom.mp3';
+import "./discover.css";
+import arrow from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import profile from "./person_FILL0_wght400_GRAD0_opsz24.svg";
+import errorImage from "./image_FILL0_wght400_GRAD0_opsz24.svg";
+import bocchi from "./therock.jpg";
+import dawg from "./dawg.png";
+import Cookies from "js-cookie";
+import vineBoom from "./vineBoom.mp3";
 
-const ip = 'localhost';
+const apiIp = process.env.REACT_APP_API_IP;
+const apiPort = process.env.REACT_APP_API_PORT;
 
 function SearchBar() {
   return (
@@ -25,14 +27,14 @@ function CollapseButton({ onClick, status }) {
   return (
     <button className="collapseButton" onClick={onClick}>
       <img
-        className={status ? 'collapseImage' : 'collapseImage rotated'}
+        className={status ? "collapseImage" : "collapseImage rotated"}
         src={arrow}
       />
     </button>
   );
 }
 
-function UserBar({ isDarkMode, setDarkMode }) {
+function UserBar({ themeSwitcherInput }) {
   const [collapsed, setCollapsed] = useState(false);
 
   function collapse() {
@@ -40,27 +42,22 @@ function UserBar({ isDarkMode, setDarkMode }) {
   }
 
   function logOut() {
-    Cookies.remove('token');
-    window.location.href = '/access';
+    Cookies.remove("token");
+    window.location.href = "/access";
   }
 
   function hehe() {
-    window.location.href = 'https://www.youtube.com/watch?v=_OMFqXy3j1g';
+    window.location.href = "https://www.youtube.com/watch?v=_OMFqXy3j1g";
   }
 
-  function switchTheme() {
-    setDarkMode(!isDarkMode);
-    localStorage.setItem('isDarkMode', !isDarkMode);
-  }
-
-  const barClass = collapsed ? 'userBar userBarCollapsed' : 'userBar';
+  const barClass = collapsed ? "userBar userBarCollapsed" : "userBar";
   return (
     <div className={barClass}>
       <div className="userOptions">
         <button className="userLink" onClick={hehe}>
           Profile
         </button>
-        <button className="userLink" onClick={switchTheme}>
+        <button className="userLink" onClick={themeSwitcherInput}>
           Theme
         </button>
         <button className="userLink" onClick={logOut}>
@@ -92,7 +89,6 @@ function TagCreator({ tagData }) {
 }
 
 function Card({ data, imageSrc }) {
-  console.log(imageSrc);
   return (
     <div className="card">
       <div className="text">
@@ -102,7 +98,11 @@ function Card({ data, imageSrc }) {
         </span>
       </div>
       <div className="thumbnail">
-        <img className="image" src={imageSrc}></img>
+        <img
+          className="image"
+          src={imageSrc}
+          onError={(e) => (e.target.src = errorImage)}
+        />
       </div>
       <div className="tags">
         <TagCreator tagData={data.tags} />
@@ -112,7 +112,7 @@ function Card({ data, imageSrc }) {
 }
 
 function CardCreator() {
-  const apiUrl = `http://${ip}:8080/api/events/nocomments`;
+  const apiUrl = `http://${apiIp}:${apiPort}/api/events/nocomments`;
   const [items, setItems] = useState([]);
 
   const fetcher = axios.create({
@@ -127,7 +127,7 @@ function CardCreator() {
         setItems(response.data);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   }, []);
 
@@ -155,7 +155,7 @@ function CardCreator() {
 }
 
 function Filter() {
-  const apiUrl = `http://${ip}:8080/api/tags`;
+  const apiUrl = `http://${apiIp}:${apiPort}/api/tags`;
   const [tags, setTags] = useState([]);
 
   const fetcher = axios.create({
@@ -169,10 +169,9 @@ function Filter() {
         setTags(response.data);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   }, []);
-  console.log(tags);
   const tagCheckboxes = tags.map((tag) => (
     <label key={tag.id} className="tagFilter">
       <input type="checkbox" value={tag.id} className="checkbox" />
@@ -186,15 +185,15 @@ function Filter() {
       <img
         src={bocchi}
         style={{
-          objectFit: 'contain',
-          marginTop: '8vmin',
+          objectFit: "contain",
+          marginTop: "8vmin",
         }}
       ></img>
       <img
         src={bocchi}
         style={{
-          objectFit: 'contain',
-          marginTop: '8vmin',
+          objectFit: "contain",
+          marginTop: "8vmin",
         }}
       ></img>
     </div>
@@ -203,11 +202,45 @@ function Filter() {
 
 export default function Discover() {
   const [collapsedBar, setCollapse] = useState(false);
-  const [isDarkMode, setDarkMode] = useState(false);
+  const [theme, setTheme] = useState();
+
+  function setDarkTheme() {
+    console.log("set Dark");
+    setTheme("dark");
+    localStorage.setItem("theme", "dark");
+  }
+
+  function setLightTheme() {
+    console.log("set Light");
+    setTheme("light");
+    localStorage.setItem("theme", "light");
+  }
+
+  function themeSwitcher() {
+    const storedTheme = localStorage.getItem("theme");
+    switch (storedTheme) {
+      case "dark": {
+        setDarkTheme();
+        break;
+      }
+      default: {
+        setLightTheme();
+        break;
+      }
+    }
+  }
+
+  function themeSwitcherInput() {
+    if (theme === "dark") {
+      setLightTheme();
+    } else {
+      setDarkTheme();
+    }
+  }
 
   function showBar() {
     setCollapse(!collapsedBar);
-    console.log('set status to ' + !collapsedBar);
+    console.log("Set left collapsed status to " + !collapsedBar);
     const playSound = () => {
       const audio = new Audio(vineBoom);
       audio.play();
@@ -215,14 +248,14 @@ export default function Discover() {
     playSound();
   }
 
-  let leftClass = collapsedBar ? 'left' : 'left leftClosed';
+  useEffect(() => themeSwitcher(), []);
 
   return (
-    <div className={isDarkMode ? 'body discover dark' : 'body discover'}>
+    <div className={`body discover${theme === "light" ? "" : " dark"}`}>
       <div className="appWrapper">
         <div className="contentWrapper">
           <div className="content">
-            <div className={leftClass}>
+            <div className={collapsedBar ? "left" : "left leftClosed"}>
               <Filter />
             </div>
             <div className="right">
@@ -232,7 +265,7 @@ export default function Discover() {
                   status={collapsedBar}
                 />
                 <SearchBar />
-                <UserBar isDarkMode={isDarkMode} setDarkMode={setDarkMode} />
+                <UserBar themeSwitcherInput={themeSwitcherInput} />
               </div>
               <div className="cardContainer">
                 <CardCreator />

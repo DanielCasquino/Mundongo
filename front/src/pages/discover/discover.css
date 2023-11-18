@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
-
-* {
-  transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
-}
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
 
 .discover {
   --left: rgb(220, 220, 230);
@@ -18,6 +14,8 @@
   --mandarina: rgb(240, 154, 26);
   --ultra: rgb(82, 4, 251);
   --logout-button-background: rgba(4, 111, 251, 1);
+
+  transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
 
   user-select: none;
 
@@ -69,7 +67,6 @@
     background: var(--left);
     height: 100%;
     width: 14%;
-    transition: width 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
     display: flex;
     justify-content: center;
     box-sizing: border-box;
@@ -135,7 +132,6 @@
     .collapseImage {
       width: 50%;
       height: 50%;
-      transition: transform 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
       transform: rotateY(180deg) translateX(6%);
     }
     .rotated {
@@ -208,7 +204,6 @@
         position: relative;
         min-width: 100%;
         object-fit: cover;
-        transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
       }
     }
     .tags {
@@ -247,7 +242,6 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
     box-sizing: border-box;
     .userButton {
       aspect-ratio: 1/1;
@@ -268,7 +262,7 @@
       min-width: 100%;
       height: auto;
       border-radius: 50%;
-      transition: all 0.2s cubic-bezier(0.19, 0.76, 0.33, 0.98);
+      transition: min-width 0.2s cubic-bezier(0.19, 0.76, 0.33, 0.98);
     }
     .userOptions {
       height: 100%;
@@ -277,7 +271,6 @@
       display: flex;
       align-items: center;
       justify-content: space-evenly;
-      transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
       .userLink {
         color: var(--primaryText);
         text-overflow: clip;
