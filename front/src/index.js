@@ -1,5 +1,6 @@
 import React, { useEffect, StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -9,8 +10,10 @@ import {
 
 import Access from './pages/access/access';
 import Discover from './pages/discover/discover';
+import Post from './pages/post/post';
 
 import './index.css';
+import Cookies from 'js-cookie';
 
 const router = createBrowserRouter([
   {
@@ -25,23 +28,28 @@ const router = createBrowserRouter([
     path: 'discover',
     element: <Discover />,
   },
+  {
+    path: 'post/:id',
+    element: <Post />,
+  },
 ]);
 
-const App = () => {
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      router.navigate('/discover');
-    } else {
-      router.navigate('/access');
-    }
-  }, []);
+function checkSession() {
+  const token = Cookies.get('token');
+  if (!token) {
+    router.navigate('/access');
+  }
+}
 
+function App() {
+  useEffect(() => {
+    checkSession();
+  }, []);
   return (
     <StrictMode>
       <RouterProvider router={router} />
     </StrictMode>
   );
-};
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);

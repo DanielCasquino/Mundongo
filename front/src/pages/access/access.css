@@ -26,7 +26,7 @@
   --regular: 2vmin;
   --large: 4vmin;
 
-  .accessWrapper{
+  .accessWrapper {
     width: 50%;
     height: 100%;
     position: relative;
@@ -37,7 +37,7 @@
     user-select: none;
   }
 
-  .loginBox{
+  .loginBox {
     position: absolute;
     width: var(--login-box-width);
     display: flex;
@@ -47,15 +47,15 @@
     transition: all 0.2s;
     box-sizing: border-box;
     --focusedColor: var(--login-box-field-background-focused);
-    .accessButton{
+    .accessButton {
       background: var(--login-button-background);
     }
-    .prompt{
+    .prompt {
       --promptColor: var(--login-button-background);
     }
   }
 
-  .signUpBox{
+  .signUpBox {
     position: absolute;
     width: var(--login-box-width);
     display: flex;
@@ -65,27 +65,27 @@
     transition: all 0.2s;
     box-sizing: border-box;
     --focusedColor: var(--signup-box-field-background-focused);
-    .accessButton{
+    .accessButton {
       background: var(--signup-button-background);
     }
-    .prompt{
+    .prompt {
       --promptColor: var(--signup-button-background);
     }
   }
 
-  .promptWrapper{
+  .promptWrapper {
     margin-top: 2vmin;
     display: flex;
     justify-content: center;
   }
 
-  .prompt{
+  .prompt {
     text-align: center;
     font-size: var(--regular);
     color: white;
   }
 
-  .accessButton{
+  .accessButton {
     letter-spacing: 0.08em;
     font-weight: bold;
     font-size: var(--regular);
@@ -95,7 +95,7 @@
     width: 100%;
   }
 
-  .inputField{
+  .inputField {
     margin-bottom: 2vmin;
     height: 6vmin;
     width: 100%;
@@ -106,7 +106,7 @@
     transition: all 0.5s;
   }
 
-  .inputField:focus{
+  .inputField:focus {
     background: var(--focusedColor);
   }
 
@@ -116,6 +116,7 @@
     text-align: center;
     letter-spacing: 0.4em;
     margin-bottom: 2vmin;
+    font-weight: bold;
   }
 
   .background {
