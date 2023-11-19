@@ -140,7 +140,7 @@ function CardCreator({ searchQuery }) {
             <Card
               key={item.id}
               data={item}
-              // imageSrc={`https://catass.com/cat?${item.id}`}
+              imageSrc={`https://picsum.photos/480/270`}
               cardClick={() => {
                 console.log(item.id);
                 window.location.href = `/event/${item.id}`;
@@ -163,7 +163,7 @@ function EmptySearch() {
   return (
     <div className="emptySearch">
       <img className="image" src={XD} />
-      <span>Oops! 404.</span>
+      <span>No events found!</span>
     </div>
   );
 }

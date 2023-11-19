@@ -20,6 +20,9 @@ public class Event {
     @Column(nullable = false)
     private String country;
 
+    @Column(length = 1000)
+    private String description;
+
     @ManyToMany
     private Set<Comment> comments;
 
@@ -67,6 +70,15 @@ public class Event {
         this.country = Country;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    
+    }
+
     public Set<Tag> getTags() {
         return this.tags;
     }
@@ -79,10 +91,11 @@ public class Event {
 
     }
 
-    public Event(Long id, String name, String city, String country) {
+    public Event(Long id, String name, String city, String country, String description) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.country = country;
+        this.description = description;
     }
 }
