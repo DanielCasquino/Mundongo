@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
 
 .discover {
+  --accent: rgb(240, 240, 250);
   --left: rgb(220, 220, 230);
   --right: rgb(230, 230, 240);
   --background: rgb(200, 200, 210);
@@ -110,7 +111,7 @@
         background: var(--left);
         border-radius: 4vmin;
         margin: 0 2vmin 0 2vmin;
-        color: black;
+        color: var(--primaryText);
         border: none;
         box-sizing: border-box;
         padding: 0 2vmin;
@@ -129,6 +130,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    outline: 1vmin solid transparent;
     .collapseImage {
       width: 50%;
       height: 50%;
@@ -138,6 +140,13 @@
       transform: rotateY(0deg) translateX(6%);
     }
   }
+  .collapseButton:hover {
+    outline-color: var(--background);
+    outline-width: 0.5vmin;
+  }
+  .collapseButton:active {
+    outline-width: 1.1vmin;
+  }
 
   .cardContainer {
     position: relative;
@@ -145,11 +154,11 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    overflow-y: auto;
     box-sizing: border-box;
     padding-left: 2vmin;
     padding-right: 2vmin;
     padding-bottom: 2vmin;
+    overflow-y: auto;
   }
 
   .cardRow {
@@ -160,6 +169,7 @@
     height: fit-content;
     box-sizing: border-box;
     height: calc(50% - 1vmin);
+    overflow: visible;
   }
 
   .card {
@@ -277,10 +287,18 @@
         text-wrap: nowrap;
         width: fit-content;
         font-size: 2vmin;
-        background: var(--right);
+        background: var(--accent);
         border-radius: 2vmin;
         box-sizing: border-box;
         padding: 0.4vmin 2vmin;
+        outline: 1vmin solid transparent;
+      }
+      .userLink:hover {
+        outline-color: var(--background);
+        outline-width: 0.5vmin;
+      }
+      .userLink:active {
+        outline-width: 1.1vmin;
       }
     }
   }
@@ -334,13 +352,33 @@
   .cardRow + .cardRow {
     margin-top: 2vmin;
   }
+
+  .emptySearch {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: var(--secondaryText);
+    font-size: 2vmin;
+    .image {
+      height: 8vmin;
+    }
+  }
 }
 
 .dark {
+  --accent: rgb(65, 65, 75);
   --left: rgb(45, 45, 55);
   --right: rgb(55, 55, 65);
   --background: rgb(35, 35, 45);
 
   --primaryText: rgb(235, 235, 235);
   --secondaryText: rgb(150, 150, 160);
+  .collapseButton {
+    .collapseImage {
+      filter: invert(1);
+    }
+  }
 }
