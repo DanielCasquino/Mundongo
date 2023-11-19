@@ -5,6 +5,7 @@ import "./discover.css";
 import arrow from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
 import profile from "./person_FILL0_wght400_GRAD0_opsz24.svg";
 import errorImage from "./image_FILL0_wght400_GRAD0_opsz24.svg";
+import XD from "./sentiment_very_dissatisfied_FILL0_wght400_GRAD0_opsz24.svg";
 import bocchi from "./therock.jpg";
 import dawg from "./dawg.png";
 import Cookies from "js-cookie";
@@ -111,15 +112,23 @@ function CardCreator({ searchQuery }) {
   });
 
   useEffect(() => {
-    fetcher
-      .get()
-      .then((response) => {
-        setItems(response.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, []);
+    const fetchCards = () => {
+      const searchUrl = searchQuery
+        ? `${apiUrl}/${encodeURIComponent(searchQuery)}`
+        : apiUrl;
+
+      fetcher
+        .get(searchUrl)
+        .then((response) => {
+          setItems(response.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    };
+
+    fetchCards();
+  }, [searchQuery]);
 
   const createRows = () => {
     const cardsPerRow = 3;
@@ -144,8 +153,19 @@ function CardCreator({ searchQuery }) {
     }
     return rows;
   };
-
+  if (items.length === 0) {
+    return <EmptySearch />;
+  }
   return <>{createRows()}</>;
+}
+
+function EmptySearch() {
+  return (
+    <div className="emptySearch">
+      <img className="image" src={XD} />
+      <span>Oops! 404.</span>
+    </div>
+  );
 }
 
 export default function Discover() {

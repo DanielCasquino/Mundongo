@@ -50,7 +50,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> readId(@PathVariable("id") Long id) {
+    public ResponseEntity<Event> readId(@PathVariable Long id) {
         Optional<Event> query = eventRepository.findById(id);
         if (query.isPresent()) {
             return new ResponseEntity<Event>(query.get(), HttpStatus.OK);
