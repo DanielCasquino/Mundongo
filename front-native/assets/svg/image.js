@@ -1,4 +1,4 @@
-import Svg, { Path } from 'react-native-svg';
+/*import Svg, { Path } from 'react-native-svg';
 
 const CustomSvg = () => (
   <Svg height="3356" width="845.46" viewBox="0 0 3356 845.46">
@@ -7,4 +7,5 @@ const CustomSvg = () => (
 );
 
 export default CustomSvg;
- 
+*/
+//ZXDSDDDDDDD

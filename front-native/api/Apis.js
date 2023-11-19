@@ -1,5 +1,5 @@
 // api/Apis.js
-const API_URL = 'http://192.168.1.5:3000';
+const API_URL = 'http://localhost:8080';
 
 // Autenticación
 export const signUp = async (email, password, displayName) => {
