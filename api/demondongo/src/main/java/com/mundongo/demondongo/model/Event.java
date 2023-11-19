@@ -23,6 +23,10 @@ public class Event {
     @ManyToMany
     private Set<Comment> comments;
 
+    @ManyToMany
+    @JoinTable(name = "event_tags", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
+
     public void addComment(Comment comment) {
         comments.add(comment);
     }
@@ -61,6 +65,14 @@ public class Event {
 
     public void setCountry(String Country) {
         this.country = Country;
+    }
+
+    public Set<Tag> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     public Event() {

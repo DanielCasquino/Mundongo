@@ -28,7 +28,7 @@ public class SecurityConfiguration {
     private final AccountService accountService;
 
     @Autowired
-    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, AccountService accountService){
+    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, AccountService accountService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.accountService = accountService;
     }
@@ -36,7 +36,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher("/api/auth/**")).permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher("/api/**")).permitAll().anyRequest()
+                        .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
