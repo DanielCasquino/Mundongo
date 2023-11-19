@@ -1,4 +1,4 @@
-.post {
+.event {
   --left: rgb(220, 220, 230);
   --right: rgb(230, 230, 240);
   --background: rgb(200, 200, 210);
@@ -32,7 +32,7 @@
     overflow-y: auto;
   }
 
-  .postData {
+  .eventData {
     height: 100%;
     width: 100%;
     display: flex;
@@ -41,7 +41,7 @@
     flex-shrink: 0;
   }
 
-  .postComments {
+  .eventComments {
     padding: 2vmin;
     box-sizing: border-box;
     width: 100%;
