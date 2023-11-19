@@ -34,16 +34,23 @@ const router = createBrowserRouter([
   },
 ]);
 
+let hadTokenBefore = false;
+
 function checkSession() {
   const token = Cookies.get("token");
   console.log("Session checked...");
   if (!token) {
     router.navigate("/access");
+    if (hadTokenBefore) {
+      alert("Session expired! Log in again to proceed.");
+    }
+    hadTokenBefore = false;
   }
+  hadTokenBefore = true;
 }
 
 function App() {
-  const loginCheckInterval = 60; // Time in seconds between periodic JWT validations
+  const loginCheckInterval = 20; // Time in seconds between periodic JWT validations
   useEffect(() => {
     checkSession();
     const intervalId = setInterval(checkSession, loginCheckInterval * 1000);
