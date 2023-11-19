@@ -1,11 +1,18 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import AuthNavigator from './AuthNavigator';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AccessScreen from '../screens/AccessScreen';
+import DiscoverScreen from '../screens/DiscoverScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <AuthNavigator />
+      <Stack.Navigator initialRouteName="Access">
+        <Stack.Screen name="Access" component={AccessScreen} />
+        <Stack.Screen name="Discover" component={DiscoverScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

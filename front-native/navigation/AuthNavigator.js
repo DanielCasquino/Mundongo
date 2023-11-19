@@ -1,15 +1,15 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AccessScreen from '../screens/AccessScreen';
+import DiscoverScreen from '../screens/DiscoverScreen';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Access" component={AccessScreen} />
+      <Stack.Screen name="Discover" component={DiscoverScreen} />
     </Stack.Navigator>
   );
 }
