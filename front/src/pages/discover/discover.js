@@ -13,16 +13,6 @@ import vineBoom from "./vineBoom.mp3";
 const apiIp = process.env.REACT_APP_API_IP;
 const apiPort = process.env.REACT_APP_API_PORT;
 
-function SearchBar() {
-  return (
-    <input
-      className="searchBar"
-      placeholder="I look cool but I don't work :)"
-      name="searchBar"
-    ></input>
-  );
-}
-
 function CollapseButton({ onClick, status }) {
   return (
     <button className="collapseButton" onClick={onClick}>
@@ -88,9 +78,9 @@ function TagCreator({ tagData }) {
   return <>{tags}</>;
 }
 
-function Card({ data, imageSrc }) {
+function Card({ data, imageSrc, cardClick }) {
   return (
-    <div className="card">
+    <div className="card" onClick={cardClick}>
       <div className="text">
         <span className="name">{data.name}</span>
         <span className="location">
@@ -111,7 +101,7 @@ function Card({ data, imageSrc }) {
   );
 }
 
-function CardCreator() {
+function CardCreator({ searchQuery }) {
   const apiUrl = `http://${apiIp}:${apiPort}/api/events/nocomments`;
   const [items, setItems] = useState([]);
 
@@ -141,7 +131,11 @@ function CardCreator() {
             <Card
               key={item.id}
               data={item}
-              imageSrc={`https://cataas.com/cat?${item.id}`}
+              // imageSrc={`https://catass.com/cat?${item.id}`}
+              cardClick={() => {
+                console.log(item.id);
+                window.location.href = `/event/${item.id}`;
+              }}
             />
           ))}
         </div>
@@ -154,55 +148,10 @@ function CardCreator() {
   return <>{createRows()}</>;
 }
 
-function Filter() {
-  const apiUrl = `http://${apiIp}:${apiPort}/api/tags`;
-  const [tags, setTags] = useState([]);
-
-  const fetcher = axios.create({
-    baseURL: apiUrl,
-    withCredentials: false,
-  });
-  useEffect(() => {
-    fetcher
-      .get()
-      .then((response) => {
-        setTags(response.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, []);
-  const tagCheckboxes = tags.map((tag) => (
-    <label key={tag.id} className="tagFilter">
-      <input type="checkbox" value={tag.id} className="checkbox" />
-      {tag.name}
-    </label>
-  ));
-  return (
-    <div className="filterWrapper">
-      <span className="title">Tags</span>
-      <div className="tagContainer">{tagCheckboxes}</div>
-      <img
-        src={bocchi}
-        style={{
-          objectFit: "contain",
-          marginTop: "8vmin",
-        }}
-      ></img>
-      <img
-        src={bocchi}
-        style={{
-          objectFit: "contain",
-          marginTop: "8vmin",
-        }}
-      ></img>
-    </div>
-  );
-}
-
 export default function Discover() {
   const [collapsedBar, setCollapse] = useState(false);
   const [theme, setTheme] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
 
   function setDarkTheme() {
     console.log("set Dark");
@@ -264,16 +213,76 @@ export default function Discover() {
                   onClick={() => showBar()}
                   status={collapsedBar}
                 />
-                <SearchBar />
+                <SearchBar setSearchQuery={setSearchQuery} />
                 <UserBar themeSwitcherInput={themeSwitcherInput} />
               </div>
               <div className="cardContainer">
-                <CardCreator />
+                <CardCreator searchQuery={searchQuery} />
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function SearchBar({ setSearchQuery }) {
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+  return (
+    <input
+      className="searchBar"
+      placeholder="Start typing to search for cool stuff!"
+      name="searchBar"
+      onChange={handleInputChange}
+    ></input>
+  );
+}
+
+function Filter() {
+  const apiUrl = `http://${apiIp}:${apiPort}/api/tags`;
+  const [tags, setTags] = useState([]);
+
+  const fetcher = axios.create({
+    baseURL: apiUrl,
+    withCredentials: false,
+  });
+  useEffect(() => {
+    fetcher
+      .get()
+      .then((response) => {
+        setTags(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+  const tagCheckboxes = tags.map((tag) => (
+    <label key={tag.id} className="tagFilter">
+      <input type="checkbox" value={tag.id} className="checkbox" />
+      {tag.name}
+    </label>
+  ));
+  return (
+    <div className="filterWrapper">
+      <span className="title">Tags</span>
+      <div className="tagContainer">{tagCheckboxes}</div>
+      <img
+        src={bocchi}
+        style={{
+          objectFit: "contain",
+          marginTop: "8vmin",
+        }}
+      ></img>
+      <img
+        src={bocchi}
+        style={{
+          objectFit: "contain",
+          marginTop: "8vmin",
+        }}
+      ></img>
     </div>
   );
 }
