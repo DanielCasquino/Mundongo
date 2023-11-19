@@ -1,29 +1,59 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import Colors from '../constants/Colors';
+// components/AuthForm.js
+import React, { useState } from 'react';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
 
-export default function Button({ title, onPress }) {
+const AuthForm = ({ onAuth, isSignUp }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
+
+  const handleSubmit = () => {
+    if (isSignUp) {
+      onAuth(email, password, displayName);
+    } else {
+      onAuth(email, password);
+    }
+  };
+
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      {isSignUp && (
+        <TextInput
+          style={styles.input}
+          placeholder="Display Name"
+          value={displayName}
+          onChangeText={setDisplayName}
+        />
+      )}
+      <Button title={isSignUp ? 'Sign Up' : 'Log In'} onPress={handleSubmit} />
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: Colors.primary,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 15,
-    width: '100%',
-    marginVertical: 10,
+  container: {
+    padding: 20,
   },
-  text: {
-    color: '#fff',
-    fontSize: 18,
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
+  input: {
+    height: 40,
+    marginBottom: 20,
+    borderWidth: 1,
+    padding: 10,
   },
 });
+
+export default AuthForm;

@@ -1,12 +1,9 @@
+// components/SignUpBox.js
 import React from 'react';
-import { View, Text } from 'react-native';
+import AuthForm from './AuthForm';
 
-const SignUpBox = () => {
-  return (
-    <View>
-      <Text>Sign Up Form Here</Text>
-    </View>
-  );
+const SignUpBox = ({ onSignUp }) => {
+  return <AuthForm onAuth={onSignUp} isSignUp={true} />;
 };
 
 export default SignUpBox;

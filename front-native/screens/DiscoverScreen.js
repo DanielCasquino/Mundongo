@@ -5,7 +5,7 @@ export default function DiscoverScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Discover Screen</Text>
-      {/* Aquí iría el resto de tu contenido */}
+      {/* salvame jesus */}
     </View>
   );
 }

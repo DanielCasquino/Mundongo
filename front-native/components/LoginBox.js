@@ -1,12 +1,9 @@
+// components/LoginBox.js
 import React from 'react';
-import { View, Text } from 'react-native';
+import AuthForm from './AuthForm';
 
-const LoginBox = () => {
-  return (
-    <View>
-      <Text>Login Form Here</Text>
-    </View>
-  );
+const LoginBox = ({ onLogin }) => {
+  return <AuthForm onAuth={onLogin} isSignUp={false} />;
 };
 
 export default LoginBox;
