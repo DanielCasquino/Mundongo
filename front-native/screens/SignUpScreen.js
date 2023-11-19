@@ -1,7 +1,8 @@
-// screens/SignUpScreen.js
+// SignUpScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import * as Api from '../api/Apis';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -12,7 +13,8 @@ const SignUpScreen = ({ navigation }) => {
     try {
       const response = await Api.signUp(email, password, displayName);
       if (response.token) {
-        navigation.navigate('Login'); 
+        await AsyncStorage.setItem('userToken', response.token);
+        navigation.replace('Home');
       } else {
         alert('Error al registrarse');
       }
@@ -51,16 +53,13 @@ const SignUpScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
   input: {
-    width: '100%',
-    padding: 15,
-    marginVertical: 10,
+    marginBottom: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    padding: 10,
     borderRadius: 5,
   },
 });

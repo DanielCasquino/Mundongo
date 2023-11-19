@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function DiscoverScreen() {
+const TagsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Discover Screen</Text>
-      {/* salvame jesus */}
+      <Text>Tags Screen</Text>
+      {}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -16,8 +16,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    marginBottom: 20,
-  },
 });
+
+export default TagsScreen;

@@ -1,5 +1,5 @@
 // api/Apis.js
-const API_URL = 'http://localhost:8080';
+const API_URL = 'http://192.168.1.66:8080';
 
 // Autenticación
 export const signUp = async (email, password, displayName) => {
@@ -40,6 +40,30 @@ export const login = async (email, password) => {
   } catch (error) {
     console.error('Error en login:', error);
     throw error;
+  }
+};
+const handleSignUp = async () => {
+  try {
+    const response = await Api.signUp(email, password, displayName);
+    if (response.token) {
+      await handleLogin();
+    } else {
+      alert('Error al registrarse');
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+const handleLogin = async () => {
+  try {
+    const response = await Api.login(email, password);
+    if (response.token) {
+    } else {
+      alert('Error al iniciar sesión');
+    }
+  } catch (error) {
+    alert(error.message);
   }
 };
 

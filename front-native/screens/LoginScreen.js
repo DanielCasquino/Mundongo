@@ -1,8 +1,7 @@
-// screens/LoginScreen.js
-
+// LoginScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import * as Api from '../api/Apis'; 
+import { View, TextInput, Button, StyleSheet } from 'react-native';
+import * as Api from '../api/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
@@ -14,7 +13,7 @@ const LoginScreen = ({ navigation }) => {
       const response = await Api.login(email, password);
       if (response.token) {
         await AsyncStorage.setItem('userToken', response.token);
-        navigation.replace('Home'); 
+        navigation.replace('Home');
       } else {
         alert('Error al iniciar sesión');
       }
@@ -24,9 +23,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    
     <View style={styles.container}>
-        
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -42,12 +39,6 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry
       />
       <Button title="Log In" onPress={handleLogin} />
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text onPress={() => navigation.navigate('SignUp')}>
-          Don't have an account yet? Sign up.
-      </Text>
-      </TouchableOpacity>
-      
     </View>
   );
 };
@@ -55,20 +46,14 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
   input: {
-    width: '100%',
-    padding: 15,
-    marginVertical: 10,
+    marginBottom: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    padding: 10,
     borderRadius: 5,
-  },
-  signUpText: {
-    marginTop: 20,
   },
 });
 
