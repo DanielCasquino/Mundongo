@@ -25,6 +25,9 @@
     border: 0.5vmin solid transparent;
     background-clip: content-box;
   }
+  ::-webkit-scrollbar-track {
+    margin: 2vmin;
+  }
 
   .appWrapper {
     height: 100%;
@@ -92,28 +95,31 @@
       .bannerInput {
         position: absolute;
         width: 100%;
-        height: 100%;
-        padding: 2vmin;
+        height: 8vmin;
+        padding: 0 2vmin;
         box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        overflow: visible;
         .homeButton {
+          background: transparent;
           width: 5vmin;
           height: 5vmin;
           border-radius: 50%;
           display: flex;
           justify-content: center;
           align-items: center;
-          background: none;
           box-shadow: 0 0 2.5vmin 0.2vmin black;
-          backdrop-filter: blur(50vmin) invert(20%);
+          backdrop-filter: blur(1vmin) invert(10%);
           .homeImage {
+            background: none;
             width: 50%;
             height: 50%;
             transform: rotateY(180deg) translateX(6%);
-            filter: invert(1);
           }
         }
         .homeButton:hover {
-          background: black;
+          background: var(--left);
         }
       }
       .mainInfoDisplay {
@@ -182,6 +188,12 @@
 
   --primaryText: rgb(235, 235, 235);
   --secondaryText: rgb(150, 150, 160);
+
+  .homeButton:hover {
+    .homeImage {
+      filter: invert(1);
+    }
+  }
 }
 
 @keyframes loadingIcon {
