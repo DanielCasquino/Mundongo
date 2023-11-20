@@ -2,7 +2,7 @@
 const API_URL = 'http://192.168.1.66:8080';
 
 // Autenticación
-export const signUp = async (email, password, displayName) => {
+export const signUp = async (email, password, displayName, isAdmin = false) => {
   try {
     const response = await fetch(`${API_URL}/api/auth/signup`, {
       method: 'POST',
@@ -13,6 +13,7 @@ export const signUp = async (email, password, displayName) => {
         email,
         password,
         displayName,
+        isAdmin,
       }),
     });
     if (!response.ok) throw new Error('Error en el registro');
@@ -42,31 +43,9 @@ export const login = async (email, password) => {
     throw error;
   }
 };
-const handleSignUp = async () => {
-  try {
-    const response = await Api.signUp(email, password, displayName);
-    if (response.token) {
-      await handleLogin();
-    } else {
-      alert('Error al registrarse');
-    }
-  } catch (error) {
-    alert(error.message);
-  }
-};
 
-const handleLogin = async () => {
-  try {
-    const response = await Api.login(email, password);
-    if (response.token) {
-    } else {
-      alert('Error al iniciar sesión');
-    }
-  } catch (error) {
-    alert(error.message);
-  }
-};
 
+// Cuentas
 export const getAllAccounts = async (token) => {
   try {
     const response = await fetch(`${API_URL}/api/account`, {
@@ -84,93 +63,125 @@ export const getAllAccounts = async (token) => {
 };
 
 export const getAccountById = async (id, token) => {
-  const response = await fetch(`${API_URL}/api/account/${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/account/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Error al obtener cuenta');
+    return response.json();
+  } catch (error) {
+    console.error('Error en getAccountById:', error);
+    throw error;
+  }
 };
 
 export const createAccount = async (accountData, token) => {
-  const response = await fetch(`${API_URL}/api/account`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    body: JSON.stringify(accountData),
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/account`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(accountData),
+    });
+    if (!response.ok) throw new Error('Error al crear cuenta');
+    return response.json();
+  } catch (error) {
+    console.error('Error en createAccount:', error);
+    throw error;
+  }
 };
 
 export const updateAccount = async (id, accountData, token) => {
-  const response = await fetch(`${API_URL}/api/account/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    body: JSON.stringify(accountData),
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/account/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(accountData),
+    });
+    if (!response.ok) throw new Error('Error al actualizar cuenta');
+    return response.json();
+  } catch (error) {
+    console.error('Error en updateAccount:', error);
+    throw error;
+  }
 };
 
 export const addCommentToAccount = async (id, commentData, token) => {
-  const response = await fetch(`${API_URL}/api/account/${id}/addComment`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    body: JSON.stringify(commentData),
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/account/${id}/addComment`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(commentData),
+    });
+    if (!response.ok) throw new Error('Error al agregar comentario a cuenta');
+    return response.json();
+  } catch (error) {
+    console.error('Error en addCommentToAccount:', error);
+    throw error;
+  }
 };
 
 export const deleteAccount = async (id, token) => {
-  const response = await fetch(`${API_URL}/api/account/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/account/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Error al eliminar cuenta');
+    return response.json();
+  } catch (error) {
+    console.error('Error en deleteAccount:', error);
+    throw error;
+  }
 };
 
 // Eventos
 export const getAllEvents = async (token) => {
-  const response = await fetch(`${API_URL}/api/events`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/events`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Error al obtener eventos');
+    return response.json();
+  } catch (error) {
+    console.error('Error en getAllEvents:', error);
+    throw error;
+  }
 };
 
 export const getEventById = async (id, token) => {
-  const response = await fetch(`${API_URL}/api/events/${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/events/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Error al obtener evento');
+    return response.json();
+  } catch (error) {
+    console.error('Error en getEventById:', error);
+    throw error;
+  }
 };
 
-export const getEventByIdNoComments = async (id, token) => {
-  const response = await fetch(`${API_URL}/api/events/nocomments/${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  return response.json();
-};
-
-export const createEvent = async (name, city, country, token) => {
+export const createEvent = async (eventData, token) => {
   try {
     const response = await fetch(`${API_URL}/api/events`, {
       method: 'POST',
@@ -178,11 +189,7 @@ export const createEvent = async (name, city, country, token) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        name,
-        city,
-        country,
-      }),
+      body: JSON.stringify(eventData),
     });
     if (!response.ok) throw new Error('Error al crear evento');
     return response.json();
@@ -193,23 +200,52 @@ export const createEvent = async (name, city, country, token) => {
 };
 
 export const updateEvent = async (id, eventData, token) => {
-  const response = await fetch(`${API_URL}/api/events/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    body: JSON.stringify(eventData),
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/events/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(eventData),
+    });
+    if (!response.ok) throw new Error('Error al actualizar evento');
+    return response.json();
+  } catch (error) {
+    console.error('Error en updateEvent:', error);
+    throw error;
+  }
 };
 
 export const deleteEvent = async (id, token) => {
-  const response = await fetch(`${API_URL}/api/events/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/api/events/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Error al eliminar evento');
+    return response.json();
+  } catch (error) {
+    console.error('Error en deleteEvent:', error);
+    throw error;
+  }
+};
+
+// Tags
+export const getAllTags = async (token) => {
+  try {
+    const response = await fetch(`${API_URL}/api/tags`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Error al obtener etiquetas');
+    return response.json();
+  } catch (error) {
+    console.error('Error en getAllTags:', error);
+    throw error;
+  }
 };
