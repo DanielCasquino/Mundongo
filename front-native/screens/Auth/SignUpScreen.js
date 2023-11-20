@@ -1,8 +1,7 @@
-// SignUpScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
-import * as Api from '../api/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { signUp } from '../../api/Apis'; // Asegúrate de que la ruta sea correcta
 
 const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -11,41 +10,37 @@ const SignUpScreen = ({ navigation }) => {
 
   const handleSignUp = async () => {
     try {
-      const response = await Api.signUp(email, password, displayName);
-      if (response.token) {
-        await AsyncStorage.setItem('userToken', response.token);
-        navigation.replace('Home');
-      } else {
-        alert('Error al registrarse');
-      }
+      const response = await signUp(email, password, displayName);
+      await AsyncStorage.setItem('userToken', response.token);
+      // Navegar al Home después del registro
+      navigation.replace('Home');
     } catch (error) {
-      alert(error.message);
+      console.error('Error en el registro:', error);
     }
   };
 
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.input}
-        placeholder="Display Name"
+        placeholder="Nombre de usuario"
         value={displayName}
         onChangeText={setDisplayName}
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        style={styles.input}
       />
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title="Registrarse" onPress={handleSignUp} />
     </View>
   );
 };
@@ -58,9 +53,10 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 10,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
 });
 
