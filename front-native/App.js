@@ -1,52 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignupScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import EventsScreen from './src/screens/EventsScreen';
+import EventDetailsScreen from './src/screens/EventDetailsScreen';
 
-import LoginScreen from './screens/Auth/LoginScreen';
-import SignUpScreen from './screens/Auth/SignUpScreen';
-import HomeScreen from './screens/Home/HomeScreen';
+const Stack = createNativeStackNavigator();
 
-const Stack = createStackNavigator();
-
-const App = () => {
-  const [userToken, setUserToken] = useState(null);
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    const bootstrapAsync = async () => {
-      let token;
-      try {
-        token = await AsyncStorage.getItem('userToken');
-        console.log('Token recuperado:', token);
-      } catch (e) {
-        console.error('Error al leer el token del almacenamiento:', e);
-      }
-      setUserToken(token);
-      setIsReady(true);
-    };
-  
-    bootstrapAsync();
-  }, []);
-
-  if (!isReady) {
-    return null; 
-  }
-
+function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {userToken ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
-        ) : (
-          <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-          </>
-        )}
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Events" component={EventsScreen} />
+        <Stack.Screen name="EventDetails" component={EventDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
 export default App;
