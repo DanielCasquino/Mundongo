@@ -2,7 +2,7 @@ import React from 'react';
 import AuthForm from './authform';
 
 const LoginBox = ({ isLogin, switchAccess }) => {
-  const apiUrl = 'http://10.100.230.146:8080/api/auth/login';
+  const apiUrl = `https://${apiIp}:${apiPort}/api/auth/login`;
 
   return (
     <div
