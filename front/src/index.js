@@ -11,6 +11,7 @@ import {
 import Access from "./pages/access/access";
 import Discover from "./pages/discover/discover";
 import Event from "./pages/event/event";
+import Create from "./pages/create/create";
 
 import "./index.css";
 import Cookies from "js-cookie";
@@ -32,25 +33,22 @@ const router = createBrowserRouter([
     path: "event/:id",
     element: <Event />,
   },
+  {
+    path: "create",
+    element: <Create />,
+  },
 ]);
-
-let hadTokenBefore = false;
 
 function checkSession() {
   const token = Cookies.get("token");
   console.log("Session checked...");
   if (!token) {
     router.navigate("/access");
-    if (hadTokenBefore) {
-      alert("Session expired! Log in again to proceed.");
-    }
-    hadTokenBefore = false;
   }
-  hadTokenBefore = true;
 }
 
 function App() {
-  const loginCheckInterval = 20; // Time in seconds between periodic JWT validations
+  const loginCheckInterval = 30; // Time in seconds between periodic JWT validations
   useEffect(() => {
     checkSession();
     const intervalId = setInterval(checkSession, loginCheckInterval * 1000);

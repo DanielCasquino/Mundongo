@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.mundongo.demondongo.model.Comment;
 import com.mundongo.demondongo.model.Event;
 import com.mundongo.demondongo.dto.EventDTO;
 
@@ -58,18 +59,6 @@ public class EventController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    // @GetMapping("/nocomments/{id}")
-    // public ResponseEntity<EventDTO> readIdNoComments(@PathVariable Long id) {
-    // Optional<Event> query = eventRepository.findById(id);
-    // if (query.isPresent()) {
-    // return new ResponseEntity<EventDTO>(new EventDTO(query.get()),
-    // HttpStatus.OK);
-    // }
-    // return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    // }
-
-    // Ya no porque springboot se molesta, me da flojera usar pathparams
-
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Event Event) {
         eventRepository.save(Event);
@@ -97,6 +86,19 @@ public class EventController {
             return new ResponseEntity<>("Event deleted", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Event not found :((", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping("/addcomment/{eventId}")
+    public ResponseEntity<String> addComment(@RequestBody Comment comment, @PathVariable Long eventId) {
+        Optional<Event> query = eventRepository.findById(eventId);
+        if (query.isPresent()) {
+            Event instance = query.get();
+            instance.addComment(comment);
+            eventRepository.save(instance);
+            return new ResponseEntity<>("Comment added successfully", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Event was not found", HttpStatus.NOT_FOUND);
         }
     }
 }
