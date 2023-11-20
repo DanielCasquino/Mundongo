@@ -102,7 +102,7 @@ function Card({ data, imageSrc, cardClick }) {
   );
 }
 
-function CardCreator({ searchQuery }) {
+function CardCreator({ searchQuery, selectedTags }) {
   const apiUrl = `http://${apiIp}:${apiPort}/api/events/nocomments`;
   const [items, setItems] = useState([]);
 
@@ -112,31 +112,43 @@ function CardCreator({ searchQuery }) {
   });
 
   useEffect(() => {
-    const fetchCards = () => {
+    const fetchCards = async () => {
       const searchUrl = searchQuery
         ? `${apiUrl}/${encodeURIComponent(searchQuery)}`
         : apiUrl;
 
-      fetcher
-        .get(searchUrl)
-        .then((response) => {
-          setItems(response.data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      try {
+        const response = await fetcher.get(searchUrl);
+        setItems(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     };
 
     fetchCards();
-  }, [searchQuery]);
+  }, [searchQuery, selectedTags]);
+
+  if (items.length === 0) {
+    return <EmptySearch />;
+  } // Early return if text query doesn't find anything
+
+  const filteredItems = items.filter((item) =>
+    selectedTags.length === 0
+      ? true
+      : selectedTags.every((tagId) => item.tags.some((tag) => tag.id === tagId))
+  ); // Uses tags to filter, if no tags are selected then anything goes
+
+  if (filteredItems.length === 0) {
+    return <EmptySearch />;
+  } // Return if tag filter doesn't find anything either
 
   const createRows = () => {
     const cardsPerRow = 3;
     const rows = [];
-    for (let i = 0; i < items.length; i += cardsPerRow) {
+    for (let i = 0; i < filteredItems.length; i += cardsPerRow) {
       const row = (
         <div key={i} className="cardRow">
-          {items.slice(i, i + cardsPerRow).map((item) => (
+          {filteredItems.slice(i, i + cardsPerRow).map((item) => (
             <Card
               key={item.id}
               data={item}
@@ -153,9 +165,7 @@ function CardCreator({ searchQuery }) {
     }
     return rows;
   };
-  if (items.length === 0) {
-    return <EmptySearch />;
-  }
+
   return <>{createRows()}</>;
 }
 
@@ -172,6 +182,7 @@ export default function Discover() {
   const [collapsedBar, setCollapse] = useState(false);
   const [theme, setTheme] = useState();
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
 
   function setDarkTheme() {
     console.log("set Dark");
@@ -225,7 +236,7 @@ export default function Discover() {
         <div className="contentWrapper">
           <div className="content">
             <div className={collapsedBar ? "left" : "left leftClosed"}>
-              <Filter />
+              <TagDisplayer setSelectedTags={setSelectedTags} />
             </div>
             <div className="right">
               <div className="top">
@@ -237,7 +248,10 @@ export default function Discover() {
                 <UserBar themeSwitcherInput={themeSwitcherInput} />
               </div>
               <div className="cardContainer">
-                <CardCreator searchQuery={searchQuery} />
+                <CardCreator
+                  searchQuery={searchQuery}
+                  selectedTags={selectedTags}
+                />
               </div>
             </div>
           </div>
@@ -261,7 +275,7 @@ function SearchBar({ setSearchQuery }) {
   );
 }
 
-function Filter() {
+function TagDisplayer({ setSelectedTags }) {
   const apiUrl = `http://${apiIp}:${apiPort}/api/tags`;
   const [tags, setTags] = useState([]);
 
@@ -279,9 +293,28 @@ function Filter() {
         console.error("Error:", error);
       });
   }, []);
+
+  const handleTagCheckboxChange = (event) => {
+    const tagId = parseInt(event.target.value, 10);
+    const isSelected = event.target.checked;
+
+    if (isSelected) {
+      setSelectedTags((prevSelectedTags) => [...prevSelectedTags, tagId]);
+    } else {
+      setSelectedTags((prevSelectedTags) =>
+        prevSelectedTags.filter((id) => id !== tagId)
+      );
+    }
+  };
+
   const tagCheckboxes = tags.map((tag) => (
     <label key={tag.id} className="tagFilter">
-      <input type="checkbox" value={tag.id} className="checkbox" />
+      <input
+        type="checkbox"
+        value={tag.id}
+        className="checkbox"
+        onChange={handleTagCheckboxChange}
+      />
       {tag.name}
     </label>
   ));
@@ -289,20 +322,6 @@ function Filter() {
     <div className="filterWrapper">
       <span className="title">Tags</span>
       <div className="tagContainer">{tagCheckboxes}</div>
-      <img
-        src={bocchi}
-        style={{
-          objectFit: "contain",
-          marginTop: "8vmin",
-        }}
-      ></img>
-      <img
-        src={bocchi}
-        style={{
-          objectFit: "contain",
-          marginTop: "8vmin",
-        }}
-      ></img>
     </div>
   );
 }

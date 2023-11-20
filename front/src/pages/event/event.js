@@ -36,9 +36,37 @@ function LoadingScreen() {
 
 export default function Event() {
   const { id } = useParams();
+  const [theme, setTheme] = useState();
   const [eventData, setEventData] = useState(); // Fetched event data to display
 
+  function setDarkTheme() {
+    console.log("set Dark");
+    setTheme("dark");
+    localStorage.setItem("theme", "dark");
+  }
+
+  function setLightTheme() {
+    console.log("set Light");
+    setTheme("light");
+    localStorage.setItem("theme", "light");
+  }
+
+  function themeSwitcher() {
+    const storedTheme = localStorage.getItem("theme");
+    switch (storedTheme) {
+      case "dark": {
+        setDarkTheme();
+        break;
+      }
+      default: {
+        setLightTheme();
+        break;
+      }
+    }
+  }
+
   useEffect(() => {
+    themeSwitcher();
     fetchEventData({ id, setEventData });
   }, []);
 
@@ -50,7 +78,7 @@ export default function Event() {
   };
 
   return (
-    <div className="body event dark">
+    <div className={`body event${theme === "light" ? "" : " dark"}`}>
       <div className="appWrapper">
         <div className="contentWrapper">
           {eventData ? (
