@@ -10,6 +10,7 @@ import bocchi from "./therock.jpg";
 import dawg from "./dawg.png";
 import Cookies from "js-cookie";
 import vineBoom from "./vineBoom.mp3";
+import filterImage from "./filter_list_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 
@@ -17,8 +18,8 @@ function CollapseButton({ onClick, status }) {
   return (
     <button className="collapseButton" onClick={onClick}>
       <img
-        className={status ? "collapseImage" : "collapseImage rotated"}
-        src={arrow}
+        // className={status ? "collapseImage" : "collapseImage rotated"}
+        src={filterImage}
       />
     </button>
   );
