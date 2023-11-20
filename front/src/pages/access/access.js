@@ -8,7 +8,6 @@ import clouds from "./clouds.svg";
 import "./access.css";
 
 const apiIp = process.env.REACT_APP_API_IP;
-const apiPort = process.env.REACT_APP_API_PORT;
 
 function LoginBox({ isLogin, switchAccess }) {
   const [formData, setFormData] = useState({
@@ -28,7 +27,7 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
-    const apiUrl = `http://${apiIp}:${apiPort}/api/auth/login`;
+    const apiUrl = `${apiIp}/api/auth/login`;
 
     axios
       .post(apiUrl, formData)
@@ -116,7 +115,7 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
-    const apiUrl = `http://${apiIp}:${apiPort}/api/auth/signup`;
+    const apiUrl = `${apiIp}/api/auth/signup`;
 
     axios
       .post(apiUrl, formData)
