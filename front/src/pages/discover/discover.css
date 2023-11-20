@@ -134,11 +134,11 @@
     .collapseImage {
       width: 50%;
       height: 50%;
-      transform: rotateY(180deg) translateX(6%);
+      /* transform: rotateY(180deg) translateX(6%); */
     }
-    .rotated {
+    /* .rotated {
       transform: rotateY(0deg) translateX(6%);
-    }
+    } */
   }
   .collapseButton:hover {
     outline-color: var(--background);
