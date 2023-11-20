@@ -1,15 +1,18 @@
+// AuthNavigator.js
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function AuthNavigator() {
+const AuthNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
   );
-}
+};
+
+export default AuthNavigator;

@@ -1,12 +1,9 @@
+// App.js
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import AppNavigator from './navigation/AppNavigator';
+import RootNavigator from './navigation/RootNavigator';
 
-export default function App() {
-  return (
-    <>
-      <StatusBar style="auto" />
-      <AppNavigator />
-    </>
-  );
-}
+const App = () => {
+  return <RootNavigator />;
+};
+
+export default App;

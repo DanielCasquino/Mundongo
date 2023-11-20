@@ -5,6 +5,7 @@ import "./discover.css";
 import arrow from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
 import profile from "./person_FILL0_wght400_GRAD0_opsz24.svg";
 import errorImage from "./image_FILL0_wght400_GRAD0_opsz24.svg";
+import XD from "./sentiment_very_dissatisfied_FILL0_wght400_GRAD0_opsz24.svg";
 import bocchi from "./therock.jpg";
 import dawg from "./dawg.png";
 import Cookies from "js-cookie";
@@ -12,16 +13,6 @@ import vineBoom from "./vineBoom.mp3";
 
 const apiIp = process.env.REACT_APP_API_IP;
 const apiPort = process.env.REACT_APP_API_PORT;
-
-function SearchBar() {
-  return (
-    <input
-      className="searchBar"
-      placeholder="I look cool but I don't work :)"
-      name="searchBar"
-    ></input>
-  );
-}
 
 function CollapseButton({ onClick, status }) {
   return (
@@ -88,9 +79,9 @@ function TagCreator({ tagData }) {
   return <>{tags}</>;
 }
 
-function Card({ data, imageSrc }) {
+function Card({ data, imageSrc, cardClick }) {
   return (
-    <div className="card">
+    <div className="card" onClick={cardClick}>
       <div className="text">
         <span className="name">{data.name}</span>
         <span className="location">
@@ -111,7 +102,7 @@ function Card({ data, imageSrc }) {
   );
 }
 
-function CardCreator() {
+function CardCreator({ searchQuery, selectedTags }) {
   const apiUrl = `http://${apiIp}:${apiPort}/api/events/nocomments`;
   const [items, setItems] = useState([]);
 
@@ -121,27 +112,51 @@ function CardCreator() {
   });
 
   useEffect(() => {
-    fetcher
-      .get()
-      .then((response) => {
+    const fetchCards = async () => {
+      const searchUrl = searchQuery
+        ? `${apiUrl}/${encodeURIComponent(searchQuery)}`
+        : apiUrl;
+
+      try {
+        const response = await fetcher.get(searchUrl);
         setItems(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
-      });
-  }, []);
+      }
+    };
+
+    fetchCards();
+  }, [searchQuery, selectedTags]);
+
+  if (items.length === 0) {
+    return <EmptySearch />;
+  } // Early return if text query doesn't find anything
+
+  const filteredItems = items.filter((item) =>
+    selectedTags.length === 0
+      ? true
+      : selectedTags.every((tagId) => item.tags.some((tag) => tag.id === tagId))
+  ); // Uses tags to filter, if no tags are selected then anything goes
+
+  if (filteredItems.length === 0) {
+    return <EmptySearch />;
+  } // Return if tag filter doesn't find anything either
 
   const createRows = () => {
     const cardsPerRow = 3;
     const rows = [];
-    for (let i = 0; i < items.length; i += cardsPerRow) {
+    for (let i = 0; i < filteredItems.length; i += cardsPerRow) {
       const row = (
         <div key={i} className="cardRow">
-          {items.slice(i, i + cardsPerRow).map((item) => (
+          {filteredItems.slice(i, i + cardsPerRow).map((item) => (
             <Card
               key={item.id}
               data={item}
-              imageSrc={`https://cataas.com/cat?${item.id}`}
+              imageSrc={`https://picsum.photos/480/270`}
+              cardClick={() => {
+                console.log(item.id);
+                window.location.href = `/event/${item.id}`;
+              }}
             />
           ))}
         </div>
@@ -154,48 +169,11 @@ function CardCreator() {
   return <>{createRows()}</>;
 }
 
-function Filter() {
-  const apiUrl = `http://${apiIp}:${apiPort}/api/tags`;
-  const [tags, setTags] = useState([]);
-
-  const fetcher = axios.create({
-    baseURL: apiUrl,
-    withCredentials: false,
-  });
-  useEffect(() => {
-    fetcher
-      .get()
-      .then((response) => {
-        setTags(response.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, []);
-  const tagCheckboxes = tags.map((tag) => (
-    <label key={tag.id} className="tagFilter">
-      <input type="checkbox" value={tag.id} className="checkbox" />
-      {tag.name}
-    </label>
-  ));
+function EmptySearch() {
   return (
-    <div className="filterWrapper">
-      <span className="title">Tags</span>
-      <div className="tagContainer">{tagCheckboxes}</div>
-      <img
-        src={bocchi}
-        style={{
-          objectFit: "contain",
-          marginTop: "8vmin",
-        }}
-      ></img>
-      <img
-        src={bocchi}
-        style={{
-          objectFit: "contain",
-          marginTop: "8vmin",
-        }}
-      ></img>
+    <div className="emptySearch">
+      <img className="image" src={XD} />
+      <span>No events found!</span>
     </div>
   );
 }
@@ -203,6 +181,8 @@ function Filter() {
 export default function Discover() {
   const [collapsedBar, setCollapse] = useState(false);
   const [theme, setTheme] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
 
   function setDarkTheme() {
     console.log("set Dark");
@@ -256,7 +236,7 @@ export default function Discover() {
         <div className="contentWrapper">
           <div className="content">
             <div className={collapsedBar ? "left" : "left leftClosed"}>
-              <Filter />
+              <TagDisplayer setSelectedTags={setSelectedTags} />
             </div>
             <div className="right">
               <div className="top">
@@ -264,16 +244,84 @@ export default function Discover() {
                   onClick={() => showBar()}
                   status={collapsedBar}
                 />
-                <SearchBar />
+                <SearchBar setSearchQuery={setSearchQuery} />
                 <UserBar themeSwitcherInput={themeSwitcherInput} />
               </div>
               <div className="cardContainer">
-                <CardCreator />
+                <CardCreator
+                  searchQuery={searchQuery}
+                  selectedTags={selectedTags}
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function SearchBar({ setSearchQuery }) {
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+  return (
+    <input
+      className="searchBar"
+      placeholder="Start typing to search for cool stuff!"
+      name="searchBar"
+      onChange={handleInputChange}
+    ></input>
+  );
+}
+
+function TagDisplayer({ setSelectedTags }) {
+  const apiUrl = `http://${apiIp}:${apiPort}/api/tags`;
+  const [tags, setTags] = useState([]);
+
+  const fetcher = axios.create({
+    baseURL: apiUrl,
+    withCredentials: false,
+  });
+  useEffect(() => {
+    fetcher
+      .get()
+      .then((response) => {
+        setTags(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
+  const handleTagCheckboxChange = (event) => {
+    const tagId = parseInt(event.target.value, 10);
+    const isSelected = event.target.checked;
+
+    if (isSelected) {
+      setSelectedTags((prevSelectedTags) => [...prevSelectedTags, tagId]);
+    } else {
+      setSelectedTags((prevSelectedTags) =>
+        prevSelectedTags.filter((id) => id !== tagId)
+      );
+    }
+  };
+
+  const tagCheckboxes = tags.map((tag) => (
+    <label key={tag.id} className="tagFilter">
+      <input
+        type="checkbox"
+        value={tag.id}
+        className="checkbox"
+        onChange={handleTagCheckboxChange}
+      />
+      {tag.name}
+    </label>
+  ));
+  return (
+    <div className="filterWrapper">
+      <span className="title">Tags</span>
+      <div className="tagContainer">{tagCheckboxes}</div>
     </div>
   );
 }
