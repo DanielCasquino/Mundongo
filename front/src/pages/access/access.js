@@ -28,7 +28,7 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
-    const apiUrl = `https://${apiIp}:${apiPort}/api/auth/login`;
+    const apiUrl = `${apiIp}:${apiPort}/api/auth/login`;
 
     axios
       .post(apiUrl, formData)
@@ -116,7 +116,7 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
-    const apiUrl = `https://${apiIp}:${apiPort}/api/auth/signup`;
+    const apiUrl = `${apiIp}:${apiPort}/api/auth/signup`;
 
     axios
       .post(apiUrl, formData)

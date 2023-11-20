@@ -103,7 +103,7 @@ function Card({ data, imageSrc, cardClick }) {
 }
 
 function CardCreator({ searchQuery, selectedTags }) {
-  const apiUrl = `http://${apiIp}:${apiPort}/api/events/nocomments`;
+  const apiUrl = `${apiIp}:${apiPort}/api/events/nocomments`;
   const [items, setItems] = useState([]);
 
   const fetcher = axios.create({
@@ -276,7 +276,7 @@ function SearchBar({ setSearchQuery }) {
 }
 
 function TagDisplayer({ setSelectedTags }) {
-  const apiUrl = `http://${apiIp}:${apiPort}/api/tags`;
+  const apiUrl = `${apiIp}:${apiPort}/api/tags`;
   const [tags, setTags] = useState([]);
 
   const fetcher = axios.create({
