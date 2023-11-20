@@ -1,8 +1,7 @@
-// LoginScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
-import * as Api from '../api/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login } from '../../api/Apis'; // Asegúrate de que la ruta sea correcta
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -10,35 +9,38 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await Api.login(email, password);
-      if (response.token) {
-        await AsyncStorage.setItem('userToken', response.token);
-        navigation.replace('Home');
-      } else {
-        alert('Error al iniciar sesión');
-      }
+      const response = await login(email, password);
+      console.log('Respuesta de inicio de sesión:', response); // Agrega este registro
+      await AsyncStorage.setItem('userToken', response.token);
+      console.log('Token almacenado:', response.token); // Agrega este registro
+      // Navegar al Home después del login
+      navigation.replace('Home');
     } catch (error) {
-      alert(error.message);
+      console.error('Error en login:', error);
     }
   };
+  
 
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        style={styles.input}
       />
-      <Button title="Log In" onPress={handleLogin} />
+      <Button title="Iniciar sesión" onPress={handleLogin} />
+      <Button
+        title="¿No tienes una cuenta? Regístrate"
+        onPress={() => navigation.navigate('SignUp')}
+      />
     </View>
   );
 };
@@ -51,9 +53,10 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 10,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
 });
 
