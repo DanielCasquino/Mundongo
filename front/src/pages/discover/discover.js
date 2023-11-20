@@ -36,16 +36,16 @@ function UserBar({ themeSwitcherInput }) {
     window.location.href = "/access";
   }
 
-  function hehe() {
-    window.location.href = "https://www.youtube.com/watch?v=_OMFqXy3j1g";
+  function createPost() {
+    window.location.href = "/create";
   }
 
   const barClass = collapsed ? "userBar userBarCollapsed" : "userBar";
   return (
     <div className={barClass}>
       <div className="userOptions">
-        <button className="userLink" onClick={hehe}>
-          Profile
+        <button className="userLink" onClick={createPost}>
+          Create
         </button>
         <button className="userLink" onClick={themeSwitcherInput}>
           Theme
@@ -151,7 +151,7 @@ function CardCreator({ searchQuery, selectedTags }) {
             <Card
               key={item.id}
               data={item}
-              imageSrc={`https://picsum.photos/480/270`}
+              imageSrc={item.imageUrl}
               cardClick={() => {
                 console.log(item.id);
                 window.location.href = `/event/${item.id}`;
@@ -307,7 +307,19 @@ function TagDisplayer({ setSelectedTags }) {
   };
 
   const tagCheckboxes = tags.map((tag) => (
-    <label key={tag.id} className="tagFilter">
+    <label
+      style={{
+        background: `${tag.color}`,
+        marginBottom: "1vmin",
+        padding: "0 2vmin",
+        borderRadius: "5vmin",
+        display: "flex",
+        alignItems: "center",
+        color: "white",
+      }}
+      key={tag.id}
+      className="tagFilter"
+    >
       <input
         type="checkbox"
         value={tag.id}

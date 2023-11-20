@@ -104,7 +104,7 @@
       display: flex;
       align-items: center;
       box-sizing: border-box;
-      padding: 0 2vmin 0 2vmin;
+      padding: 0 2vmin;
       .searchBar {
         flex: 1;
         height: 5vmin;
