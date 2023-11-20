@@ -116,7 +116,7 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
-    const apiUrl = `http://${apiIp}:${apiPort}/api/auth/signup`;
+    const apiUrl = `https://${apiIp}:${apiPort}/api/auth/signup`;
 
     axios
       .post(apiUrl, formData)
