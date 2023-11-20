@@ -7,10 +7,9 @@ import loadingIcon from "./sync_FILL0_wght400_GRAD0_opsz24.svg";
 import backButton from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
-const apiPort = process.env.REACT_APP_API_PORT;
 
 function fetchEventData({ id, setEventData }) {
-  const apiUrl = `http://${apiIp}:${apiPort}/api/events/${id}`;
+  const apiUrl = `${apiIp}/api/events/${id}`;
   const fetcher = axios.create({
     baseURL: apiUrl,
     withCredentials: false,
