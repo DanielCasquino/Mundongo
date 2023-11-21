@@ -79,7 +79,7 @@ function TagCreator({ tagData }) {
   return <>{tags}</>;
 }
 
-function Card({ data, imageSrc, cardClick }) {
+function Card({ data, cardClick }) {
   return (
     <div className="card" onClick={cardClick}>
       <div className="text">
@@ -91,7 +91,7 @@ function Card({ data, imageSrc, cardClick }) {
       <div className="thumbnail">
         <img
           className="image"
-          src={imageSrc}
+          src={data.imageUrl}
           onError={(e) => (e.target.src = errorImage)}
         />
       </div>
@@ -152,7 +152,6 @@ function CardCreator({ searchQuery, selectedTags }) {
             <Card
               key={item.id}
               data={item}
-              imageSrc={item.imageUrl}
               cardClick={() => {
                 console.log(item.id);
                 window.location.href = `/event/${item.id}`;

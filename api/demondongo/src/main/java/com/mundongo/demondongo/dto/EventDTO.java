@@ -16,6 +16,16 @@ public class EventDTO {
 
   private Set<Tag> tags;
 
+  private String imageUrl;
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getImageUrl() {
+    return this.imageUrl;
+  }
+
   public Long getId() {
     return this.id;
   }
@@ -65,5 +75,6 @@ public class EventDTO {
     this.city = data.getCity();
     this.country = data.getCountry();
     this.tags = data.getTags();
+    this.imageUrl = data.getImageUrl();
   }
 }
