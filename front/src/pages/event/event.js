@@ -126,13 +126,74 @@ function PageContent({ eventData }) {
           </div>
         </div>
       </div>
+      {/* <CommentSection eventData={eventData} /> */}
+    </div>
+  );
+}
 
-      <div className="commentsWrapper">
-        <div className="writeWrapper"></div>
-        <div className="comments"></div>
+function CommentSection({ eventData }) {
+  const [written, setWritten] = useState("");
+
+  const postComment = async () => {
+    const eventController = `${apiIp}/api/events/addcomment/${eventData.id}`;
+
+    const fetcher = axios.create({
+      baseURL: eventController,
+      withCredentials: false,
+    });
+
+    fetcher
+      .patch(eventController, {
+        content: written,
+      })
+      .then((response) => {
+        console.log(response.data);
+        location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const handleChange = (event) => {
+    setWritten(event.value);
+  };
+
+  return (
+    <div className="commentsWrapper">
+      <div className="writeWrapper">
+        <div className="left">
+          <textarea
+            className="inputField"
+            placeholder="Write your comment here!"
+            maxLength={1000}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <div className="right">
+          <button className="uploadButton" onClick={postComment}>
+            <span className="title">UPLOAD</span>
+          </button>
+        </div>
+      </div>
+      <div className="userComments">
+        <span className="title">All comments</span>
+        <div className="content">
+          <CommentFetcher comments={eventData.comments} />
+        </div>
       </div>
     </div>
   );
+}
+
+function CommentFetcher({ comments }) {
+  const commentDivs = comments.map((comment) => (
+    <div key={comment.id} className="comment">
+      {comment.date}
+      {comment.content}
+    </div>
+  ));
+  return <>{commentDivs}</>;
 }
 
 function TagDisplayer({ tags }) {

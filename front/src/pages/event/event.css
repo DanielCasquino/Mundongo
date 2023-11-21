@@ -7,6 +7,9 @@
   --secondaryText: rgb(150, 150, 160);
   --terciaryText: rgb(255, 255, 255);
 
+  --upload: rgba(4, 111, 251, 1);
+  --uploadTransparent: rgba(4, 111, 251, 0.5);
+
   transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
 
   user-select: none;
@@ -72,14 +75,92 @@
     display: flex;
     flex-direction: column;
     .writeWrapper {
-      background: red;
       width: 100%;
-      height: 30%;
+      height: 25%;
+      box-sizing: border-box;
+      display: flex;
+      .left {
+        padding: 2vmin;
+        height: 100%;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        .inputField {
+          overflow-y: scroll;
+          background: var(--right);
+          width: 100%;
+          flex-grow: 1;
+          border-radius: 2vmin;
+          color: var(--primaryText);
+          padding: 2vmin;
+          box-sizing: border-box;
+          resize: none;
+          box-sizing: border-box;
+        }
+        .inputField::-webkit-scrollbar-track {
+          margin: 0;
+        }
+        .title {
+          font-size: 2vmin;
+          height: 2vmin;
+          padding-left: 2vmin;
+        }
+      }
+      .right {
+        height: 100%;
+        flex-grow: 1;
+        flex-shrink: 0;
+        display: flex;
+        box-sizing: border-box;
+        padding: 2vmin;
+        .uploadButton {
+          background: var(--upload);
+          width: 100%;
+          height: 100%;
+          border-radius: 2vmin;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 3vmin;
+          color: var(--terciaryText);
+          outline: 2vmin solid transparent;
+        }
+        .uploadButton:hover {
+          outline-color: var(--uploadTransparent);
+          outline-width: 1vmin;
+        }
+        .uploadButton:active {
+          outline-width: 2.1vmin;
+        }
+      }
     }
-    .comments {
-      background: blue;
+    .userComments {
+      box-sizing: border-box;
       width: 100%;
       flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 4vmin 2vmin;
+      .title {
+        font-size: 3vmin;
+        color: var(--primaryText);
+        padding-left: 2vmin;
+        box-sizing: border-box;
+        margin-bottom: 2vmin;
+      }
+      .content {
+        border-radius: 2vmin;
+        background: var(--right);
+        .comment {
+          width: 100%;
+          flex-direction: row;
+          height: fit-content;
+          border-radius: 2vmin;
+          margin-bottom: 2vmin;
+        }
+      }
     }
   }
 
