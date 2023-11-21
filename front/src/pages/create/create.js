@@ -179,7 +179,7 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     setIsLoading(true);
     // Start mundongo fetch
     setLoadingPhase("mundongo");
-    const eventController = `http://localhost:8080/api/events`;
+    const eventController = `${apiIp}/api/events`;
     const fetcher = axios.create({
       baseURL: eventController,
       withCredentials: false,
