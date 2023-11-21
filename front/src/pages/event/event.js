@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import "./event.css";
-import loadingIcon from "./sync_FILL0_wght400_GRAD0_opsz24.svg";
-import backButton from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import loadingIcon from "../../assets/sync_FILL0_wght400_GRAD0_opsz24.svg";
+import backButton from "../../assets/chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 
@@ -69,19 +69,12 @@ export default function Event() {
     fetchEventData({ id, setEventData });
   }, []);
 
-  const placeholders = {
-    name: "Nameless joke",
-    city: "Some city",
-    country: "Some country",
-    description: "Funni descriptionne",
-  };
-
   return (
     <div className={`body event${theme === "light" ? "" : " dark"}`}>
       <div className="appWrapper">
         <div className="contentWrapper">
           {eventData ? (
-            <PageContent eventData={eventData} placeholders={placeholders} />
+            <PageContent eventData={eventData} />
           ) : (
             <LoadingScreen />
           )}
@@ -91,27 +84,34 @@ export default function Event() {
   ); // Wait until content is loaded
 }
 
-function PageContent({ eventData, placeholders }) {
+function PageContent({ eventData }) {
   const goHome = () => {
     window.location.href = "/discover";
   };
 
-  const descriptionPlaceholder = "No description yet :)";
-
   return (
     <div className="content">
-      <div className="eventData">
+      <div className="dataWrapper">
         <div className="banner">
           <img className="displayImage" src="https://picsum.photos/1920/1080" />
           <div className="bannerContent">
             <div className="mainInfoDisplay">
-              <span className="title">
-                {eventData.name ? eventData.name : placeholders.name}
-              </span>
-              <span className="location">
-                {eventData.city ? eventData.city : placeholders.city},{" "}
-                {eventData.country ? eventData.country : placeholders.country}
-              </span>
+              <div className="titleAndTags">
+                <div className="left">
+                  <span className="title">{eventData.name}</span>
+                  <span className="title">
+                    {eventData.city}, {eventData.country}
+                  </span>
+                </div>
+                <div className="right">
+                  <div className="dateWrapper">
+                    <span className="title">{eventData.date}</span>
+                  </div>
+                  <div className="tagWrapper">
+                    <TagDisplayer tags={eventData.tags} />
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="bannerInput">
               <button className="homeButton" onClick={goHome}>
@@ -122,16 +122,30 @@ function PageContent({ eventData, placeholders }) {
         </div>
         <div className="basicInfoWrapper">
           <div className="description">
-            <span>
-              {eventData.description
-                ? eventData.description
-                : placeholders.description}
-            </span>
+            <span>{eventData.description}</span>
           </div>
-          <div className="extraData"></div>
         </div>
       </div>
-      <div className="eventComments">And comments down here</div>
+
+      <div className="commentsWrapper">
+        <div className="writeWrapper"></div>
+        <div className="comments"></div>
+      </div>
     </div>
   );
+}
+
+function TagDisplayer({ tags }) {
+  const tagDivs = tags.map((tag) => (
+    <div
+      style={{
+        background: `${tag.color}`,
+      }}
+      key={tag.id}
+      className="tag"
+    >
+      {tag.name}
+    </div>
+  ));
+  return <>{tagDivs}</>;
 }
