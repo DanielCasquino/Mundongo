@@ -36,7 +36,9 @@ const EventDetailsScreen = ({ route }) => {
         <View style={styles.overlay}>
           <Text style={styles.eventName}>{event.name}</Text>
           <Text style={styles.eventDate}>Fecha: {event.date}</Text>
-          <Text style={styles.eventLocation}>Lugar: {event.location}</Text>
+          <Text style={styles.eventLocation}>País: {event.country}</Text>
+          <Text style={styles.eventLocation}>Ciudad: {event.city}</Text>
+
           <Text style={styles.eventDescription}>Descripción: {event.description}</Text>
           {/* Se pueden agregar mas vainas aca */}
         </View>
