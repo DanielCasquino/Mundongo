@@ -163,11 +163,14 @@
           margin-top: 2vmin;
           border-radius: 2vmin;
           display: flex;
-          justify-content: space-evenly;
+          justify-content: space-between;
           align-items: center;
           overflow-x: auto;
+          box-sizing: border-box;
+          padding: 0 2vmin;
           .tagFilter {
             height: 2vmin;
+            flex-shrink: 0;
             box-sizing: border-box;
             font-size: 2vmin;
             padding: 2vmin;
@@ -183,6 +186,9 @@
             display: block;
             margin-right: 2vmin;
             cursor: pointer;
+          }
+          .tagFilter + .tagFilter {
+            margin-left: 1vmin;
           }
         }
       }

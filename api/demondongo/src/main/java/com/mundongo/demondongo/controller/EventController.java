@@ -60,9 +60,9 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody Event Event) {
-        eventRepository.save(Event);
-        return new ResponseEntity<>("Event created :)))", HttpStatus.CREATED);
+    public ResponseEntity<Event> create(@RequestBody Event event) {
+        eventRepository.save(event);
+        return new ResponseEntity<Event>(event, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

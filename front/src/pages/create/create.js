@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./create.css";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import back from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
 import uploadIcon from "./upload_FILL0_wght400_GRAD0_opsz24.svg";
@@ -141,6 +142,7 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     date: "",
     description: "",
     tags: [],
+    comments: [],
     imageUrl: "https://picsum.photos/480/270",
   });
 
@@ -165,24 +167,6 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     return !isEmpty;
   };
 
-  const uploadImageToCloudinary = async () => {
-    const formData = new FormData();
-    formData.append("file", {
-      uri: "blob:" + image,
-      type: "image/jpeg",
-      name: "photo.jpg",
-    });
-
-    axios
-      .post(cloudinaryUrl, formData)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      }); // Sends event data as body
-  };
-
   const eventPost = async () => {
     // Check if form is complete
     if (!isDataValid()) {
@@ -193,23 +177,24 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     // Await url response
 
     setIsLoading(true);
-    setLoadingPhase("cloudinary");
-    const cloudinaryResponse = await uploadImageToCloudinary();
-
     // Start mundongo fetch
     setLoadingPhase("mundongo");
-    const controllerApi = `${apiIp}/api/events`;
-    axios
-      .post(controllerApi, data) // Sends event data as body
+    const eventController = `http://localhost:8080/api/events`;
+    const fetcher = axios.create({
+      baseURL: eventController,
+      withCredentials: false,
+      headers: { Authorization: "Bearer " + Cookies.get("token") },
+    });
+    fetcher
+      .post(eventController, data)
       .then((response) => {
-        const eventId = response.data.id;
-        setLoadingPhase("finished");
-        // window.location.href = `/event/${eventId}`; // Sends user to created post
+        console.log(response);
+        console.log(response.data);
+        const id = response.data.id;
+        window.location.href = `/event/${id}`;
       })
       .catch((error) => {
-        console.error("Error:", error);
-        setIsLoading(false);
-        alert("Something went wrong. Check the console for more details.");
+        console.log(error);
       });
   };
 
