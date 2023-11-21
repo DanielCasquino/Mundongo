@@ -117,7 +117,7 @@ public class Event {
     }
 
     public Event(Long id, String name, String city, String country, String description, LocalDate date,
-            String imageUrl) {
+            String imageUrl, Set<Tag> tags) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -125,5 +125,6 @@ public class Event {
         this.description = description;
         this.date = date;
         this.imageUrl = imageUrl;
+        this.tags = tags;
     }
 }
