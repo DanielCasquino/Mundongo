@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import "./event.css";
-import loadingIcon from "./sync_FILL0_wght400_GRAD0_opsz24.svg";
-import backButton from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import loadingIcon from "../../assets/sync_FILL0_wght400_GRAD0_opsz24.svg";
+import backButton from "../../assets/chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 

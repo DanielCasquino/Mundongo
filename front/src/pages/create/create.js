@@ -3,10 +3,10 @@ import "./create.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import back from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
-import uploadIcon from "./upload_FILL0_wght400_GRAD0_opsz24.svg";
-import closeIcon from "./close_FILL0_wght400_GRAD0_opsz24.svg";
-import loadingIcon from "./sync_FILL0_wght400_GRAD0_opsz24.svg";
+import back from "../../assets/chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import uploadIcon from "../../assets/upload_FILL0_wght400_GRAD0_opsz24.svg";
+import closeIcon from "../../assets/close_FILL0_wght400_GRAD0_opsz24.svg";
+import loadingIcon from "../../assets/sync_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 const cloud_name = "ddlluqviq";
