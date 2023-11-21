@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import "./create.css";
+import axios from "axios";
 
 import back from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
-import upload from "./upload_FILL0_wght400_GRAD0_opsz24.svg";
-import close from "./close_FILL0_wght400_GRAD0_opsz24.svg";
+import uploadIcon from "./upload_FILL0_wght400_GRAD0_opsz24.svg";
+import closeIcon from "./close_FILL0_wght400_GRAD0_opsz24.svg";
+import loadingIcon from "./sync_FILL0_wght400_GRAD0_opsz24.svg";
 
+const apiIp = process.env.REACT_APP_API_IP;
 const cloud_name = "ddlluqviq";
 const cloud_key = "147727834385164";
 const upload_preset = "jax1og5o";
-const cloud_url = `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload?upload_preset=${upload_preset}&api_key=${cloud_key}`;
+const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload?upload_preset=${upload_preset}&api_key=${cloud_key}`;
 
 function TopBar() {
   const goBack = () => {
@@ -23,24 +26,14 @@ function TopBar() {
   );
 }
 
-function ImageArea({ image, setImage }) {
-  const uploadImage = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (readerEvent) => {
-        const imageDataURL = readerEvent.target.result;
-        setImage(imageDataURL);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  }; // TODO: NO FUNCIONA :(
-
+function ImageArea({ image, setImage, apiCall }) {
   const removeImage = () => {
     setImage(null);
+  };
+
+  const handleChange = (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(URL.createObjectURL(selectedImage));
   };
 
   return (
@@ -51,37 +44,198 @@ function ImageArea({ image, setImage }) {
           <>
             <img className="uploadedImage" src={image} alt="Uploaded" />
             <button className="removeButton" onClick={removeImage}>
-              <img src={close} className="removeIcon"></img>
+              <img src={closeIcon} className="removeIcon" alt="Remove" />
             </button>
           </>
         ) : (
-          <label htmlFor="uploadInput" className="uploadButton">
+          <>
             <input
               type="file"
-              id="uploadInput"
+              id="imageInput"
               accept="image/*"
-              onChange={uploadImage}
+              onChange={handleChange}
               style={{ display: "none" }}
             />
-            <img className="image" src={upload} alt="Upload" />
-          </label>
+            <label htmlFor="imageInput" className="uploadButton">
+              <img className="image" src={uploadIcon} alt="Upload" />
+            </label>
+          </>
         )}
       </div>
       <div className="createButtonWrapper">
-        <button className="createButton">Create</button>
+        <button className="createButton" onClick={apiCall}>
+          Create
+        </button>
       </div>
     </div>
   );
 }
 
+function TagDisplayer({ selectedTags = [], setSelectedTags, setData }) {
+  const apiUrl = `${apiIp}/api/tags`;
+  const [tags, setTags] = useState([]);
+
+  const fetcher = axios.create({
+    baseURL: apiUrl,
+    withCredentials: false,
+  });
+
+  useEffect(() => {
+    fetcher
+      .get()
+      .then((response) => {
+        setTags(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
+  const handleTagCheckboxChange = (event) => {
+    const tagId = parseInt(event.target.value, 10);
+    const isSelected = event.target.checked;
+
+    if (isSelected) {
+      setSelectedTags((prevSelectedTags) => [...prevSelectedTags, tagId]);
+    } else {
+      setSelectedTags((prevSelectedTags) =>
+        prevSelectedTags.filter((id) => id !== tagId)
+      );
+    }
+    setData((prevData) => ({
+      ...prevData,
+      tags: isSelected
+        ? [...prevData.tags, { id: tagId }]
+        : prevData.tags.filter((tag) => tag.id !== tagId),
+    }));
+  };
+
+  const tagCheckboxes = tags.map((tag) => (
+    <label
+      style={{
+        background: `${tag.color}`,
+      }}
+      key={tag.id}
+      className="tagFilter"
+    >
+      <input
+        type="checkbox"
+        value={tag.id}
+        className="checkbox"
+        onChange={handleTagCheckboxChange}
+        checked={selectedTags.includes(tag.id)}
+      />
+      {tag.name}
+    </label>
+  ));
+
+  return <>{tagCheckboxes}</>;
+}
+
+function CreateArea({ setIsLoading, setLoadingPhase }) {
+  const [image, setImage] = useState();
+  const [data, setData] = useState({
+    name: "",
+    city: "",
+    country: "",
+    date: "",
+    description: "",
+    tags: [],
+    imageUrl: "https://picsum.photos/480/270",
+  });
+
+  const isDataValid = () => {
+    // Check if any of the required fields is empty
+    const requiredFields = [
+      "name",
+      "city",
+      "country",
+      "date",
+      "description",
+      "imageUrl",
+    ];
+    const isEmpty = requiredFields.some((field) => !data[field]);
+
+    if (isEmpty) {
+      alert(
+        "Please fill in all required fields. Image included! Tags are optional."
+      );
+    }
+
+    return !isEmpty;
+  };
+
+  const uploadImageToCloudinary = async () => {
+    const formData = new FormData();
+    formData.append("file", {
+      uri: "blob:" + image,
+      type: "image/jpeg",
+      name: "photo.jpg",
+    });
+
+    axios
+      .post(cloudinaryUrl, formData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      }); // Sends event data as body
+  };
+
+  const eventPost = async () => {
+    // Check if form is complete
+    if (!isDataValid()) {
+      return;
+    }
+
+    // Post the image to cloudinary
+    // Await url response
+
+    setIsLoading(true);
+    setLoadingPhase("cloudinary");
+    const cloudinaryResponse = await uploadImageToCloudinary();
+
+    // Start mundongo fetch
+    setLoadingPhase("mundongo");
+    const controllerApi = `${apiIp}/api/events`;
+    axios
+      .post(controllerApi, data) // Sends event data as body
+      .then((response) => {
+        const eventId = response.data.id;
+        setLoadingPhase("finished");
+        // window.location.href = `/event/${eventId}`; // Sends user to created post
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setIsLoading(false);
+        alert("Something went wrong. Check the console for more details.");
+      });
+  };
+
+  return (
+    <>
+      <div className="createWrapper">
+        <DataArea data={data} setData={setData}></DataArea>
+        <ImageArea
+          image={image}
+          setImage={setImage}
+          apiCall={eventPost}
+        ></ImageArea>
+      </div>
+    </>
+  );
+}
+
 function DataArea({ data, setData }) {
+  const [selectedTags, setSelectedTags] = useState([]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({
       ...data,
       [name]: value,
     });
-    console.log("Set " + name + " to " + value);
   };
 
   return (
@@ -124,10 +278,6 @@ function DataArea({ data, setData }) {
           />
         </form>
         <form className="descriptionForm">
-          <label htmlFor="description" style={{ paddingLeft: "2vmin" }}>
-            Event description:
-          </label>
-
           <textarea
             className="inputField"
             name="description"
@@ -138,34 +288,24 @@ function DataArea({ data, setData }) {
             maxLength={1000}
           />
         </form>
+        <form className="tagForm">
+          <div className="tagContainer">
+            <TagDisplayer
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+              setData={setData}
+            />
+          </div>
+        </form>
       </div>
     </div>
   );
 }
 
-function CreateArea() {
-  const [image, setImage] = useState();
-  const [data, setData] = useState({
-    name: "",
-    city: "",
-    country: "",
-    date: "",
-    tags: "",
-    imageUrl: "",
-  });
-
-  return (
-    <>
-      <div className="createWrapper">
-        <DataArea data={data} setData={setData}></DataArea>
-        <ImageArea image={image} setImage={setImage}></ImageArea>
-      </div>
-    </>
-  );
-}
-
 export default function Create() {
   const [theme, setTheme] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingPhase, setLoadingPhase] = useState("");
 
   function setDarkTheme() {
     console.log("set Dark");
@@ -197,16 +337,17 @@ export default function Create() {
     themeSwitcher();
   }, []);
 
-  const [isLoading, setIsLoading] = useState(false);
-
   return (
     <div className={`body create${theme === "light" ? "" : " dark"}`}>
       <div className="appWrapper">
         <div className="contentWrapper">
           <div className="content">
             <TopBar />
-            <CreateArea />
-            {isLoading ? <LoadingScreen /> : <></>}
+            <CreateArea
+              setIsLoading={setIsLoading}
+              setLoadingPhase={setLoadingPhase}
+            />
+            {isLoading ? <LoadingScreen loadingPhase={loadingPhase} /> : <></>}
           </div>
         </div>
       </div>
@@ -214,6 +355,69 @@ export default function Create() {
   );
 }
 
-function LoadingScreen() {
-  return <div className="loadingScreen"></div>;
+function LoadingScreen({ loadingPhase }) {
+  const cloudinaryMessages = [
+    "Uploading photo to Cloudinary...",
+    "Sending image to Cloudinary...",
+    "Uploading that nice photo...",
+    "Hey, that's a nice photo!",
+    "I wish I could take photos like that...",
+  ];
+  const mundongoMessages = [
+    "Uploading event data...",
+    "Sending event data...",
+    "Sending data by pigeon...",
+    "Giving floppy disk to the api...",
+    "I hope this doesn't crash.",
+    "Definitely not Lorem Ipsum...",
+  ];
+  const finishedMessages = [
+    "Done! Redirecting...",
+    "Event uploaded! Redirecting...",
+    "Your event was created! Redirecting...",
+    "Heh, it didn't crash after all.",
+    "Achievement Get: How did we get here?",
+  ];
+
+  const getRandomElement = (array) => {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+  };
+
+  const [loadingMessage, setLoadingMessage] = useState("");
+
+  useEffect(() => {
+    if (loadingPhase === "cloudinary") {
+      setLoadingMessage(getRandomElement(cloudinaryMessages));
+    } else if (loadingPhase === "mundongo") {
+      setLoadingMessage(getRandomElement(mundongoMessages));
+    } else if (loadingPhase === "finished") {
+      setLoadingMessage(getRandomElement(finishedMessages));
+    } else {
+      setLoadingMessage("Hey, you forgot to set the loadingPhase.");
+    }
+  }, []);
+
+  return (
+    <div className="loadingScreen">
+      <div className="animatedContainer">
+        <img className="loadingIcon" src={loadingIcon}></img>
+        <span className="text">{loadingMessage}</span>
+      </div>
+    </div>
+  );
 }
+
+// Hacer esta página me quitó 4 años de vida
+
+// De verdad que no se imaginan
+
+// el estrés
+
+// te odio cloudinary
+
+// Quiero vacaciones
+
+// Debería haber una semana de vacas después de parciales
+
+// Que nos quiten dos semanas de verano pero quiero vacas después de parciales

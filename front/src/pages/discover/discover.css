@@ -287,7 +287,7 @@
         text-wrap: nowrap;
         width: fit-content;
         font-size: 2vmin;
-        background: var(--accent);
+        background: var(--right);
         border-radius: 2vmin;
         box-sizing: border-box;
         padding: 0.4vmin 2vmin;
@@ -328,12 +328,14 @@
         display: flex;
         align-items: center;
         height: 5vmin;
+        cursor: pointer;
       }
       .tagFilter input {
         min-width: 2vmin;
         min-height: 2vmin;
         display: block;
         margin-right: 2vmin;
+        cursor: pointer;
       }
     }
   }
