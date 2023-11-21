@@ -112,7 +112,7 @@ function SignUpBox({ isLogin, switchAccess }) {
   };
 
   const handleSubmit = (e) => {
-    console.log("Submitted login");
+    console.log("Submitted signup");
     e.preventDefault();
 
     const apiUrl = `${apiIp}/api/auth/signup`;

@@ -11,7 +11,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import java.time.LocalDateTime;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "comment")
@@ -26,9 +29,21 @@ public class Comment {
     @OneToOne
     private Account author;
 
+    @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime date;
+
     @OneToMany
     @JoinTable(name = "comment_replies", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "replies_id"))
     private Set<Comment> replies;
+
+    public Set<Comment> getReplies() {
+        return this.replies;
+    }
+
+    public void addReply(Comment reply) {
+        this.replies.add(reply);
+    }
 
     public Comment() {
     }
@@ -37,6 +52,7 @@ public class Comment {
         this.id = id;
         this.content = content;
         this.author = author;
+        this.date = LocalDateTime.now();
     }
 
     public Long getId() {

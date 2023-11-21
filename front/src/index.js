@@ -11,6 +11,7 @@ import {
 import Access from "./pages/access/access";
 import Discover from "./pages/discover/discover";
 import Event from "./pages/event/event";
+import Create from "./pages/create/create";
 
 import "./index.css";
 import Cookies from "js-cookie";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
     path: "event/:id",
     element: <Event />,
   },
+  {
+    path: "create",
+    element: <Create />,
+  },
 ]);
 
 function checkSession() {
@@ -42,7 +47,7 @@ function checkSession() {
 }
 
 function App() {
-  const loginCheckInterval = 60; // Time in seconds between periodic JWT validations
+  const loginCheckInterval =   30; // Time in seconds between periodic JWT validations
   useEffect(() => {
     checkSession();
     const intervalId = setInterval(checkSession, loginCheckInterval * 1000);

@@ -1,5 +1,6 @@
 // api/Apis.js
-const API_URL = 'http://192.168.1.66:8080';
+const API_URL = 'https://mundongo-production.up.railway.app';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Autenticación
 export const signUp = async (email, password, displayName, isAdmin = false) => {
@@ -31,18 +32,18 @@ export const login = async (email, password) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+      body: JSON.stringify({ email, password }),
     });
-    if (!response.ok) throw new Error('Error al iniciar sesión');
-    return response.json();
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al iniciar sesión');
+    }
+    return data;
   } catch (error) {
-    console.error('Error en login:', error);
-    throw error;
+    throw new Error(error.message || 'Error al iniciar sesión');
   }
 };
+
 
 
 // Cuentas
@@ -157,13 +158,19 @@ export const getAllEvents = async (token) => {
         'Authorization': `Bearer ${token}`,
       },
     });
-    if (!response.ok) throw new Error('Error al obtener eventos');
-    return response.json();
+
+    if (!response.ok) {
+      throw new Error('Error en la respuesta del servidor');
+    }
+
+    const data = await response.text();
+    return data ? JSON.parse(data) : []; 
   } catch (error) {
     console.error('Error en getAllEvents:', error);
     throw error;
   }
 };
+
 
 export const getEventById = async (id, token) => {
   try {
@@ -173,13 +180,14 @@ export const getEventById = async (id, token) => {
         'Authorization': `Bearer ${token}`,
       },
     });
-    if (!response.ok) throw new Error('Error al obtener evento');
+    if (!response.ok) throw new Error('Error al obtener el evento');
     return response.json();
   } catch (error) {
     console.error('Error en getEventById:', error);
     throw error;
   }
 };
+
 
 export const createEvent = async (eventData, token) => {
   try {
@@ -247,5 +255,46 @@ export const getAllTags = async (token) => {
   } catch (error) {
     console.error('Error en getAllTags:', error);
     throw error;
+  }
+};
+
+const handleLogin = async (email, password) => {
+  try {
+    const response = await login(email, password);
+    if (response.token) {
+      await AsyncStorage.setItem('userToken', response.token); // Guardar el token
+      navigation.navigate('EventsScreen'); // Navegar a EventsScreen
+    } else {
+      // Manejar errores como credenciales incorrectas
+      alert('Credenciales incorrectas');
+    
+    }
+  } catch (e) {
+    // Manejar errores de la petición o del servidor
+  }
+};
+
+const fetchEvents = async () => {
+  try {
+    const token = await AsyncStorage.getItem('userToken'); // Obtener el token
+    if (token !== null) {
+      const eventsData = await getAllEvents(token); // Usar el token en la petición
+      setEvents(eventsData);
+    } else {
+      // Si no hay token, manejar el caso, por ejemplo redirigir al Login
+      navigation.navigate('LoginScreen');
+
+    }
+  } catch (e) {
+    // Manejar errores de la petición o del servidor
+  }
+};
+
+const handleLogout = async () => {
+  try {
+    await AsyncStorage.removeItem('userToken'); // Eliminar el token
+    navigation.navigate('LoginScreen'); // Redirigir al login
+  } catch (e) {
+    // Manejar errores al eliminar el token
   }
 };

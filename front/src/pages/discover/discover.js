@@ -10,6 +10,7 @@ import bocchi from "./therock.jpg";
 import dawg from "./dawg.png";
 import Cookies from "js-cookie";
 import vineBoom from "./vineBoom.mp3";
+import filterImage from "./filter_list_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 
@@ -17,8 +18,8 @@ function CollapseButton({ onClick, status }) {
   return (
     <button className="collapseButton" onClick={onClick}>
       <img
-        className={status ? "collapseImage" : "collapseImage rotated"}
-        src={arrow}
+        // className={status ? "collapseImage" : "collapseImage rotated"}
+        src={filterImage}
       />
     </button>
   );
@@ -36,16 +37,16 @@ function UserBar({ themeSwitcherInput }) {
     window.location.href = "/access";
   }
 
-  function hehe() {
-    window.location.href = "https://www.youtube.com/watch?v=_OMFqXy3j1g";
+  function createPost() {
+    window.location.href = "/create";
   }
 
   const barClass = collapsed ? "userBar userBarCollapsed" : "userBar";
   return (
     <div className={barClass}>
       <div className="userOptions">
-        <button className="userLink" onClick={hehe}>
-          Profile
+        <button className="userLink" onClick={createPost}>
+          Create
         </button>
         <button className="userLink" onClick={themeSwitcherInput}>
           Theme
@@ -78,7 +79,7 @@ function TagCreator({ tagData }) {
   return <>{tags}</>;
 }
 
-function Card({ data, imageSrc, cardClick }) {
+function Card({ data, cardClick }) {
   return (
     <div className="card" onClick={cardClick}>
       <div className="text">
@@ -90,7 +91,7 @@ function Card({ data, imageSrc, cardClick }) {
       <div className="thumbnail">
         <img
           className="image"
-          src={imageSrc}
+          src={data.imageUrl}
           onError={(e) => (e.target.src = errorImage)}
         />
       </div>
@@ -151,7 +152,6 @@ function CardCreator({ searchQuery, selectedTags }) {
             <Card
               key={item.id}
               data={item}
-              imageSrc={`https://picsum.photos/480/270`}
               cardClick={() => {
                 console.log(item.id);
                 window.location.href = `/event/${item.id}`;
@@ -307,7 +307,19 @@ function TagDisplayer({ setSelectedTags }) {
   };
 
   const tagCheckboxes = tags.map((tag) => (
-    <label key={tag.id} className="tagFilter">
+    <label
+      style={{
+        background: `${tag.color}`,
+        marginBottom: "1vmin",
+        padding: "0 2vmin",
+        borderRadius: "5vmin",
+        display: "flex",
+        alignItems: "center",
+        color: "white",
+      }}
+      key={tag.id}
+      className="tagFilter"
+    >
       <input
         type="checkbox"
         value={tag.id}

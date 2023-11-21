@@ -1,6 +1,9 @@
 package com.mundongo.demondongo.model;
 
+import java.time.LocalDate;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.*;
 
@@ -20,8 +23,15 @@ public class Event {
     @Column(nullable = false)
     private String country;
 
-    @Column(length = 1000)
+    @Column(nullable = false, length = 1000)
     private String description;
+
+    @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+
+    @Column(nullable = false)
+    private String imageUrl;
 
     @ManyToMany
     private Set<Comment> comments;
@@ -31,7 +41,7 @@ public class Event {
     private Set<Tag> tags;
 
     public void addComment(Comment comment) {
-        comments.add(comment);
+        this.comments.add(comment);
     }
 
     public Set<Comment> getComments() {
@@ -76,7 +86,22 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
-    
+    }
+
+    public LocalDate getDate() {
+        return this.date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Set<Tag> getTags() {
@@ -91,11 +116,15 @@ public class Event {
 
     }
 
-    public Event(Long id, String name, String city, String country, String description) {
+    public Event(Long id, String name, String city, String country, String description, LocalDate date,
+            String imageUrl, Set<Tag> tags) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.country = country;
         this.description = description;
+        this.date = date;
+        this.imageUrl = imageUrl;
+        this.tags = tags;
     }
 }
