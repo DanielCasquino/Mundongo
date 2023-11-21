@@ -3,8 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-import earth from "./earth.svg";
-import clouds from "./clouds.svg";
+import earth from "../../assets/earth.svg";
+import clouds from "../../assets/clouds.svg";
 import "./access.css";
 
 const apiIp = process.env.REACT_APP_API_IP;
