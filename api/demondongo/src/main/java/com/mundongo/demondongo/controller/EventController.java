@@ -89,7 +89,7 @@ public class EventController {
         }
     }
 
-    @PatchMapping("/addcomment/{eventId}")
+    @PatchMapping("{eventId}/addcomment/")
     public ResponseEntity<String> addComment(@RequestBody Comment comment, @PathVariable Long eventId) {
         Optional<Event> query = eventRepository.findById(eventId);
         if (query.isPresent()) {

@@ -126,13 +126,14 @@ function PageContent({ eventData }) {
           </div>
         </div>
       </div>
-      <CommentSection eventData={eventData} />
+      {/* <CommentSection eventData={eventData} /> */}
     </div>
   );
 }
 
 function CommentSection({ eventData }) {
   const [written, setWritten] = useState("");
+
   const postComment = async () => {
     const eventController = `${apiIp}/api/events/addcomment/${eventData.id}`;
 
@@ -142,7 +143,9 @@ function CommentSection({ eventData }) {
     });
 
     fetcher
-      .post(eventController)
+      .patch(eventController, {
+        content: written,
+      })
       .then((response) => {
         console.log(response.data);
         location.reload();
@@ -151,9 +154,11 @@ function CommentSection({ eventData }) {
         console.error("Error:", error);
       });
   };
+
   const handleChange = (event) => {
     setWritten(event.value);
   };
+
   return (
     <div className="commentsWrapper">
       <div className="writeWrapper">

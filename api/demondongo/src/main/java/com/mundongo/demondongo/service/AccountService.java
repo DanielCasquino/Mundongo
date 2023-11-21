@@ -70,10 +70,10 @@ public class AccountService {
         }
     }
 
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException{
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 return accRep.findByEmail(username);
             }
         };
