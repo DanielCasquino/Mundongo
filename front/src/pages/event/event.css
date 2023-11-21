@@ -54,7 +54,7 @@
     overflow-y: auto;
   }
 
-  .eventData {
+  .dataWrapper {
     height: 100%;
     width: 100%;
     display: flex;
@@ -63,13 +63,24 @@
     flex-shrink: 0;
   }
 
-  .eventComments {
-    padding: 2vmin;
+  .commentsWrapper {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
     background: var(--left);
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    .writeWrapper {
+      background: red;
+      width: 100%;
+      height: 30%;
+    }
+    .comments {
+      background: blue;
+      width: 100%;
+      flex-grow: 1;
+    }
   }
 
   .banner {
@@ -122,18 +133,70 @@
           background: var(--left);
         }
       }
+      .title {
+        filter: drop-shadow(0 0 0.6vmin rgb(0 0 0 / 1));
+        color: var(--terciaryText);
+        font-size: 6vmin;
+      }
       .mainInfoDisplay {
         flex-shrink: 0;
         width: 100%;
         height: 100%;
         display: flex;
-        color: var(--terciaryText);
-        font-size: 4vmin;
         flex-direction: column;
         justify-content: flex-end;
         box-sizing: border-box;
-        padding: 2vmin;
-        filter: drop-shadow(0 0 0.6vmin rgb(0 0 0 / 1));
+        padding: 4vmin;
+        .titleAndTags {
+          width: 100%;
+          height: 30%;
+          display: flex;
+          flex-direction: row;
+          overflow: visible;
+
+          .left {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+          }
+          .right {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            overflow: visible;
+            flex-direction: column;
+            .dateWrapper {
+              flex-grow: 1;
+              width: 100%;
+              display: flex;
+              justify-content: flex-end;
+              align-items: flex-end;
+              .title {
+                font-size: 4vmin;
+              }
+            }
+            .tagWrapper {
+              margin-top: 2vmin;
+              overflow: visible;
+              width: 100%;
+              display: flex;
+              justify-content: flex-end;
+              .tag {
+                filter: drop-shadow(0 0 0.6vmin rgb(0 0 0 / 1));
+                width: fit-content;
+                height: fit-content;
+                padding: 1vmin 2vmin;
+                font-size: 2vmin;
+                color: var(--terciaryText);
+                box-sizing: border-box;
+                border-radius: 5vmin;
+                margin-left: 2vmin;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -148,17 +211,7 @@
     .description {
       flex-grow: 1;
       height: 100%;
-      background: var(--left);
       border-radius: 2vmin;
-      padding: 2vmin;
-      box-sizing: border-box;
-    }
-    .extraData {
-      height: 100%;
-      width: 20%;
-      background: var(--left);
-      border-radius: 2vmin;
-      margin-left: 2vmin;
       padding: 2vmin;
       box-sizing: border-box;
     }
