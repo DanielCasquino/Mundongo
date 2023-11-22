@@ -93,7 +93,7 @@ function PageContent({ eventData }) {
     <div className="content">
       <div className="dataWrapper">
         <div className="banner">
-          <img className="displayImage" src="https://picsum.photos/1920/1080" />
+          <img className="displayImage" src={eventData.imageUrl} />
           <div className="bannerContent">
             <div className="mainInfoDisplay">
               <div className="titleAndTags">
