@@ -126,7 +126,7 @@ function PageContent({ eventData }) {
           </div>
         </div>
       </div>
-      {/* <CommentSection eventData={eventData} /> */}
+      <CommentSection eventData={eventData} />
     </div>
   );
 }
@@ -137,22 +137,24 @@ function CommentSection({ eventData }) {
   const postComment = async () => {
     const eventController = `${apiIp}/api/events/addcomment/${eventData.id}`;
 
-    const fetcher = axios.create({
-      baseURL: eventController,
-      withCredentials: false,
-    });
+    alert("Imagina que se hace el post y todo sale bonito :)");
 
-    fetcher
-      .patch(eventController, {
-        content: written,
-      })
-      .then((response) => {
-        console.log(response.data);
-        location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    // const fetcher = axios.create({
+    //   baseURL: eventController,
+    //   withCredentials: false,
+    // });
+
+    // fetcher
+    //   .patch(eventController, {
+    //     content: written,
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     location.reload();
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   };
 
   const handleChange = (event) => {
