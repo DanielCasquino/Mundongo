@@ -225,7 +225,7 @@ function CommentFetcher({ comments }) {
   const commentDivs = comments.map((comment) => (
     <div key={comment.id} className="comment">
       <span className="commentDate">Posted at: {comment.date}</span>
-      <span className="commentDate">@{comment.author} says:</span>
+      <span className="commentDate">{comment.author} says:</span>
       <span className="commentText">{comment.content}</span>
     </div>
   ));
