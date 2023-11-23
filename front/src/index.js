@@ -42,6 +42,7 @@ const router = createBrowserRouter([
 function checkSession() {
   const token = Cookies.get("token");
   if (!token) {
+    localStorage.removeItem("displayName");
     router.navigate("/access");
   }
 }

@@ -70,11 +70,12 @@
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    background: var(--left);
+    background: var(--right);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     .writeWrapper {
+      flex-shrink: 0;
       width: 100%;
       height: 25%;
       box-sizing: border-box;
@@ -88,7 +89,7 @@
         box-sizing: border-box;
         .inputField {
           overflow-y: scroll;
-          background: var(--right);
+          background: var(--left);
           width: 100%;
           flex-grow: 1;
           border-radius: 2vmin;
@@ -152,13 +153,35 @@
       }
       .content {
         border-radius: 2vmin;
-        background: var(--right);
+        background: var(--left);
+        padding: 2vmin;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
         .comment {
           width: 100%;
           flex-direction: row;
           height: fit-content;
           border-radius: 2vmin;
-          margin-bottom: 2vmin;
+          box-sizing: border-box;
+          background: var(--right);
+          overflow-y: scroll;
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          padding: 2vmin;
+          color: var(--primaryText);
+          font-size: 2vmin;
+          .commentDate {
+            color: var(--secondaryText);
+            font-weight: bold;
+            margin-bottom: 2vmin;
+          }
+          .commentText {
+          }
+        }
+        .comment + .comment {
+          margin-top: 2vmin;
         }
       }
     }
@@ -180,7 +203,7 @@
       position: relative;
       width: 100%;
       height: 100%;
-      background: -webkit-linear-gradient(transparent 60%, var(--right) 100%);
+      background: -webkit-linear-gradient(transparent 20%, var(--right) 100%);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -217,7 +240,8 @@
       .title {
         filter: drop-shadow(0 0 0.6vmin rgb(0 0 0 / 1));
         color: var(--terciaryText);
-        font-size: 6vmin;
+        font-size: 4vmin;
+        text-overflow: ellipsis;
       }
       .mainInfoDisplay {
         flex-shrink: 0;
@@ -228,39 +252,42 @@
         justify-content: flex-end;
         box-sizing: border-box;
         padding: 4vmin;
+        text-overflow: ellipsis;
+
         .titleAndTags {
           width: 100%;
           height: 30%;
           display: flex;
           flex-direction: row;
           overflow: visible;
+          text-overflow: ellipsis;
+          text-wrap: nowrap;
 
           .left {
             width: 50%;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            overflow: visible;
+            flex-grow: 1;
           }
           .right {
             flex-grow: 1;
             display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
+            justify-content: flex-start;
+            align-items: flex-start;
             overflow: visible;
             flex-direction: column;
             .dateWrapper {
+              overflow: visible;
               flex-grow: 1;
               width: 100%;
               display: flex;
               justify-content: flex-end;
               align-items: flex-end;
-              .title {
-                font-size: 4vmin;
-              }
             }
             .tagWrapper {
-              margin-top: 2vmin;
-              overflow: visible;
+              overflow-x: auto;
               width: 100%;
               display: flex;
               justify-content: flex-end;
@@ -295,6 +322,7 @@
       border-radius: 2vmin;
       padding: 2vmin;
       box-sizing: border-box;
+      background: var(--left);
     }
   }
 
@@ -310,6 +338,20 @@
     .loadingIcon {
       width: 8vmin;
       animation: loadingIcon 0.6s infinite linear;
+    }
+  }
+
+  .noComments {
+    display: flex;
+    flex-direction: column;
+    font-size: 2vmin;
+    color: var(--secondaryText);
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    .image {
+      height: 8vmin;
     }
   }
 }

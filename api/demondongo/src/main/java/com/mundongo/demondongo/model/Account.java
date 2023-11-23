@@ -20,9 +20,6 @@ public class Account implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany
-    private Set<Comment> comments;
-
     public Account() {
     }
 
@@ -64,10 +61,6 @@ public class Account implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
     }
 
     @Override
