@@ -43,6 +43,7 @@ function checkSession() {
   const token = Cookies.get("token");
   console.log("Session checked...");
   if (!token) {
+    localStorage.removeItem("displayName");
     router.navigate("/access");
   }
 }

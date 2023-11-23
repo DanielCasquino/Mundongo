@@ -139,6 +139,7 @@ function SignUpBox({ isLogin, switchAccess }) {
         Cookies.set("token", token, {
           expires: new Date(expirationTime),
         });
+        localStorage.setItem("displayName", formData.displayName);
         window.location.href = "/discover";
       })
       .catch((error) => {

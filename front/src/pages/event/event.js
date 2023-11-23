@@ -156,10 +156,12 @@ function CommentSection({ eventData }) {
       withCredentials: false,
     });
 
+    const displayName = localStorage.getItem("displayName");
+
     fetcher
       .patch(eventController, {
         content: written,
-        author: "User",
+        author: displayName,
       })
       .then((response) => {
         console.log(response.data);
