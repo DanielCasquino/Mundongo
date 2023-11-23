@@ -15,6 +15,7 @@
   --mandarina: rgb(240, 154, 26);
   --ultra: rgb(82, 4, 251);
   --logout-button-background: rgba(4, 111, 251, 1);
+  --logout-button-transparent: rgba(4, 111, 251, 0.5);
 
   transition: all 0.5s cubic-bezier(0.19, 0.76, 0.33, 0.98);
 
@@ -295,6 +296,16 @@
       }
       .userLink:hover {
         outline-color: var(--background);
+        outline-width: 0.5vmin;
+      }
+      .userLink:active {
+        outline-width: 1.1vmin;
+      }
+      .logoutLink {
+        background: var(--logout-button-background);
+      }
+      .logoutLink:hover {
+        outline-color: var(--logout-button-transparent);
         outline-width: 0.5vmin;
       }
       .userLink:active {

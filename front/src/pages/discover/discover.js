@@ -51,7 +51,7 @@ function UserBar({ themeSwitcherInput }) {
         <button className="userLink" onClick={themeSwitcherInput}>
           Theme
         </button>
-        <button className="userLink" onClick={logOut}>
+        <button className="dark userLink logoutLink" onClick={logOut}>
           Log Out
         </button>
       </div>
