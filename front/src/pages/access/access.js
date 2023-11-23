@@ -45,6 +45,7 @@ function LoginBox({ isLogin, switchAccess }) {
         Cookies.set("token", token, {
           expires: new Date(expirationTime),
         });
+        localStorage.setItem("displayName", formData.email);
         window.location.href = "/discover";
       })
       .catch((error) => {
@@ -139,7 +140,7 @@ function SignUpBox({ isLogin, switchAccess }) {
         Cookies.set("token", token, {
           expires: new Date(expirationTime),
         });
-        localStorage.setItem("displayName", formData.displayName);
+        localStorage.setItem("displayName", formData.email);
         window.location.href = "/discover";
       })
       .catch((error) => {
