@@ -27,6 +27,12 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
+    if (!formData.email || !formData.password) {
+      console.log("Invalid login!");
+      window.alert("All fields must be filled!");
+      return;
+    }
+
     const apiUrl = `${apiIp}/api/auth/login`;
 
     axios
@@ -115,6 +121,12 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log("Submitted signup");
     e.preventDefault();
 
+    if (!formData.email || !formData.password || !formData.displayName) {
+      console.log("Invalid signup!");
+      window.alert("All fields must be filled!");
+      return;
+    }
+
     const apiUrl = `${apiIp}/api/auth/signup`;
 
     axios
@@ -127,6 +139,7 @@ function SignUpBox({ isLogin, switchAccess }) {
         Cookies.set("token", token, {
           expires: new Date(expirationTime),
         });
+        localStorage.setItem("displayName", formData.displayName);
         window.location.href = "/discover";
       })
       .catch((error) => {

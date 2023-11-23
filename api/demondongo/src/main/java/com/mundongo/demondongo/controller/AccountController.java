@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mundongo.demondongo.model.Account;
-import com.mundongo.demondongo.model.Comment;
 import com.mundongo.demondongo.service.AccountService;
 
 import java.util.List;
@@ -42,11 +40,6 @@ public class AccountController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateAccount(@RequestBody Account account, @PathVariable Long id) {
         return serv.update(account, id);
-    }
-
-    @PatchMapping("/{id}/addComment")
-    public ResponseEntity<String> addComment(@RequestBody Comment comment, @PathVariable Long id) {
-        return serv.addComment(id, comment);
     }
 
     @DeleteMapping("/{id}")

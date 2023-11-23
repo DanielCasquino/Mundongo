@@ -5,16 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "comment")
@@ -23,32 +21,37 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 1000)
     private String content;
 
-    @OneToOne
-    private Account author;
-
     @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 
-    @OneToMany
-    @JoinTable(name = "comment_replies", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "replies_id"))
-    private Set<Comment> replies;
+    @JsonIgnore
+    @ManyToOne
+    private Event parentEvent = null;
 
-    public Set<Comment> getReplies() {
-        return this.replies;
+    @Column(nullable = false)
+    private String author;
+
+    public String getAuthor() {
+        return this.author;
     }
 
-    public void addReply(Comment reply) {
-        this.replies.add(reply);
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        date = LocalDateTime.now();
     }
 
     public Comment() {
     }
 
-    public Comment(Long id, String content, Account author) {
+    public Comment(Long id, String content, String author) {
         this.id = id;
         this.content = content;
         this.author = author;
@@ -71,11 +74,19 @@ public class Comment {
         this.content = content;
     }
 
-    public Account getAuthor() {
-        return this.author;
+    public Event getParentEvent() {
+        return this.parentEvent;
     }
 
-    public void setAuthor(Account author) {
-        this.author = author;
+    public void setParentEvent(Event parentEvent) {
+        this.parentEvent = parentEvent;
+    }
+
+    public LocalDateTime getDate() {
+        return this.date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 }

@@ -143,7 +143,7 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     description: "",
     tags: [],
     comments: [],
-    imageUrl: "https://picsum.photos/480/270",
+    imageUrl: "https://picsum.photos/960/540",
   });
 
   const isDataValid = () => {
@@ -167,6 +167,10 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     return !isEmpty;
   };
 
+  const postImage = async () => {
+    const formData = new FormData("file", { uri: image, name: "image/jpg" });
+  };
+
   const eventPost = async () => {
     // Check if form is complete
     if (!isDataValid()) {
@@ -175,7 +179,6 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
 
     // Post the image to cloudinary
     // Await url response
-
     setIsLoading(true);
     // Start mundongo fetch
     setLoadingPhase("mundongo");
