@@ -167,6 +167,10 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     return !isEmpty;
   };
 
+  const postImage = async () => {
+    const formData = new FormData("file", { uri: image, name: "image/jpg" });
+  };
+
   const eventPost = async () => {
     // Check if form is complete
     if (!isDataValid()) {
@@ -175,7 +179,6 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
 
     // Post the image to cloudinary
     // Await url response
-
     setIsLoading(true);
     // Start mundongo fetch
     setLoadingPhase("mundongo");

@@ -18,6 +18,7 @@ function fetchEventData({ id, setEventData }) {
     .get(apiUrl)
     .then((response) => {
       setEventData(response.data);
+      console.log(response.data);
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -135,30 +136,32 @@ function CommentSection({ eventData }) {
   const [written, setWritten] = useState("");
 
   const postComment = async () => {
-    const eventController = `${apiIp}/api/events/addcomment/${eventData.id}`;
+    if (!written) {
+      return;
+    }
 
-    alert("Imagina que se hace el post y todo sale bonito :)");
+    const eventController = `${apiIp}/api/events/${eventData.id}/addcomment`;
 
-    // const fetcher = axios.create({
-    //   baseURL: eventController,
-    //   withCredentials: false,
-    // });
+    const fetcher = axios.create({
+      baseURL: eventController,
+      withCredentials: false,
+    });
 
-    // fetcher
-    //   .patch(eventController, {
-    //     content: written,
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     location.reload();
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
+    fetcher
+      .patch(eventController, {
+        content: written,
+      })
+      .then((response) => {
+        console.log(response.data);
+        location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const handleChange = (event) => {
-    setWritten(event.value);
+    setWritten(event.target.value);
   };
 
   return (
@@ -191,8 +194,8 @@ function CommentSection({ eventData }) {
 function CommentFetcher({ comments }) {
   const commentDivs = comments.map((comment) => (
     <div key={comment.id} className="comment">
-      {comment.date}
-      {comment.content}
+      <span> {comment.date}</span>
+      <span> {comment.content}</span>
     </div>
   ));
   return <>{commentDivs}</>;
