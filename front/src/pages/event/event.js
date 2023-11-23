@@ -5,6 +5,7 @@ import axios from "axios";
 import "./event.css";
 import loadingIcon from "../../assets/sync_FILL0_wght400_GRAD0_opsz24.svg";
 import backButton from "../../assets/chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import noComments from "../../assets/sentiment_neutral_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 
@@ -108,7 +109,12 @@ function PageContent({ eventData }) {
                   <div className="dateWrapper">
                     <span className="title">{eventData.date}</span>
                   </div>
-                  <div className="tagWrapper">
+                  <div
+                    className="tagWrapper"
+                    style={
+                      eventData.tags.length === 0 ? {} : { marginTop: "2vmin" }
+                    }
+                  >
                     <TagDisplayer tags={eventData.tags} />
                   </div>
                 </div>
@@ -134,11 +140,14 @@ function PageContent({ eventData }) {
 
 function CommentSection({ eventData }) {
   const [written, setWritten] = useState("");
+  const [sent, setSent] = useState(false);
 
   const postComment = async () => {
     if (!written) {
+      alert("Comment must have something written inside of it!");
       return;
     }
+    setSent(true);
 
     const eventController = `${apiIp}/api/events/${eventData.id}/addcomment`;
 
@@ -150,6 +159,7 @@ function CommentSection({ eventData }) {
     fetcher
       .patch(eventController, {
         content: written,
+        author: "User",
       })
       .then((response) => {
         console.log(response.data);
@@ -157,6 +167,7 @@ function CommentSection({ eventData }) {
       })
       .catch((error) => {
         console.error("Error:", error);
+        setSent(false);
       });
   };
 
@@ -176,17 +187,34 @@ function CommentSection({ eventData }) {
           ></textarea>
         </div>
         <div className="right">
-          <button className="uploadButton" onClick={postComment}>
+          <button
+            className="uploadButton"
+            onClick={sent ? null : postComment}
+            style={sent ? { opacity: 0.5 } : {}}
+          >
             <span className="title">UPLOAD</span>
           </button>
         </div>
       </div>
       <div className="userComments">
-        <span className="title">All comments</span>
+        <span className="title">User Comments</span>
         <div className="content">
-          <CommentFetcher comments={eventData.comments} />
+          {eventData.comments.length !== 0 ? (
+            <CommentFetcher comments={eventData.comments} />
+          ) : (
+            <NoComments />
+          )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function NoComments() {
+  return (
+    <div className="noComments">
+      <img src={noComments} className="image"></img>
+      <span>It's kinda empty in here...</span>
     </div>
   );
 }
@@ -194,8 +222,9 @@ function CommentSection({ eventData }) {
 function CommentFetcher({ comments }) {
   const commentDivs = comments.map((comment) => (
     <div key={comment.id} className="comment">
-      <span> {comment.date}</span>
-      <span> {comment.content}</span>
+      <span className="commentDate">Posted at: {comment.date}</span>
+      <span className="commentDate">@{comment.author} says:</span>
+      <span className="commentText">{comment.content}</span>
     </div>
   ));
   return <>{commentDivs}</>;

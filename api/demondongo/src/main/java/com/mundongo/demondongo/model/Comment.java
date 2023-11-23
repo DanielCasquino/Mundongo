@@ -32,6 +32,17 @@ public class Comment {
     @ManyToOne
     private Event parentEvent = null;
 
+    @Column(nullable = false)
+    private String author;
+
+    public String getAuthor() {
+        return this.author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     @PrePersist
     public void prePersist() {
         date = LocalDateTime.now();
@@ -40,9 +51,10 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Long id, String content) {
+    public Comment(Long id, String content, String author) {
         this.id = id;
         this.content = content;
+        this.author = author;
         this.date = LocalDateTime.now();
     }
 

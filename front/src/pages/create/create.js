@@ -143,7 +143,7 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     description: "",
     tags: [],
     comments: [],
-    imageUrl: "https://picsum.photos/480/270",
+    imageUrl: "https://picsum.photos/960/540",
   });
 
   const isDataValid = () => {

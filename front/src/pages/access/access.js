@@ -27,6 +27,12 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
+    if (!formData.email || !formData.password) {
+      console.log("Invalid login!");
+      window.alert("All fields must be filled!");
+      return;
+    }
+
     const apiUrl = `${apiIp}/api/auth/login`;
 
     axios
@@ -114,6 +120,12 @@ function SignUpBox({ isLogin, switchAccess }) {
   const handleSubmit = (e) => {
     console.log("Submitted signup");
     e.preventDefault();
+
+    if (!formData.email || !formData.password || !formData.displayName) {
+      console.log("Invalid signup!");
+      window.alert("All fields must be filled!");
+      return;
+    }
 
     const apiUrl = `${apiIp}/api/auth/signup`;
 
