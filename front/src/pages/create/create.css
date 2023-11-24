@@ -15,6 +15,11 @@
 
   user-select: none;
 
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+    cursor: pointer;
+  }
+
   ::placeholder {
     color: var(--secondaryText);
   }
@@ -340,6 +345,9 @@
     }
   }
   .removeIcon {
+    filter: invert(1);
+  }
+  ::-webkit-calendar-picker-indicator {
     filter: invert(1);
   }
 }
