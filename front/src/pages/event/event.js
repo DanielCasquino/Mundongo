@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import "./event.css";
-import loadingIcon from "./sync_FILL0_wght400_GRAD0_opsz24.svg";
-import backButton from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import loadingIcon from "../../assets/sync_FILL0_wght400_GRAD0_opsz24.svg";
+import backButton from "../../assets/chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import noComments from "../../assets/sentiment_neutral_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 
@@ -18,6 +19,7 @@ function fetchEventData({ id, setEventData }) {
     .get(apiUrl)
     .then((response) => {
       setEventData(response.data);
+      console.log(response.data);
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -69,19 +71,12 @@ export default function Event() {
     fetchEventData({ id, setEventData });
   }, []);
 
-  const placeholders = {
-    name: "Nameless joke",
-    city: "Some city",
-    country: "Some country",
-    description: "Funni descriptionne",
-  };
-
   return (
     <div className={`body event${theme === "light" ? "" : " dark"}`}>
       <div className="appWrapper">
         <div className="contentWrapper">
           {eventData ? (
-            <PageContent eventData={eventData} placeholders={placeholders} />
+            <PageContent eventData={eventData} />
           ) : (
             <LoadingScreen />
           )}
@@ -91,27 +86,39 @@ export default function Event() {
   ); // Wait until content is loaded
 }
 
-function PageContent({ eventData, placeholders }) {
+function PageContent({ eventData }) {
   const goHome = () => {
     window.location.href = "/discover";
   };
 
-  const descriptionPlaceholder = "No description yet :)";
-
   return (
     <div className="content">
-      <div className="eventData">
+      <div className="dataWrapper">
         <div className="banner">
-          <img className="displayImage" src="https://picsum.photos/1920/1080" />
+          <img className="displayImage" src={eventData.imageUrl} />
           <div className="bannerContent">
             <div className="mainInfoDisplay">
-              <span className="title">
-                {eventData.name ? eventData.name : placeholders.name}
-              </span>
-              <span className="location">
-                {eventData.city ? eventData.city : placeholders.city},{" "}
-                {eventData.country ? eventData.country : placeholders.country}
-              </span>
+              <div className="titleAndTags">
+                <div className="left">
+                  <span className="title">{eventData.name}</span>
+                  <span className="title">
+                    {eventData.city}, {eventData.country}
+                  </span>
+                </div>
+                <div className="right">
+                  <div className="dateWrapper">
+                    <span className="title">{eventData.date}</span>
+                  </div>
+                  <div
+                    className="tagWrapper"
+                    style={
+                      eventData.tags.length === 0 ? {} : { marginTop: "2vmin" }
+                    }
+                  >
+                    <TagDisplayer tags={eventData.tags} />
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="bannerInput">
               <button className="homeButton" onClick={goHome}>
@@ -122,16 +129,120 @@ function PageContent({ eventData, placeholders }) {
         </div>
         <div className="basicInfoWrapper">
           <div className="description">
-            <span>
-              {eventData.description
-                ? eventData.description
-                : placeholders.description}
-            </span>
+            <span>{eventData.description}</span>
           </div>
-          <div className="extraData"></div>
         </div>
       </div>
-      <div className="eventComments">And comments down here</div>
+      <CommentSection eventData={eventData} />
     </div>
   );
+}
+
+function CommentSection({ eventData }) {
+  const [written, setWritten] = useState("");
+  const [sent, setSent] = useState(false);
+
+  const postComment = async () => {
+    if (!written) {
+      alert("Comment must have something written inside of it!");
+      return;
+    }
+    setSent(true);
+
+    const eventController = `${apiIp}/api/events/${eventData.id}/addcomment`;
+
+    const fetcher = axios.create({
+      baseURL: eventController,
+      withCredentials: false,
+    });
+
+    const displayName = localStorage.getItem("displayName");
+
+    fetcher
+      .patch(eventController, {
+        content: written,
+        author: displayName,
+      })
+      .then((response) => {
+        console.log(response.data);
+        location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setSent(false);
+      });
+  };
+
+  const handleChange = (event) => {
+    setWritten(event.target.value);
+  };
+
+  return (
+    <div className="commentsWrapper">
+      <div className="writeWrapper">
+        <div className="left">
+          <textarea
+            className="inputField"
+            placeholder="Write your comment here!"
+            maxLength={1000}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <div className="right">
+          <button
+            className="uploadButton"
+            onClick={sent ? null : postComment}
+            style={sent ? { opacity: 0.5 } : {}}
+          >
+            <span className="title">UPLOAD</span>
+          </button>
+        </div>
+      </div>
+      <div className="userComments">
+        <span className="title">User Comments</span>
+        <div className="content">
+          {eventData.comments.length !== 0 ? (
+            <CommentFetcher comments={eventData.comments} />
+          ) : (
+            <NoComments />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NoComments() {
+  return (
+    <div className="noComments">
+      <img src={noComments} className="image"></img>
+      <span>It's kinda empty in here...</span>
+    </div>
+  );
+}
+
+function CommentFetcher({ comments }) {
+  const commentDivs = comments.map((comment) => (
+    <div key={comment.id} className="comment">
+      <span className="commentDate">Posted at: {comment.date}</span>
+      <span className="commentDate">{comment.author} says:</span>
+      <span className="commentText">{comment.content}</span>
+    </div>
+  ));
+  return <>{commentDivs}</>;
+}
+
+function TagDisplayer({ tags }) {
+  const tagDivs = tags.map((tag) => (
+    <div
+      style={{
+        background: `${tag.color}`,
+      }}
+      key={tag.id}
+      className="tag"
+    >
+      {tag.name}
+    </div>
+  ));
+  return <>{tagDivs}</>;
 }

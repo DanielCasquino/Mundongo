@@ -3,8 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-import earth from "./earth.svg";
-import clouds from "./clouds.svg";
+import earth from "../../assets/earth.svg";
+import clouds from "../../assets/clouds.svg";
 import "./access.css";
 
 const apiIp = process.env.REACT_APP_API_IP;
@@ -27,6 +27,12 @@ function LoginBox({ isLogin, switchAccess }) {
     console.log("Submitted login");
     e.preventDefault();
 
+    if (!formData.email || !formData.password) {
+      console.log("Invalid login!");
+      window.alert("All fields must be filled!");
+      return;
+    }
+
     const apiUrl = `${apiIp}/api/auth/login`;
 
     axios
@@ -39,6 +45,7 @@ function LoginBox({ isLogin, switchAccess }) {
         Cookies.set("token", token, {
           expires: new Date(expirationTime),
         });
+        localStorage.setItem("displayName", formData.email);
         window.location.href = "/discover";
       })
       .catch((error) => {
@@ -115,6 +122,12 @@ function SignUpBox({ isLogin, switchAccess }) {
     console.log("Submitted signup");
     e.preventDefault();
 
+    if (!formData.email || !formData.password || !formData.displayName) {
+      console.log("Invalid signup!");
+      window.alert("All fields must be filled!");
+      return;
+    }
+
     const apiUrl = `${apiIp}/api/auth/signup`;
 
     axios
@@ -127,6 +140,7 @@ function SignUpBox({ isLogin, switchAccess }) {
         Cookies.set("token", token, {
           expires: new Date(expirationTime),
         });
+        localStorage.setItem("displayName", formData.email);
         window.location.href = "/discover";
       })
       .catch((error) => {

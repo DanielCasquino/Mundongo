@@ -2,15 +2,15 @@ import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 
 import "./discover.css";
-import arrow from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
-import profile from "./person_FILL0_wght400_GRAD0_opsz24.svg";
-import errorImage from "./image_FILL0_wght400_GRAD0_opsz24.svg";
-import XD from "./sentiment_very_dissatisfied_FILL0_wght400_GRAD0_opsz24.svg";
+import arrow from "../../assets/chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import profile from "../../assets/person_FILL0_wght400_GRAD0_opsz24.svg";
+import errorImage from "../../assets/image_FILL0_wght400_GRAD0_opsz24.svg";
+import XD from "../../assets/sentiment_very_dissatisfied_FILL0_wght400_GRAD0_opsz24.svg";
 import bocchi from "./therock.jpg";
 import dawg from "./dawg.png";
 import Cookies from "js-cookie";
 import vineBoom from "./vineBoom.mp3";
-import filterImage from "./filter_list_FILL0_wght400_GRAD0_opsz24.svg";
+import filterImage from "../../assets/filter_list_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 
@@ -51,7 +51,7 @@ function UserBar({ themeSwitcherInput }) {
         <button className="userLink" onClick={themeSwitcherInput}>
           Theme
         </button>
-        <button className="userLink" onClick={logOut}>
+        <button className="dark userLink logoutLink" onClick={logOut}>
           Log Out
         </button>
       </div>

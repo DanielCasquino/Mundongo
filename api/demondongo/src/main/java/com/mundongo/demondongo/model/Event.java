@@ -33,7 +33,8 @@ public class Event {
     @Column(nullable = false)
     private String imageUrl;
 
-    @ManyToMany
+    @OneToMany
+    @JoinTable(name = "event_comments", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private Set<Comment> comments;
 
     @ManyToMany
@@ -42,6 +43,10 @@ public class Event {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public Set<Comment> getComments() {
@@ -117,7 +122,7 @@ public class Event {
     }
 
     public Event(Long id, String name, String city, String country, String description, LocalDate date,
-            String imageUrl, Set<Tag> tags) {
+            String imageUrl, Set<Tag> tags, Set<Comment> comments) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -126,5 +131,6 @@ public class Event {
         this.date = date;
         this.imageUrl = imageUrl;
         this.tags = tags;
+        this.comments = comments;
     }
 }

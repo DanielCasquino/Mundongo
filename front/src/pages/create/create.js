@@ -3,10 +3,10 @@ import "./create.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import back from "./chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
-import uploadIcon from "./upload_FILL0_wght400_GRAD0_opsz24.svg";
-import closeIcon from "./close_FILL0_wght400_GRAD0_opsz24.svg";
-import loadingIcon from "./sync_FILL0_wght400_GRAD0_opsz24.svg";
+import back from "../../assets/chevron_right_FILL0_wght400_GRAD0_opsz24.svg";
+import uploadIcon from "../../assets/upload_FILL0_wght400_GRAD0_opsz24.svg";
+import closeIcon from "../../assets/close_FILL0_wght400_GRAD0_opsz24.svg";
+import loadingIcon from "../../assets/sync_FILL0_wght400_GRAD0_opsz24.svg";
 
 const apiIp = process.env.REACT_APP_API_IP;
 const cloud_name = "ddlluqviq";
@@ -143,7 +143,7 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     description: "",
     tags: [],
     comments: [],
-    imageUrl: "https://picsum.photos/480/270",
+    imageUrl: "https://picsum.photos/960/540",
   });
 
   const isDataValid = () => {
@@ -167,6 +167,10 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
     return !isEmpty;
   };
 
+  const postImage = async () => {
+    const formData = new FormData("file", { uri: image, name: "image/jpg" });
+  };
+
   const eventPost = async () => {
     // Check if form is complete
     if (!isDataValid()) {
@@ -175,11 +179,10 @@ function CreateArea({ setIsLoading, setLoadingPhase }) {
 
     // Post the image to cloudinary
     // Await url response
-
     setIsLoading(true);
     // Start mundongo fetch
     setLoadingPhase("mundongo");
-    const eventController = `http://localhost:8080/api/events`;
+    const eventController = `${apiIp}/api/events`;
     const fetcher = axios.create({
       baseURL: eventController,
       withCredentials: false,

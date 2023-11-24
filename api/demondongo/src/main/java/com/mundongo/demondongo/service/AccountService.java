@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.mundongo.demondongo.model.Account;
-import com.mundongo.demondongo.model.Comment;
 
 import java.util.*;
 
@@ -48,18 +47,6 @@ public class AccountService {
         }
     }
 
-    public ResponseEntity<String> addComment(Long id, Comment comment) {
-        Optional<Account> query = accRep.findById(id);
-        if (query.isPresent()) {
-            var instance = query.get();
-            instance.addComment(comment);
-            accRep.save(instance);
-            return new ResponseEntity<>("Comment added", HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Account not found", HttpStatus.NOT_FOUND);
-        }
-    }
-
     public ResponseEntity<String> delete(Long id) {
         Optional<Account> query = accRep.findById(id);
         if (query.isPresent()) {
@@ -70,10 +57,10 @@ public class AccountService {
         }
     }
 
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException{
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 return accRep.findByEmail(username);
             }
         };

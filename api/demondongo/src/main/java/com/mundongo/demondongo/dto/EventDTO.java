@@ -1,5 +1,6 @@
 package com.mundongo.demondongo.dto;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import com.mundongo.demondongo.model.Event;
@@ -17,6 +18,16 @@ public class EventDTO {
   private Set<Tag> tags;
 
   private String imageUrl;
+
+  private LocalDate date;
+
+  public LocalDate getDate() {
+    return this.date;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
 
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
@@ -76,5 +87,6 @@ public class EventDTO {
     this.country = data.getCountry();
     this.tags = data.getTags();
     this.imageUrl = data.getImageUrl();
+    this.date = data.getDate();
   }
 }
