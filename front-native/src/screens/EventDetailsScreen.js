@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Alert, ScrollView, StyleSheet, ImageBackground } from 'react-native';
-import { getEventById } from '../../api/Apis';
+import { View, Text, Alert, ScrollView, StyleSheet, ImageBackground, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getEventById, deleteEvent } from '../../api/Apis';
 
 const EventDetailsScreen = ({ route }) => {
   const [event, setEvent] = useState(null);
@@ -22,9 +22,36 @@ const EventDetailsScreen = ({ route }) => {
         Alert.alert('Error', 'No se pudo obtener información del evento');
       }
     };
+  
 
     fetchEventDetails();
   }, [id]);
+  const renderComments = () => {
+    if (event.comments && event.comments.length > 0) {
+      return event.comments.map((comment, index) => (
+        <View key={index} style={styles.commentContainer}>
+          <Text style={styles.commentAuthor}>{comment.author}</Text>
+          <Text style={styles.commentContent}>{comment.content}</Text>
+          <Text style={styles.commentDate}>{comment.date}</Text>
+        </View>
+      ));
+    }
+    return <Text style={styles.noComments}>No hay comentarios aún</Text>;
+  };
+  
+  const handleDelete = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (token) {
+        await deleteEvent(id, token);
+        navigation.goBack(); 
+      } else {
+        Alert.alert('Error', 'Token no disponible');
+      }
+    } catch (error) {
+      Alert.alert('Error al eliminar el evento', error.message);
+    }
+  };
 
   if (!event) {
     return <Text>Cargando...</Text>;
@@ -40,12 +67,17 @@ const EventDetailsScreen = ({ route }) => {
           <Text style={styles.eventLocation}>Ciudad: {event.city}</Text>
 
           <Text style={styles.eventDescription}>Descripción: {event.description}</Text>
-          {/* Se pueden agregar mas vainas aca */}
+          <Text style={styles.commentsHeader}>Comentarios:</Text>
+          {renderComments()}
+
         </View>
       </ImageBackground>
+      <Button title="Eliminar Evento" onPress={handleDelete} color="red" />
+
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -84,6 +116,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     marginBottom: 16,
+  },
+  commentContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 5,
+  },
+  commentAuthor: {
+    fontWeight: 'bold',
+  },
+  commentContent: {
+    color: '#333',
+  },
+  commentDate: {
+    color: '#666',
+    fontSize: 12,
+    textAlign: 'right',
+  },
+  noComments: {
+    color: 'white',
+  },
+  commentsHeader: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 10,
   },
 });
 

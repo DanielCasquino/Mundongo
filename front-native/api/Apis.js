@@ -233,13 +233,20 @@ export const deleteEvent = async (id, token) => {
         'Authorization': `Bearer ${token}`,
       },
     });
+
+    const text = await response.text(); 
+    console.log(text); 
+
     if (!response.ok) throw new Error('Error al eliminar evento');
-    return response.json();
+
+    return JSON.parse(text); 
   } catch (error) {
     console.error('Error en deleteEvent:', error);
     throw error;
   }
 };
+
+
 
 // Tags
 export const getAllTags = async (token) => {
